@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#11253f" />
+  <title>Powder Hop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Powder Hop home">
+        <span class="brand-mark">PH</span>
+        <span>POWDER HOP</span>
+      </a>
+      <button class="sound-button" id="soundButton" aria-label="Toggle sound">SOUND ON</button>
+    </header>
+
+    <section class="score-strip" aria-label="Game stats">
+      <div><small>SCORE</small><strong id="score">00000</strong></div>
+      <div><small>BEST</small><strong id="best">00000</strong></div>
+      <div><small>SPEED</small><strong id="speed">1.0×</strong></div>
+      <div class="lives"><small>LIVES</small><strong id="lives">● ● ●</strong></div>
+    </section>
+
+    <section class="game-stage" id="gameStage">
+      <canvas id="gameCanvas" aria-label="Powder Hop skiing game"></canvas>
+      <div class="grain"></div>
+
+      <div class="overlay" id="startOverlay">
+        <p class="eyebrow">THE MOUNTAIN IS CALLING</p>
+        <h1>JUMP THE<br><em>RIDERS.</em></h1>
+        <p class="intro">Carve through the powder. Time your jumps.<br>Don’t clip a snowboarder.</p>
+        <button class="primary-button" id="startButton">DROP IN <span>→</span></button>
+        <p class="key-hint"><kbd>SPACE</kbd> TO START</p>
+      </div>
+
+      <div class="overlay hidden" id="gameOverOverlay">
+        <p class="eyebrow">RUN OVER</p>
+        <h1>WIPE<br><em>OUT.</em></h1>
+        <p class="intro" id="finalScore">You scored 0 points.</p>
+        <button class="primary-button" id="restartButton">RIDE AGAIN <span>↻</span></button>
+      </div>
+
+      <div class="toast" id="toast">CLEAN AIR! +250</div>
+    </section>
+
+    <footer class="controls">
+      <div><span class="keys"><kbd>←</kbd><kbd>→</kbd></span><p><b>CARVE</b><small>Arrow keys / A & D</small></p></div>
+      <div><kbd class="space-key">SPACE</kbd><p><b>JUMP</b><small>Clear the riders</small></p></div>
+      <p class="tip"><span>PRO TIP</span> Jump close to a rider for a bigger bonus.</p>
+    </footer>
+
+    <div class="mobile-controls" aria-label="Touch controls">
+      <button id="leftButton" aria-label="Move left">←</button>
+      <button id="jumpButton">JUMP</button>
+      <button id="rightButton" aria-label="Move right">→</button>
+    </div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
