@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#090b1d" />
-  <title>Skate Through Time</title>
+  <title>Alpine Rush</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
 <body>
   <main class="game-shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="Skate Through Time home">
-        <span class="brand-mark">88</span>
-        <span>SKATE THROUGH TIME</span>
+      <a class="brand" href="#" aria-label="Alpine Rush home">
+        <span class="brand-mark">AR</span>
+        <span>ALPINE RUSH</span>
       </a>
       <button class="sound-button" id="soundButton" aria-label="Toggle sound">SOUND ON</button>
     </header>
@@ -28,31 +28,31 @@
     </section>
 
     <section class="game-stage" id="gameStage">
-      <canvas id="gameCanvas" aria-label="Retro time-travel skateboarding game"></canvas>
+      <canvas id="gameCanvas" aria-label="Downhill skiing game"></canvas>
       <div class="grain"></div>
 
       <div class="overlay" id="startOverlay">
-        <p class="eyebrow">HILL VALLEY · 1985</p>
-        <h1>SKATE<br><em>THROUGH TIME.</em></h1>
-        <p class="intro">Hit the street. Jump the troublemakers.<br>Keep the timeline from running out.</p>
-        <button class="primary-button" id="startButton">START GAME <span>▶</span></button>
+        <p class="eyebrow">SUMMIT 01 · 2,840 M</p>
+        <h1>OWN THE<br><em>MOUNTAIN.</em></h1>
+        <p class="intro">Charge the fall line. Launch over the competition.<br>Three lives. One perfect run.</p>
+        <button class="primary-button" id="startButton">DROP IN <span>▶</span></button>
         <p class="key-hint"><kbd>SPACE</kbd> TO START</p>
       </div>
 
       <div class="overlay hidden" id="gameOverOverlay">
-        <p class="eyebrow">TIMELINE ERASED</p>
-        <h1>OUTATIME<br><em>TRY AGAIN.</em></h1>
+        <p class="eyebrow">RUN ENDED</p>
+        <h1>YOU<br><em>POSER.</em></h1>
         <p class="intro" id="finalScore">You scored 0 points.</p>
-        <button class="primary-button" id="restartButton">REWIND <span>↻</span></button>
+        <button class="primary-button" id="restartButton">RIDE AGAIN <span>↻</span></button>
       </div>
 
-      <div class="toast" id="toast">GREAT SCOTT! +250</div>
+      <div class="toast" id="toast">HUGE AIR +250</div>
     </section>
 
     <footer class="controls">
-      <div><span class="keys"><kbd>←</kbd><kbd>→</kbd></span><p><b>STEER</b><small>Arrow keys / A & D</small></p></div>
-      <div><kbd class="space-key">SPACE</kbd><p><b>OLLIE</b><small>Clear the obstacles</small></p></div>
-      <p class="tip"><span>TIME TIP</span> A closer jump earns a bigger score.</p>
+      <div><span class="keys"><kbd>←</kbd><kbd>→</kbd></span><p><b>CARVE</b><small>Arrow keys / A & D</small></p></div>
+      <div><kbd class="space-key">SPACE</kbd><p><b>JUMP</b><small>Clear the other skiers</small></p></div>
+      <p class="tip"><span>PRO TIP</span> Thread close to a skier for a bigger bonus.</p>
     </footer>
 
     <div class="mobile-controls" aria-label="Touch controls">
