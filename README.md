@@ -45,11 +45,12 @@ Then open `http://localhost:8080`.
 | Spin | `Q` / `E` | Spin button |
 | Frontflip / backflip | Hold `W` / `S` in the air | Flip button |
 | Safety grab | Hold `Shift` in the air | Grab button |
+| Mountain boost | `X` when the meter is charged | Boost button |
 | Pause | `P` or `Esc` | Pause button |
 
 ## Scoring
 
-Your score increases while you stay on the mountain. Jumping obstacles, landing spins, backflips and safety grabs, and passing hazards at close range builds a flow multiplier. Rotations must be completed before landing—a skier who comes down sideways will wipe out. Complete the rotating daily objective for a 1,000-point bonus. Pace increases with score, so a high-scoring run also becomes a faster one.
+Your score increases while you stay on the mountain. Jumping obstacles, landing spins, backflips and safety grabs, linking alternating carves, and passing hazards at close range builds a flow multiplier and charges boost energy. Collect glowing energy pickups or reach 35% charge, then trigger a short high-speed Mountain Boost. Rotations must be completed before landing—a skier who comes down sideways will wipe out. Complete the rotating daily objective for a 1,000-point bonus.
 
 The behind-the-skier chase camera keeps the skier facing and traveling downhill automatically. Carving is momentum-based: left and right set an edge to steer across the fall line, and a hard sustained carve scrubs some downhill speed. Releasing the control lets the skis flatten naturally. Airborne rotation also carries momentum, so counter-rotation and timing matter before landing.
 
