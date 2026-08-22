@@ -9,13 +9,15 @@
   <meta property="og:description" content="Carve hard, chain close calls, and master the mountain.">
   <meta property="og:image" content="assets/alpine-rush-cover.png">
   <meta property="og:type" content="website">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Alpine Rush — Master the Mountain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -27,6 +29,8 @@
     <header class="game-header">
       <a class="mini-brand" href="./" aria-label="Alpine Rush home"><span class="mountain-mark">▲</span><b>ALPINE <i>RUSH</i></b></a>
       <div class="header-actions">
+        <button class="glass-button" id="fullscreenButton" type="button" aria-label="Enter fullscreen"><span>⛶</span></button>
+        <button class="glass-button" id="settingsButton" type="button" aria-label="Open settings"><span>⚙</span></button>
         <button class="glass-button" id="soundButton" type="button" aria-label="Mute sound" aria-pressed="true"><span>◖))</span></button>
         <button class="glass-button" id="pauseButton" type="button" aria-label="Pause game" aria-pressed="false"><span>Ⅱ</span></button>
       </div>
@@ -59,7 +63,8 @@
 
     <section class="route-screen screen hidden" id="routeScreen">
       <div class="menu-panel">
-        <div class="menu-heading"><div><p class="kicker"><span></span> CHOOSE YOUR LINE</p><h2>MOUNTAIN<br>SELECT</h2></div><p>Each route has its own rhythm, weather, and hazards. New lines open as your best score climbs.</p></div>
+        <div class="menu-heading"><div><p class="kicker"><span></span> CHOOSE YOUR LINE</p><h2>MOUNTAIN<br>SELECT</h2></div><p>Every mountain is open. Choose a real-world line, set your discipline, and chase a course medal.</p></div>
+        <div class="run-preview"><canvas id="trailPreview" aria-label="Selected trail preview"></canvas><div><small id="previewResort">ECHO MOUNTAIN</small><strong id="previewRun">HOLLYWOOD</strong><p><span id="previewDifficulty">BLUE</span><span id="previewLength">980 M</span><span id="previewTerrain">PARK</span></p></div><div class="medal-case" id="medalCase"><small>COURSE RECORD</small><b>NO MEDAL YET</b></div></div>
         <div class="route-grid" id="routeGrid">
           <button class="route-card selected" data-route="0"><span class="route-number">01</span><div><small>IDAHO SPRINGS · HOME MOUNTAIN</small><h3>ECHO MOUNTAIN</h3><p>Night laps · Terrain park</p></div><b>10,650 FT</b></button>
           <button class="route-card" data-route="1"><span class="route-number">02</span><div><small>NEDERLAND · FRONT RANGE</small><h3>ELDORA</h3><p>Glades · Progressive terrain</p></div><b>10,600 FT</b></button>
@@ -67,7 +72,7 @@
           <button class="route-card" data-route="3"><span class="route-number">04</span><div><small>THE LEGEND · HIGH ALPINE</small><h3>ARAPAHOE BASIN</h3><p>Steeps · Big mountain</p></div><b>13,050 FT</b></button>
           <button class="route-card" data-route="4"><span class="route-number">05</span><div><small>SKI TOWN, U.S.A.</small><h3>STEAMBOAT</h3><p>Tree runs · Powder</p></div><b>10,568 FT</b></button>
         </div>
-        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><label class="run-picker"><small>DOWNHILL RUN</small><select id="runSelect" aria-label="Select downhill run"></select></label><div class="trick-keys"><small>AIR CONTROLS</small><span><kbd>Q</kbd><kbd>E</kbd> SPIN</span><span><kbd>W</kbd><kbd>S</kbd> FLIP</span><span><kbd>SHIFT</kbd> GRAB</span><span><kbd>X</kbd> BOOST</span></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
+        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><label class="run-picker"><small>DOWNHILL RUN</small><select id="runSelect" aria-label="Select downhill run"></select></label><label class="run-picker mode-picker"><small>GAME MODE</small><select id="modeSelect" aria-label="Select game mode"><option value="freeride">Freeride</option><option value="timetrial">Time Trial</option><option value="slalom">Slalom</option><option value="park">Terrain Park</option></select></label><div class="trick-keys"><span><kbd>Q</kbd><kbd>E</kbd> SPIN</span><span><kbd>SHIFT</kbd> GRAB</span><span><kbd>X</kbd> BOOST</span></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
       </div>
     </section>
 
@@ -83,11 +88,14 @@
       </div>
     </section>
 
+    <dialog class="settings-dialog" id="settingsDialog"><form method="dialog"><header><div><small>ALPINE RUSH</small><h2>SETTINGS</h2></div><button value="close" aria-label="Close settings">×</button></header><label>Graphics quality<select id="qualitySetting"><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label><label>Motion<select id="motionSetting"><option value="full">Full</option><option value="reduced">Reduced</option></select></label><label>Audio volume<input id="volumeSetting" type="range" min="0" max="1" step="0.05"></label><label>Units<select id="unitsSetting"><option value="metric">Metric</option><option value="imperial">Imperial</option></select></label><p>Gamepad supported: left stick to carve, A to jump, B to boost, Menu to pause.</p><button class="action-button" value="close"><b>SAVE &amp; CLOSE</b><span>✓</span></button></form></dialog>
+
     <div class="event-toast" id="toast" role="status" aria-live="polite"><small>PERFECT CLEAR</small><strong>+500</strong></div>
     <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="flipButton" type="button">FLIP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
-  <script src="game.js?v=11"></script>
+  <script src="pro-systems.js?v=1"></script>
+  <script src="game.js?v=12"></script>
 </body>
 </html>

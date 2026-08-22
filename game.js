@@ -113,3 +113,39 @@ const drawArcadeObstacle=drawObstacle;drawObstacle=function(o){if(o.type!=='boos
 const updateArcade=update;update=function(dt){updateArcade(dt);if(state!=='playing')return;carveCooldown=Math.max(0,carveCooldown-dt);const side=Math.abs(player.edge)>.62?Math.sign(player.edge):0;if(side&&side!==carveSide){if(carveSide&&carveTime>.38&&carveCooldown===0){const pts=180*combo;scorePop(pts,player.x*W,player.y*H-38,'CARVE LINK');combo=Math.min(8,combo+1);comboTime=3.2;bestCombo=Math.max(bestCombo,combo);carveCooldown=.35;toast('CARVE LINK',`+${pts}`);beep(620+combo*28,.08)}carveSide=side;carveTime=0}else if(side)carveTime+=dt;if(boostTime>0){boostTime-=dt;speed=Math.max(speed,3.85);score+=dt*75;particles.push({x:player.x*W+(Math.random()-.5)*28,y:player.y*H+28,vx:(Math.random()-.5)*70,vy:30+Math.random()*90,life:.25+Math.random()*.25,size:2+Math.random()*4,color:Math.random()>.5?'#62d9f5':'#ffd260'});if(boostTime<=0)game.classList.remove('boosted')}};
 updateBoostUI();
 populateRuns();
+
+/* Production gameplay layer: modes, records, controller input, audio and previews. */
+let runStartedAt=0,padJump=false,padBoost=false,padPause=false,ghostTrace=[],ghostBest=null,ghostSampleAt=0;
+function runId(){return`${routeIndex}:${runIndex}:${AlpinePro.settings.mode}`}
+function updatePreview(){const run=RUNS[routeIndex][runIndex],route=ROUTES[routeIndex];if(!run)return;$('previewResort').textContent=route.name;$('previewRun').textContent=run.name.toUpperCase();$('previewDifficulty').textContent=run.difficulty;$('previewLength').textContent=AlpinePro.settings.units==='imperial'?`${Math.round(run.length*3.28084).toLocaleString()} FT`:`${run.length.toLocaleString()} M`;$('previewTerrain').textContent=run.terrain.toUpperCase();AlpinePro.drawPreview($('trailPreview'),run,route);const record=AlpinePro.medals()[runId()];$('medalCase').querySelector('b').textContent=record?`${record.rank.toUpperCase()} · ${record.score.toLocaleString()}`:'NO MEDAL YET'}
+const populateProfessional=populateRuns;populateRuns=function(){populateProfessional();updatePreview()};$('runSelect').addEventListener('change',updatePreview);document.querySelectorAll('.route-card').forEach(card=>card.addEventListener('click',()=>requestAnimationFrame(updatePreview)));
+$('modeSelect').value=AlpinePro.settings.mode;$('modeSelect').addEventListener('change',e=>{AlpinePro.setSetting('mode',e.target.value);updatePreview()});
+const spawnModes=spawn;spawn=function(){const mode=AlpinePro.settings.mode;if(mode==='park'&&Math.random()<.42){obstacles.push({type:'ramp',x:.18+Math.random()*.64,y:.05,wobble:0,hit:false,cleared:false,color:'#ff5f40',side:1,laneV:0});return}if(mode==='slalom'&&Math.random()<.48){const x=.2+Math.random()*.5;obstacles.push({type:'gate',x,y:.05,wobble:0,hit:false,cleared:false,color:'#ff5f40',side:-1,laneV:0},{type:'gateMate',x:x+.16,y:.05,wobble:0,hit:false,cleared:false,color:'#53d5ea',side:1,laneV:0});return}spawnModes()};
+const resetProfessional=reset;reset=function(){resetProfessional();runStartedAt=performance.now();ghostTrace=[];ghostSampleAt=0;try{ghostBest=JSON.parse(localStorage.getItem(`alpineGhost:${runId()}`)||'null')}catch{ghostBest=null}if(AlpinePro.settings.tutorial){toast('PRO TIP',AlpinePro.settings.mode==='park'?'RAMPS CHARGE TRICKS':AlpinePro.settings.mode==='slalom'?'THREAD THE GATES':'LINK CARVES TO CHARGE BOOST');AlpinePro.setSetting('tutorial',false)}};
+const finishProfessional=finish;finish=function(){if(state==='over')return;const elapsed=Math.max(1,(performance.now()-runStartedAt)/1000),mode=AlpinePro.settings.mode;if(mode==='timetrial'){score+=Math.max(0,Math.round((courseLength/38-elapsed)*110));if(!ghostBest||elapsed<ghostBest.time){try{localStorage.setItem(`alpineGhost:${runId()}`,JSON.stringify({time:elapsed,trace:ghostTrace}))}catch{}}}finishProfessional();const rank=AlpinePro.awardMedal(runId(),Math.floor(score),elapsed);$('resultTitle').textContent=`${rank.toUpperCase()} · ${RUNS[routeIndex][runIndex].name.toUpperCase()}`;updatePreview()};
+const updateProfessional=update;
+update=function(dt){
+ const pad=AlpinePro.gamepad();
+ if(pad){keys.left=pad.steer<-.14;keys.right=pad.steer>.14;if(pad.jump&&!padJump)jump();if(pad.boost&&!padBoost)activateBoost();if(pad.pause&&!padPause&&['playing','paused'].includes(state))togglePause();padJump=pad.jump;padBoost=pad.boost;padPause=pad.pause}
+ updateProfessional(dt);
+ if(state==='playing'){
+  const run=RUNS[routeIndex][runIndex],grounded=player.jump===0;
+  if(grounded&&keys.backFlip)speed=Math.min(3.5,speed+dt*.72);
+  if(grounded&&keys.frontFlip)speed=Math.max(.72,speed-dt*.85);
+  if(run.terrain==='groomer')speed=Math.min(3.4,speed+dt*.08);
+  if(['glades','aspen'].includes(run.terrain))speed*=Math.pow(.985,dt);
+  if(run.terrain==='moguls'&&Math.random()<dt*7){player.compression=Math.min(1,player.compression+.12);shake=Math.max(shake,1.5)}
+  const elapsed=(performance.now()-runStartedAt)/1000;
+  if(elapsed>=ghostSampleAt){ghostTrace.push([+elapsed.toFixed(2),+player.x.toFixed(3),Math.round(distance)]);ghostSampleAt=elapsed+.14}
+  const mode=AlpinePro.settings.mode;
+  ui.objectiveText.textContent=mode==='timetrial'?'BEAT YOUR GHOST':mode==='slalom'?'CLEAR EVERY GATE':mode==='park'?'LAND TRICK COMBOS':dailyLabel;
+  ui.objectiveProgress.textContent=mode==='timetrial'?`${elapsed.toFixed(1)} S`:mode==='slalom'?`${clears} GATES`:mode==='park'?`${trickCount} TRICKS`:`${Math.min(clears,dailyTarget)} / ${dailyTarget}`;
+  if(AlpinePro.settings.units==='imperial')ui.distance.textContent=`${Math.ceil(Math.max(0,courseLength-distance)*3.28084).toLocaleString()} FT`;
+ }
+ AlpinePro.setRideAudio(state==='playing',speed,player.edge)
+};
+const drawProfessional=draw;draw=function(){drawProfessional();if(state!=='playing'||AlpinePro.settings.mode!=='timetrial'||!ghostBest?.trace?.length)return;const elapsed=(performance.now()-runStartedAt)/1000,trace=ghostBest.trace;let point=trace.find(item=>item[0]>=elapsed)||trace[trace.length-1];const relative=(point[2]-distance)*.42,y=Math.max(H*.48,Math.min(H*.82,player.y*H-relative));ctx.save();ctx.globalAlpha=.35;drawSkier(point[1]*W,y,0,'#62d9f5',false);ctx.fillStyle='#8eeaff';ctx.textAlign='center';ctx.font='800 8px DM Sans';ctx.fillText('PERSONAL BEST',point[1]*W,y-38);ctx.restore()};
+const updateUnits=updateUI;updateUI=function(){updateUnits();if(AlpinePro.settings.units==='imperial'){ui.speed.textContent=`${Math.round((34+speed*19)*.621371)} MPH`;if(state==='playing')ui.distance.textContent=`${Math.ceil(Math.max(0,courseLength-distance)*3.28084).toLocaleString()} FT`}};
+$('fullscreenButton').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen?.();else game.requestFullscreen?.()};
+const dialog=$('settingsDialog'),settingInputs={quality:$('qualitySetting'),motion:$('motionSetting'),volume:$('volumeSetting'),units:$('unitsSetting')};Object.entries(settingInputs).forEach(([name,input])=>{input.value=AlpinePro.settings[name];input.addEventListener('input',()=>{AlpinePro.setSetting(name,input.value);if(name==='units'){updatePreview();updateUI()}})});$('settingsButton').onclick=()=>dialog.showModal();dialog.addEventListener('close',()=>AlpinePro.ensureAudio());
+addEventListener('pointerdown',()=>AlpinePro.ensureAudio(),{once:true});updatePreview();

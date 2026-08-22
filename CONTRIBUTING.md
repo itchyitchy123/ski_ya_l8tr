@@ -16,7 +16,8 @@ python3 -m http.server 8080
 2. Keep the existing dependency-free architecture unless the change clearly requires otherwise.
 3. Test keyboard and touch input at desktop and mobile widths.
 4. Check the browser console for errors.
-5. Describe the player-facing effect and include screenshots for visual changes.
+5. Run `npm run check`.
+6. Describe the player-facing effect and include screenshots for visual changes.
 
 Use clear commit messages such as `Fix jump collision at high pace` or `Improve mobile HUD spacing`.
 

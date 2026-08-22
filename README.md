@@ -7,7 +7,7 @@
 
   [Play now](https://skiyalatr.cyberducttape.com) · [Report a bug](https://github.com/itchyitchy123/ski_ya_l8tr/issues/new?template=bug_report.yml) · [Request a feature](https://github.com/itchyitchy123/ski_ya_l8tr/issues/new?template=feature_request.yml)
 
-  ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=111) ![No dependencies](https://img.shields.io/badge/dependencies-none-56d9ff?style=flat-square)
+  ![Quality](https://github.com/itchyitchy123/ski_ya_l8tr/actions/workflows/quality.yml/badge.svg) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![PWA](https://img.shields.io/badge/PWA-offline-56d9ff?style=flat-square) ![License](https://img.shields.io/badge/license-MIT-ffd260?style=flat-square)
 </div>
 
 ## About
@@ -21,6 +21,8 @@ Alpine Rush is a compact score-chasing ski game with an intentionally simple goa
 - Risk/reward jumps, near misses, flow combos, and daily objectives
 - Dynamic difficulty, speed effects, camera banking, and brief impact slow-motion
 - Persistent local high scores
+- Four disciplines, persistent course medals, and personal-best ghost racing
+- Gamepad, fullscreen, offline installation, graphics, motion, audio, and unit settings
 - Unlockable jacket colors and score-based progression
 - Responsive full-screen desktop and mobile presentation
 - Pause, sound, reduced-motion, and automatic tab-blur handling
@@ -46,6 +48,7 @@ Then open `http://localhost:8080`.
 | Frontflip / backflip | Hold `W` / `S` in the air | Flip button |
 | Safety grab | Hold `Shift` in the air | Grab button |
 | Mountain boost | `X` when the meter is charged | Boost button |
+| Brake / tuck | Hold `W` / `S` on snow | — |
 | Pause | `P` or `Esc` | Pause button |
 
 ## Scoring
@@ -68,9 +71,13 @@ The project deliberately stays small and transparent:
 .
 ├── assets/              # Cover art and browser icon
 ├── .github/             # Issue and pull-request templates
+├── tests/               # Dependency-free production smoke checks
 ├── index.html           # Semantic game shell and UI
 ├── styles.css           # Responsive visual system
-└── game.js              # Game loop, input, audio, and Canvas rendering
+├── game.js              # Course simulation and Canvas renderer
+├── pro-systems.js       # Audio, settings, records, gamepad, and PWA systems
+├── manifest.webmanifest # Install metadata
+└── sw.js                # Offline asset cache
 ```
 
 The renderer uses `requestAnimationFrame`; game movement is delta-time based, and the canvas scales for high-density displays. Player preferences and the best score stay in the browser through `localStorage`.
@@ -79,12 +86,9 @@ The renderer uses `requestAnimationFrame`; game movement is delta-time based, an
 
 Bug reports, balancing ideas, accessibility improvements, and focused pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. For security concerns, follow [SECURITY.md](SECURITY.md).
 
-## Roadmap
+## Quality
 
-- Additional mountain routes, hazards, and weather conditions
-- A deeper trick system and route-specific leaderboards
-- Optional music and expanded sound design
-- Automated gameplay and accessibility checks
+Run `npm run check` before submitting a change. GitHub Actions runs the same JavaScript, manifest, and interface smoke checks for every pull request. Alpine Rush performs no analytics or tracking; preferences, medals, and ghost data remain local to the player's browser.
 
 ---
 
