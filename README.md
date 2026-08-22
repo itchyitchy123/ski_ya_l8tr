@@ -17,7 +17,7 @@ Alpine Rush is a compact score-chasing ski game with an intentionally simple goa
 ### Highlights
 
 - Momentum-based carving with keyboard and touch controls
-- Five unlockable Colorado mountain routes with unique weather, scenery, and hazard mixes
+- Five immediately playable Colorado mountain routes with unique weather, scenery, and hazard mixes
 - Risk/reward jumps, near misses, flow combos, and daily objectives
 - Dynamic difficulty, speed effects, camera banking, and brief impact slow-motion
 - Persistent local high scores
@@ -55,7 +55,7 @@ The behind-the-skier chase camera keeps the skier facing and traveling downhill 
 
 ## Colorado mountains
 
-Echo Mountain in Idaho Springs is the default home mountain. Progression unlocks Eldora, Loveland Ski Area, Arapahoe Basin, and Steamboat. Each route has dedicated scenic artwork built around recognizable local character: Echo's night lights and Front Range view, Eldora's wooded divide, Loveland's open bowls, A-Basin's rocky high-alpine wall, and Steamboat's rolling aspen terrain. Each is an original arcade interpretation; Alpine Rush is not affiliated with or endorsed by these ski areas.
+Echo Mountain in Idaho Springs is the default home mountain, while Eldora, Loveland Ski Area, Arapahoe Basin, and Steamboat are selectable from the first launch. Each route has dedicated scenic artwork built around recognizable local character: Echo's night lights and Front Range view, Eldora's wooded divide, Loveland's open bowls, A-Basin's rocky high-alpine wall, and Steamboat's rolling aspen terrain. Each is an original arcade interpretation; Alpine Rush is not affiliated with or endorsed by these ski areas.
 
 Each resort offers selectable named downhill runs rather than an endless generic course. Runs have finite top-to-base distances, map-informed trail direction, width and pitch changes, terrain-specific tree lines, bowls, moguls, lift lines, park sections, and a finish area. Echo's final approach includes an original slope-facing reconstruction of its lodge, patio, adjacent rental cabin, and chair terminal based on publicly available references. The geometry and buildings are game recreations, not navigational maps.
 
