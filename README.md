@@ -17,12 +17,14 @@ Alpine Rush is a compact score-chasing ski game with an intentionally simple goa
 ### Highlights
 
 - Momentum-based carving with keyboard and touch controls
-- Risk/reward jump scoring and close-clear bonuses
-- Difficulty that accelerates with every run
+- Five unlockable Colorado mountain routes with unique weather, scenery, and hazard mixes
+- Risk/reward jumps, near misses, flow combos, and daily objectives
+- Dynamic difficulty, speed effects, camera banking, and brief impact slow-motion
 - Persistent local high scores
-- Responsive desktop and mobile layout
+- Unlockable jacket colors and score-based progression
+- Responsive full-screen desktop and mobile presentation
 - Pause, sound, reduced-motion, and automatic tab-blur handling
-- Hand-drawn Canvas 2D mountain environment
+- Animated Canvas skiers, powder particles, ski trails, parallax scenery, and course objects
 
 ## Play
 
@@ -44,7 +46,11 @@ Then open `http://localhost:8080`.
 
 ## Scoring
 
-Your score increases while you stay on the mountain. Jumping a rival adds at least 200 points; the tighter the clearance, the larger the bonus. Pace increases with score, so a high-scoring run also becomes a faster one.
+Your score increases while you stay on the mountain. Jumping obstacles and passing hazards at close range builds a flow multiplier; precise clears award more points. Complete the rotating daily objective for a 1,000-point bonus. Pace increases with score, so a high-scoring run also becomes a faster one.
+
+## Colorado mountains
+
+Echo Mountain in Idaho Springs is the default home mountain. Progression unlocks Eldora, Loveland Ski Area, Arapahoe Basin, and Steamboat. Each game route is an original arcade interpretation informed by the area's real setting and character; Alpine Rush is not affiliated with or endorsed by these ski areas.
 
 ## Architecture
 
@@ -67,8 +73,8 @@ Bug reports, balancing ideas, accessibility improvements, and focused pull reque
 
 ## Roadmap
 
-- Additional mountain routes and weather conditions
-- Trick combinations and a richer scoring system
+- Additional mountain routes, hazards, and weather conditions
+- A deeper trick system and route-specific leaderboards
 - Optional music and expanded sound design
 - Automated gameplay and accessibility checks
 

@@ -3,82 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#071522">
-  <meta name="description" content="Alpine Rush — a fast, responsive downhill skiing game for your browser.">
+  <meta name="theme-color" content="#07121c">
+  <meta name="description" content="Alpine Rush — a cinematic downhill skiing game for your browser.">
   <meta property="og:title" content="Alpine Rush">
-  <meta property="og:description" content="Carve hard, clear rival skiers, and chase your best run.">
+  <meta property="og:description" content="Carve hard, chain close calls, and master the mountain.">
   <meta property="og:image" content="assets/alpine-rush-cover.png">
   <meta property="og:type" content="website">
-  <title>Alpine Rush — Downhill Arcade</title>
+  <title>Alpine Rush — Master the Mountain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
-  <a class="skip-link" href="#gameStage">Skip to game</a>
-  <main class="app-shell">
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="Alpine Rush home">
-        <span class="brand-mark" aria-hidden="true"><i></i></span>
-        <span class="wordmark"><b>ALPINE</b> RUSH<small>DOWNHILL ARCADE</small></span>
-      </a>
+  <a class="skip-link" href="#gameCanvas">Skip to game</a>
+  <main class="game" id="game">
+    <div class="boot-screen" id="bootScreen" role="status"><span class="boot-mark">▲</span><b>LOADING COLORADO</b><i></i><p id="bootMessage">Preparing the mountain…</p></div>
+    <canvas id="gameCanvas" role="img" aria-label="A downhill ski course. Carve around hazards and jump obstacles to score."></canvas>
+    <div class="speed-wash" aria-hidden="true"></div>
+
+    <header class="game-header">
+      <a class="mini-brand" href="./" aria-label="Alpine Rush home"><span class="mountain-mark">▲</span><b>ALPINE <i>RUSH</i></b></a>
       <div class="header-actions">
-        <span class="status-pill"><i></i> SUMMIT LIVE</span>
-        <button class="icon-button" id="soundButton" type="button" aria-label="Mute sound" aria-pressed="true"><span aria-hidden="true">◖))</span><b>SOUND</b></button>
-        <button class="icon-button" id="pauseButton" type="button" aria-label="Pause game" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><b>PAUSE</b></button>
+        <button class="glass-button" id="soundButton" type="button" aria-label="Mute sound" aria-pressed="true"><span>◖))</span></button>
+        <button class="glass-button" id="pauseButton" type="button" aria-label="Pause game" aria-pressed="false"><span>Ⅱ</span></button>
       </div>
     </header>
-    <section class="dashboard" aria-label="Current run statistics">
-      <div class="stat primary-stat"><small>SCORE</small><strong id="score">00000</strong></div>
-      <div class="stat"><small>PERSONAL BEST</small><strong id="best">00000</strong></div>
-      <div class="stat"><small>PACE</small><strong id="speed">1.0×</strong></div>
-      <div class="stat"><small>ALTITUDE</small><strong id="altitude">2,840<sup>M</sup></strong></div>
-      <div class="stat lives"><small>HEARTS</small><strong id="lives" aria-label="3 lives">● ● ●</strong></div>
+
+    <section class="floating-hud" id="hud" aria-label="Current run statistics">
+      <div class="score-block"><small>SCORE</small><strong id="score">000000</strong><span id="scoreDelta">+250</span></div>
+      <div class="hud-right">
+        <div class="metric"><small>PACE</small><strong id="speed">1.0×</strong></div>
+        <div class="metric"><small>DISTANCE</small><strong id="distance">0 M</strong></div>
+        <div class="hearts" id="lives" aria-label="3 hearts"><i></i><i></i><i></i></div>
+      </div>
+      <div class="combo hidden" id="combo"><small>FLOW</small><strong><span id="comboValue">2</span>×</strong><div><i id="comboBar"></i></div></div>
+      <div class="objective" id="objective"><span>DAILY</span><p id="objectiveText">Clear 5 rivals</p><b id="objectiveProgress">0 / 5</b></div>
     </section>
-    <section class="game-stage" id="gameStage" aria-label="Alpine Rush game">
-      <canvas id="gameCanvas" role="img" aria-label="A downhill ski course. Move left and right to avoid or jump over rival skiers."></canvas>
-      <div class="scanlines" aria-hidden="true"></div>
-      <div class="overlay start-overlay" id="startOverlay">
-        <div class="edition-tag">AR / 01</div>
-        <p class="eyebrow">SUMMIT 01 &nbsp;·&nbsp; 2,840 M &nbsp;·&nbsp; CLEAR</p>
-        <h1>OWN THE<br><em>MOUNTAIN.</em></h1>
-        <p class="intro">Charge the fall line. Clear the pack.<br>Three hearts. One perfect run.</p>
-        <button class="primary-button" id="startButton" type="button"><span>DROP IN</span><i aria-hidden="true">↘</i></button>
-        <p class="key-hint"><kbd>SPACE</kbd> <span>TO START</span></p>
+
+    <section class="title-screen screen" id="titleScreen">
+      <div class="title-art" aria-hidden="true"></div>
+      <div class="title-content">
+        <p class="kicker"><span></span> DOWNHILL ARCADE</p>
+        <h1>ALPINE<br><em>RUSH</em></h1>
+        <p class="tagline">Find your line. Hold your nerve.<br>Leave nothing on the mountain.</p>
+        <button class="action-button" id="enterButton" type="button"><b>ENTER THE MOUNTAIN</b><span>↘</span></button>
+        <p class="press-key"><kbd>SPACE</kbd> TO CONTINUE</p>
       </div>
-      <div class="overlay hidden" id="pauseOverlay">
-        <p class="eyebrow">RUN HELD</p>
-        <h2>PAUSED.</h2>
-        <p class="intro">Catch your breath. The mountain can wait.</p>
-        <button class="primary-button" id="resumeButton" type="button"><span>RESUME RUN</span><i aria-hidden="true">▶</i></button>
-        <p class="key-hint"><kbd>P</kbd> <span>TO RESUME</span></p>
-      </div>
-      <div class="overlay hidden" id="gameOverOverlay">
-        <p class="eyebrow">RUN COMPLETE</p>
-        <h2>WHITEOUT.</h2>
-        <div class="run-summary">
-          <span><small>FINAL SCORE</small><strong id="finalScore">0</strong></span>
-          <span><small>BEST RUN</small><strong id="finalBest">0</strong></span>
+      <div class="title-footer"><span>AR / COLORADO SERIES</span><span>BEST <b id="titleBest">000000</b></span></div>
+    </section>
+
+    <section class="route-screen screen hidden" id="routeScreen">
+      <div class="menu-panel">
+        <div class="menu-heading"><div><p class="kicker"><span></span> CHOOSE YOUR LINE</p><h2>MOUNTAIN<br>SELECT</h2></div><p>Each route has its own rhythm, weather, and hazards. New lines open as your best score climbs.</p></div>
+        <div class="route-grid" id="routeGrid">
+          <button class="route-card selected" data-route="0"><span class="route-number">01</span><div><small>IDAHO SPRINGS · HOME MOUNTAIN</small><h3>ECHO MOUNTAIN</h3><p>Night laps · Terrain park</p></div><b>10,650 FT</b></button>
+          <button class="route-card" data-route="1"><span class="route-number">02</span><div><small>NEDERLAND · FRONT RANGE</small><h3>ELDORA</h3><p>Glades · Progressive terrain</p></div><b>BEST 2,500</b></button>
+          <button class="route-card" data-route="2"><span class="route-number">03</span><div><small>CONTINENTAL DIVIDE</small><h3>LOVELAND</h3><p>Deep snow · Open bowls</p></div><b>BEST 5,000</b></button>
+          <button class="route-card" data-route="3"><span class="route-number">04</span><div><small>THE LEGEND · HIGH ALPINE</small><h3>ARAPAHOE BASIN</h3><p>Steeps · Big mountain</p></div><b>BEST 8,000</b></button>
+          <button class="route-card" data-route="4"><span class="route-number">05</span><div><small>SKI TOWN, U.S.A.</small><h3>STEAMBOAT</h3><p>Tree runs · Powder</p></div><b>BEST 12,000</b></button>
         </div>
-        <button class="primary-button" id="restartButton" type="button"><span>RIDE AGAIN</span><i aria-hidden="true">↻</i></button>
+        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
       </div>
-      <div class="toast" id="toast" role="status" aria-live="polite">HUGE AIR +250</div>
     </section>
-    <footer class="control-deck">
-      <p class="deck-label">CONTROLS</p>
-      <div class="control"><span class="keys"><kbd>←</kbd><kbd>→</kbd></span><p><b>CARVE</b><small>or use A / D</small></p></div>
-      <div class="control"><kbd class="space-key">SPACE</kbd><p><b>JUMP</b><small>clear rival skiers</small></p></div>
-      <div class="pro-tip"><span>PRO TIP</span><p>Skim close to a rival in the air for the biggest bonus.</p></div>
-    </footer>
-    <div class="mobile-controls" aria-label="Touch controls">
-      <button id="leftButton" type="button" aria-label="Carve left">←</button>
-      <button id="jumpButton" type="button">JUMP</button>
-      <button id="rightButton" type="button" aria-label="Carve right">→</button>
-    </div>
+
+    <section class="countdown screen hidden" id="countdown"><p id="routeName">SUMMIT RUN</p><strong id="countdownValue">3</strong><span>FIND YOUR LINE</span></section>
+    <section class="pause-screen screen hidden" id="pauseScreen"><p class="kicker"><span></span> RUN HELD</p><h2>PAUSED</h2><button class="action-button" id="resumeButton" type="button"><b>RESUME</b><span>▶</span></button><button class="text-button" id="quitButton" type="button">RETURN TO MOUNTAIN SELECT</button></section>
+
+    <section class="results-screen screen hidden" id="resultsScreen">
+      <div class="results-card">
+        <p class="kicker"><span></span> RUN COMPLETE</p><div class="medal" id="medal">A</div><h2 id="resultTitle">SOLID LINE.</h2>
+        <div class="final-score"><small>FINAL SCORE</small><strong id="finalScore">0</strong><span id="newBest">NEW PERSONAL BEST</span></div>
+        <div class="run-stats"><span><small>DISTANCE</small><b id="finalDistance">0 M</b></span><span><small>BEST COMBO</small><b id="finalCombo">1×</b></span><span><small>CLEARS</small><b id="finalClears">0</b></span><span><small>NEAR MISSES</small><b id="finalNear">0</b></span></div>
+        <div class="results-actions"><button class="text-button" id="selectButton" type="button">MOUNTAIN SELECT</button><button class="action-button" id="restartButton" type="button"><b>RIDE AGAIN</b><span>↻</span></button></div>
+      </div>
+    </section>
+
+    <div class="event-toast" id="toast" role="status" aria-live="polite"><small>PERFECT CLEAR</small><strong>+500</strong></div>
+    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="jumpButton" type="button">JUMP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
-  <script src="game.js"></script>
+  <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
+  <script src="game.js?v=3"></script>
 </body>
 </html>
