@@ -1,66 +1,84 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#090b1d" />
-  <title>Skate Through Time</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071522">
+  <meta name="description" content="Alpine Rush — a fast, responsive downhill skiing game for your browser.">
+  <meta property="og:title" content="Alpine Rush">
+  <meta property="og:description" content="Carve hard, clear rival skiers, and chase your best run.">
+  <meta property="og:image" content="assets/alpine-rush-cover.png">
+  <meta property="og:type" content="website">
+  <title>Alpine Rush — Downhill Arcade</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="game-shell">
+  <a class="skip-link" href="#gameStage">Skip to game</a>
+  <main class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="Skate Through Time home">
-        <span class="brand-mark">88</span>
-        <span>SKATE THROUGH TIME</span>
+      <a class="brand" href="./" aria-label="Alpine Rush home">
+        <span class="brand-mark" aria-hidden="true"><i></i></span>
+        <span class="wordmark"><b>ALPINE</b> RUSH<small>DOWNHILL ARCADE</small></span>
       </a>
-      <button class="sound-button" id="soundButton" aria-label="Toggle sound">SOUND ON</button>
+      <div class="header-actions">
+        <span class="status-pill"><i></i> SUMMIT LIVE</span>
+        <button class="icon-button" id="soundButton" type="button" aria-label="Mute sound" aria-pressed="true"><span aria-hidden="true">◖))</span><b>SOUND</b></button>
+        <button class="icon-button" id="pauseButton" type="button" aria-label="Pause game" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><b>PAUSE</b></button>
+      </div>
     </header>
-
-    <section class="score-strip" aria-label="Game stats">
-      <div><small>SCORE</small><strong id="score">00000</strong></div>
-      <div><small>BEST</small><strong id="best">00000</strong></div>
-      <div><small>SPEED</small><strong id="speed">1.0×</strong></div>
-      <div class="lives"><small>LIVES</small><strong id="lives">● ● ●</strong></div>
+    <section class="dashboard" aria-label="Current run statistics">
+      <div class="stat primary-stat"><small>SCORE</small><strong id="score">00000</strong></div>
+      <div class="stat"><small>PERSONAL BEST</small><strong id="best">00000</strong></div>
+      <div class="stat"><small>PACE</small><strong id="speed">1.0×</strong></div>
+      <div class="stat"><small>ALTITUDE</small><strong id="altitude">2,840<sup>M</sup></strong></div>
+      <div class="stat lives"><small>HEARTS</small><strong id="lives" aria-label="3 lives">● ● ●</strong></div>
     </section>
-
-    <section class="game-stage" id="gameStage">
-      <canvas id="gameCanvas" aria-label="Retro time-travel skateboarding game"></canvas>
-      <div class="grain"></div>
-
-      <div class="overlay" id="startOverlay">
-        <p class="eyebrow">HILL VALLEY · 1985</p>
-        <h1>SKATE<br><em>THROUGH TIME.</em></h1>
-        <p class="intro">Hit the street. Jump the troublemakers.<br>Keep the timeline from running out.</p>
-        <button class="primary-button" id="startButton">START GAME <span>▶</span></button>
-        <p class="key-hint"><kbd>SPACE</kbd> TO START</p>
+    <section class="game-stage" id="gameStage" aria-label="Alpine Rush game">
+      <canvas id="gameCanvas" role="img" aria-label="A downhill ski course. Move left and right to avoid or jump over rival skiers."></canvas>
+      <div class="scanlines" aria-hidden="true"></div>
+      <div class="overlay start-overlay" id="startOverlay">
+        <div class="edition-tag">AR / 01</div>
+        <p class="eyebrow">SUMMIT 01 &nbsp;·&nbsp; 2,840 M &nbsp;·&nbsp; CLEAR</p>
+        <h1>OWN THE<br><em>MOUNTAIN.</em></h1>
+        <p class="intro">Charge the fall line. Clear the pack.<br>Three hearts. One perfect run.</p>
+        <button class="primary-button" id="startButton" type="button"><span>DROP IN</span><i aria-hidden="true">↘</i></button>
+        <p class="key-hint"><kbd>SPACE</kbd> <span>TO START</span></p>
       </div>
-
+      <div class="overlay hidden" id="pauseOverlay">
+        <p class="eyebrow">RUN HELD</p>
+        <h2>PAUSED.</h2>
+        <p class="intro">Catch your breath. The mountain can wait.</p>
+        <button class="primary-button" id="resumeButton" type="button"><span>RESUME RUN</span><i aria-hidden="true">▶</i></button>
+        <p class="key-hint"><kbd>P</kbd> <span>TO RESUME</span></p>
+      </div>
       <div class="overlay hidden" id="gameOverOverlay">
-        <p class="eyebrow">TIMELINE ERASED</p>
-        <h1>OUTATIME<br><em>TRY AGAIN.</em></h1>
-        <p class="intro" id="finalScore">You scored 0 points.</p>
-        <button class="primary-button" id="restartButton">REWIND <span>↻</span></button>
+        <p class="eyebrow">RUN COMPLETE</p>
+        <h2>WHITEOUT.</h2>
+        <div class="run-summary">
+          <span><small>FINAL SCORE</small><strong id="finalScore">0</strong></span>
+          <span><small>BEST RUN</small><strong id="finalBest">0</strong></span>
+        </div>
+        <button class="primary-button" id="restartButton" type="button"><span>RIDE AGAIN</span><i aria-hidden="true">↻</i></button>
       </div>
-
-      <div class="toast" id="toast">GREAT SCOTT! +250</div>
+      <div class="toast" id="toast" role="status" aria-live="polite">HUGE AIR +250</div>
     </section>
-
-    <footer class="controls">
-      <div><span class="keys"><kbd>←</kbd><kbd>→</kbd></span><p><b>STEER</b><small>Arrow keys / A & D</small></p></div>
-      <div><kbd class="space-key">SPACE</kbd><p><b>OLLIE</b><small>Clear the obstacles</small></p></div>
-      <p class="tip"><span>TIME TIP</span> A closer jump earns a bigger score.</p>
+    <footer class="control-deck">
+      <p class="deck-label">CONTROLS</p>
+      <div class="control"><span class="keys"><kbd>←</kbd><kbd>→</kbd></span><p><b>CARVE</b><small>or use A / D</small></p></div>
+      <div class="control"><kbd class="space-key">SPACE</kbd><p><b>JUMP</b><small>clear rival skiers</small></p></div>
+      <div class="pro-tip"><span>PRO TIP</span><p>Skim close to a rival in the air for the biggest bonus.</p></div>
     </footer>
-
     <div class="mobile-controls" aria-label="Touch controls">
-      <button id="leftButton" aria-label="Move left">←</button>
-      <button id="jumpButton">JUMP</button>
-      <button id="rightButton" aria-label="Move right">→</button>
+      <button id="leftButton" type="button" aria-label="Carve left">←</button>
+      <button id="jumpButton" type="button">JUMP</button>
+      <button id="rightButton" type="button" aria-label="Carve right">→</button>
     </div>
   </main>
+  <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script src="game.js"></script>
 </body>
 </html>
