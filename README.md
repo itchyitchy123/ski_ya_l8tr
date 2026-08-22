@@ -43,7 +43,7 @@ Then open `http://localhost:8080`.
 | Carve | `←` `→` or `A` `D` | Left/right buttons |
 | Jump | `Space` | Jump button |
 | Spin | `Q` / `E` | Spin button |
-| Backflip | Hold `S` in the air | Flip button |
+| Frontflip / backflip | Hold `W` / `S` in the air | Flip button |
 | Safety grab | Hold `Shift` in the air | Grab button |
 | Pause | `P` or `Esc` | Pause button |
 
@@ -51,9 +51,13 @@ Then open `http://localhost:8080`.
 
 Your score increases while you stay on the mountain. Jumping obstacles, landing spins, backflips and safety grabs, and passing hazards at close range builds a flow multiplier. Rotations must be completed before landing—a skier who comes down sideways will wipe out. Complete the rotating daily objective for a 1,000-point bonus. Pace increases with score, so a high-scoring run also becomes a faster one.
 
+Carving is momentum-based: the skier takes time to set an edge, accelerates across the fall line, and loses some downhill speed under a hard sustained carve. Releasing the control lets the ski flatten naturally. Airborne rotation also carries momentum, so counter-rotation and timing matter before landing.
+
 ## Colorado mountains
 
 Echo Mountain in Idaho Springs is the default home mountain. Progression unlocks Eldora, Loveland Ski Area, Arapahoe Basin, and Steamboat. Each route has dedicated scenic artwork built around recognizable local character: Echo's night lights and Front Range view, Eldora's wooded divide, Loveland's open bowls, A-Basin's rocky high-alpine wall, and Steamboat's rolling aspen terrain. Each is an original arcade interpretation; Alpine Rush is not affiliated with or endorsed by these ski areas.
+
+Each resort offers selectable named downhill runs rather than an endless generic course. Runs have finite top-to-base distances and a finish area. Echo's final approach includes an original slope-facing reconstruction of its lodge, patio, adjacent rental cabin, and chair terminal based on publicly available references. The geometry and buildings are game recreations, not navigational maps.
 
 ## Architecture
 

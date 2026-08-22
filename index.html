@@ -36,7 +36,7 @@
       <div class="score-block"><small>SCORE</small><strong id="score">000000</strong><span id="scoreDelta">+250</span></div>
       <div class="hud-right">
         <div class="metric"><small>PACE</small><strong id="speed">1.0×</strong></div>
-        <div class="metric"><small>DISTANCE</small><strong id="distance">0 M</strong></div>
+        <div class="metric"><small>REMAINING</small><strong id="distance">0 M</strong></div>
         <div class="hearts" id="lives" aria-label="3 hearts"><i></i><i></i><i></i></div>
       </div>
       <div class="combo hidden" id="combo"><small>FLOW</small><strong><span id="comboValue">2</span>×</strong><div><i id="comboBar"></i></div></div>
@@ -66,7 +66,7 @@
           <button class="route-card" data-route="3"><span class="route-number">04</span><div><small>THE LEGEND · HIGH ALPINE</small><h3>ARAPAHOE BASIN</h3><p>Steeps · Big mountain</p></div><b>BEST 8,000</b></button>
           <button class="route-card" data-route="4"><span class="route-number">05</span><div><small>SKI TOWN, U.S.A.</small><h3>STEAMBOAT</h3><p>Tree runs · Powder</p></div><b>BEST 12,000</b></button>
         </div>
-        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><div class="trick-keys"><small>AIR CONTROLS</small><span><kbd>Q</kbd><kbd>E</kbd> SPIN</span><span><kbd>S</kbd> FLIP</span><span><kbd>SHIFT</kbd> GRAB</span></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
+        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><label class="run-picker"><small>DOWNHILL RUN</small><select id="runSelect" aria-label="Select downhill run"></select></label><div class="trick-keys"><small>AIR CONTROLS</small><span><kbd>Q</kbd><kbd>E</kbd> SPIN</span><span><kbd>W</kbd><kbd>S</kbd> FLIP</span><span><kbd>SHIFT</kbd> GRAB</span></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
       </div>
     </section>
 
@@ -87,6 +87,6 @@
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
-  <script src="game.js?v=4"></script>
+  <script src="game.js?v=6"></script>
 </body>
 </html>
