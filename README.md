@@ -42,15 +42,18 @@ Then open `http://localhost:8080`.
 | --- | --- | --- |
 | Carve | `←` `→` or `A` `D` | Left/right buttons |
 | Jump | `Space` | Jump button |
+| Spin | `Q` / `E` | Spin button |
+| Backflip | Hold `S` in the air | Flip button |
+| Safety grab | Hold `Shift` in the air | Grab button |
 | Pause | `P` or `Esc` | Pause button |
 
 ## Scoring
 
-Your score increases while you stay on the mountain. Jumping obstacles and passing hazards at close range builds a flow multiplier; precise clears award more points. Complete the rotating daily objective for a 1,000-point bonus. Pace increases with score, so a high-scoring run also becomes a faster one.
+Your score increases while you stay on the mountain. Jumping obstacles, landing spins, backflips and safety grabs, and passing hazards at close range builds a flow multiplier. Rotations must be completed before landing—a skier who comes down sideways will wipe out. Complete the rotating daily objective for a 1,000-point bonus. Pace increases with score, so a high-scoring run also becomes a faster one.
 
 ## Colorado mountains
 
-Echo Mountain in Idaho Springs is the default home mountain. Progression unlocks Eldora, Loveland Ski Area, Arapahoe Basin, and Steamboat. Each game route is an original arcade interpretation informed by the area's real setting and character; Alpine Rush is not affiliated with or endorsed by these ski areas.
+Echo Mountain in Idaho Springs is the default home mountain. Progression unlocks Eldora, Loveland Ski Area, Arapahoe Basin, and Steamboat. Each route has dedicated scenic artwork built around recognizable local character: Echo's night lights and Front Range view, Eldora's wooded divide, Loveland's open bowls, A-Basin's rocky high-alpine wall, and Steamboat's rolling aspen terrain. Each is an original arcade interpretation; Alpine Rush is not affiliated with or endorsed by these ski areas.
 
 ## Architecture
 

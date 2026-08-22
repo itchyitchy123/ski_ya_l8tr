@@ -14,7 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -40,6 +41,7 @@
       </div>
       <div class="combo hidden" id="combo"><small>FLOW</small><strong><span id="comboValue">2</span>×</strong><div><i id="comboBar"></i></div></div>
       <div class="objective" id="objective"><span>DAILY</span><p id="objectiveText">Clear 5 rivals</p><b id="objectiveProgress">0 / 5</b></div>
+      <div class="trick-readout hidden" id="trickReadout"><small>TRICK IN PROGRESS</small><strong id="trickName">360°</strong></div>
     </section>
 
     <section class="title-screen screen" id="titleScreen">
@@ -64,7 +66,7 @@
           <button class="route-card" data-route="3"><span class="route-number">04</span><div><small>THE LEGEND · HIGH ALPINE</small><h3>ARAPAHOE BASIN</h3><p>Steeps · Big mountain</p></div><b>BEST 8,000</b></button>
           <button class="route-card" data-route="4"><span class="route-number">05</span><div><small>SKI TOWN, U.S.A.</small><h3>STEAMBOAT</h3><p>Tree runs · Powder</p></div><b>BEST 12,000</b></button>
         </div>
-        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
+        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><div class="trick-keys"><small>AIR CONTROLS</small><span><kbd>Q</kbd><kbd>E</kbd> SPIN</span><span><kbd>S</kbd> FLIP</span><span><kbd>SHIFT</kbd> GRAB</span></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
       </div>
     </section>
 
@@ -75,16 +77,16 @@
       <div class="results-card">
         <p class="kicker"><span></span> RUN COMPLETE</p><div class="medal" id="medal">A</div><h2 id="resultTitle">SOLID LINE.</h2>
         <div class="final-score"><small>FINAL SCORE</small><strong id="finalScore">0</strong><span id="newBest">NEW PERSONAL BEST</span></div>
-        <div class="run-stats"><span><small>DISTANCE</small><b id="finalDistance">0 M</b></span><span><small>BEST COMBO</small><b id="finalCombo">1×</b></span><span><small>CLEARS</small><b id="finalClears">0</b></span><span><small>NEAR MISSES</small><b id="finalNear">0</b></span></div>
+        <div class="run-stats"><span><small>DISTANCE</small><b id="finalDistance">0 M</b></span><span><small>BEST COMBO</small><b id="finalCombo">1×</b></span><span><small>CLEARS</small><b id="finalClears">0</b></span><span><small>TRICKS</small><b id="finalTricks">0</b></span><span><small>BEST TRICK</small><b id="finalBestTrick">—</b></span></div>
         <div class="results-actions"><button class="text-button" id="selectButton" type="button">MOUNTAIN SELECT</button><button class="action-button" id="restartButton" type="button"><b>RIDE AGAIN</b><span>↻</span></button></div>
       </div>
     </section>
 
     <div class="event-toast" id="toast" role="status" aria-live="polite"><small>PERFECT CLEAR</small><strong>+500</strong></div>
-    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="jumpButton" type="button">JUMP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
+    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="grabButton" type="button">GRAB</button><button id="flipButton" type="button">FLIP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
-  <script src="game.js?v=3"></script>
+  <script src="game.js?v=4"></script>
 </body>
 </html>
