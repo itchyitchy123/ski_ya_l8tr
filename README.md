@@ -51,7 +51,7 @@ Then open `http://localhost:8080`.
 
 Your score increases while you stay on the mountain. Jumping obstacles, landing spins, backflips and safety grabs, and passing hazards at close range builds a flow multiplier. Rotations must be completed before landing—a skier who comes down sideways will wipe out. Complete the rotating daily objective for a 1,000-point bonus. Pace increases with score, so a high-scoring run also becomes a faster one.
 
-Carving is momentum-based: the skier takes time to set an edge, accelerates across the fall line, and loses some downhill speed under a hard sustained carve. Releasing the control lets the ski flatten naturally. Airborne rotation also carries momentum, so counter-rotation and timing matter before landing.
+The behind-the-skier chase camera keeps the skier facing and traveling downhill automatically. Carving is momentum-based: left and right set an edge to steer across the fall line, and a hard sustained carve scrubs some downhill speed. Releasing the control lets the skis flatten naturally. Airborne rotation also carries momentum, so counter-rotation and timing matter before landing.
 
 ## Colorado mountains
 
