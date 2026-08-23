@@ -1,0 +1,10 @@
+/* Modern HUD and result actions are kept separate so the core visual system
+   remains easy to tune for different screen sizes. */
+.run-progress{position:absolute;top:86px;left:50%;width:min(260px,28vw);padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(5,21,31,.42);backdrop-filter:blur(12px);transform:translateX(-50%);box-shadow:0 8px 30px rgba(0,0,0,.14)}
+.run-progress span{display:block;color:#c6d9e0;font-size:7px;font-weight:900;letter-spacing:2px}
+.run-progress>div{height:4px;margin-top:7px;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.13)}
+.run-progress i{display:block;width:100%;height:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--cyan),var(--gold));box-shadow:0 0 12px var(--cyan);transition:transform .18s ease}
+.run-progress b{position:absolute;right:12px;top:8px;color:#fff;font:800 8px var(--body)}
+.results-actions .text-button{white-space:nowrap}
+.results-actions .text-button:hover{color:var(--gold)}
+@media(max-width:760px){.run-progress{top:159px;left:15px;width:calc(100% - 30px);transform:none}.run-progress span{font-size:6px}.results-actions{flex-wrap:wrap}.results-actions .text-button{font-size:7px}.results-actions .action-button{order:-1;width:100%}}
