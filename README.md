@@ -16,7 +16,7 @@ Alpine Rush is a compact score-chasing ski game with an intentionally simple goa
 
 ## Music
 
-The game soundtrack includes “The Copperhead Stomp (Official Release)” and “Highway Fever,” with random track selection by default. Players can choose a specific track or mute music from Settings. German mountain routes play “Tiroler Polka (Kloß mit Soß Remix)” automatically when Random track is selected.
+The game soundtrack includes “The Copperhead Stomp (Official Release),” “Highway Fever,” “The Roadhouse Rhythm,” and “Copperhead Roadkill,” with random Colorado track selection by default. Players can choose a specific track or mute music from Settings. German mountain routes play “Tiroler Polka (Kloß mit Soß Remix)” automatically when Random track is selected.
 
 ### Highlights
 
