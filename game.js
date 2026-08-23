@@ -206,3 +206,50 @@ const shortcutClear=clearObstacle;clearObstacle=function(o,dx){if(o.type==='shor
 const shortcutDraw=drawObstacle;drawObstacle=function(o){if(o.type!=='shortcut'&&o.type!=='patch'){shortcutDraw(o);return}if(o.y<.4)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.22+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);if(o.type==='shortcut'){ctx.strokeStyle='#ffd260';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-27,22);ctx.lineTo(-27,-24);ctx.quadraticCurveTo(0,-45,27,-24);ctx.lineTo(27,22);ctx.stroke();ctx.fillStyle='#142832';ctx.fillRect(-23,-17,46,13);ctx.fillStyle='#ffd260';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('SHORTCUT',0,-8)}else{ctx.fillStyle='#69e1f5';ctx.beginPath();ctx.arc(0,0,24,0,Math.PI*2);ctx.fill();ctx.fillStyle='#102a38';ctx.font='900 10px DM Sans';ctx.textAlign='center';ctx.fillText('PATCH',0,4);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()}ctx.restore()};
 const finishLoss=finish;finish=function(){const lost=lives<=0&&!courseComplete;finishLoss();if(lost){$('resultKicker').innerHTML='<span></span> RUN OVER';$('resultTitle').textContent='YOU LOSE!';$('highlightText').textContent='Back to the bun run honeybun';$('cupResult').textContent='Shake it off and drop back in.'}else $('resultKicker').innerHTML='<span></span> RUN COMPLETE'};
 const mobileBudgetUpdate=update;update=function(dt){mobileBudgetUpdate(dt);if(mobileDevice){if(particles.length>120)particles.splice(0,particles.length-120);if(trails.length>70)trails.splice(0,trails.length-70)}};
+
+/* Rival riders: named, moving targets make a run feel shared instead of empty. */
+let rivalPasses=0;
+const rivalNames=['MAYA','KAI','LUCA','NOVA'];
+const rivalSpawn=spawn;
+spawn=function(){
+  const before=obstacles.length;
+  rivalSpawn();
+  if(state==='playing'&&spawnCount>2&&spawnCount%5===0&&Math.random()<.72){
+    const ahead=Math.min(1,(distance+courseLength*.14)/courseLength),sample=courseSample(ahead);
+    const lane=Math.max(.08,sample.width*.56),x=Math.max(.09,Math.min(.91,sample.center+(Math.random()-.5)*lane));
+    obstacles.push({type:'rival',x,y:.03,wobble:Math.random()*6.28,hit:false,cleared:false,color:['#f15b4f','#9b73ff','#f0b84c','#42c9b8'][Math.floor(Math.random()*4)],side:x<sample.center?-1:1,laneV:(Math.random()>.5?1:-1)*(.012+Math.random()*.018),name:rivalNames[Math.floor(Math.random()*rivalNames.length)],pace:.84+Math.random()*.22});
+  }
+};
+const rivalReset=reset;
+reset=function(){rivalReset();rivalPasses=0};
+const rivalHit=hitObstacle;
+hitObstacle=function(o,dx){
+  if(o.type==='rival'){
+    if(o.hit)return;o.hit=true;o.cleared=true;speed=Math.max(.72,speed-.26);combo=1;comboTime=0;shake=Math.max(shake,5);toast('RIDER CONTACT','GIVE THEM ROOM');beep(150,.12,'sawtooth',.04);return;
+  }
+  rivalHit(o,dx);
+};
+const rivalClear=clearObstacle;
+clearObstacle=function(o,dx){
+  if(o.type==='rival'){
+    if(o.cleared)return;o.cleared=true;rivalPasses++;const points=300*combo;scorePop(points,o.x*W,o.y*H,'OVERTAKE');combo=Math.min(8,combo+1);comboTime=3.4;bestCombo=Math.max(bestCombo,combo);toast('CLEAN OVERTAKE',`${o.name} · +${points}`);burst(o.x*W,o.y*H,'#ffd260',16);beep(860,.12);return;
+  }
+  rivalClear(o,dx);
+};
+const rivalUpdate=update;
+update=function(dt){
+  rivalUpdate(dt);
+  if(state!=='playing')return;
+  obstacles.forEach(o=>{if(o.type!=='rival'||o.hit)return;o.x+=o.laneV*dt*speed;if(o.x<.11||o.x>.89){o.x=Math.max(.11,Math.min(.89,o.x));o.laneV*=-1}o.y+=dt*.018*(o.pace-1)});
+};
+const rivalDraw=drawObstacle;
+drawObstacle=function(o){
+  if(o.type!=='rival'){rivalDraw(o);return}
+  if(o.y<.4||o.hit)return;
+  const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.92;
+  ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);
+  ctx.fillStyle='rgba(8,31,41,.25)';ctx.beginPath();ctx.ellipse(0,31,24,5,0,0,Math.PI*2);ctx.fill();
+  drawSkier(0,0,Math.sin(o.wobble+o.y*9)*.18,o.color,false);
+  ctx.fillStyle='rgba(7,27,39,.88)';ctx.fillRect(-24,-51,48,13);ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText(o.name,-0,-42);
+  ctx.restore();
+};
