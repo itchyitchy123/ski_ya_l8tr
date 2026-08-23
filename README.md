@@ -23,6 +23,7 @@ The game soundtrack includes “The Copperhead Stomp (Official Release),” “H
 - Momentum-based carving with keyboard and touch controls
 - Five immediately playable Colorado mountain routes with unique weather, scenery, and hazard mixes
 - Risk/reward jumps, near misses, flow combos, and daily objectives
+- Moving Speed Patrol and Ski Patrol hazards that create changing traffic lines
 - Dynamic difficulty, speed effects, camera banking, and brief impact slow-motion
 - Persistent local high scores
 - Shareable run highlights with route, setup, score, and flow summary
