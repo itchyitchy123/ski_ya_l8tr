@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -40,6 +40,7 @@
       <div class="score-block"><small>SCORE</small><strong id="score">000000</strong><span id="scoreDelta">+250</span></div>
       <div class="hud-right">
         <div class="metric"><small>PACE</small><strong id="speed">1.0×</strong></div>
+        <div class="metric surface-metric"><small>SURFACE</small><strong id="surface">GROOMED</strong></div>
         <div class="metric"><small>REMAINING</small><strong id="distance">0 M</strong></div>
         <div class="hearts" id="lives" aria-label="3 hearts"><i></i><i></i><i></i></div>
       </div>
@@ -58,7 +59,7 @@
         <button class="action-button" id="enterButton" type="button"><b>ENTER THE MOUNTAIN</b><span>↘</span></button>
         <p class="press-key"><kbd>SPACE</kbd> TO CONTINUE</p>
       </div>
-      <div class="title-footer"><span>AR / COLORADO SERIES</span><span>BEST <b id="titleBest">000000</b></span></div>
+      <div class="title-footer"><span>AR / COLORADO SERIES</span><span>MUSIC: THE COPPERHEAD STOMP · REBEL ROAD MUSIC</span><span>BEST <b id="titleBest">000000</b></span></div>
     </section>
 
     <section class="route-screen screen hidden" id="routeScreen">
@@ -71,8 +72,11 @@
           <button class="route-card" data-route="2"><span class="route-number">03</span><div><small>CONTINENTAL DIVIDE</small><h3>LOVELAND</h3><p>Deep snow · Open bowls</p></div><b>13,010 FT</b></button>
           <button class="route-card" data-route="3"><span class="route-number">04</span><div><small>THE LEGEND · HIGH ALPINE</small><h3>ARAPAHOE BASIN</h3><p>Steeps · Big mountain</p></div><b>13,050 FT</b></button>
           <button class="route-card" data-route="4"><span class="route-number">05</span><div><small>SKI TOWN, U.S.A.</small><h3>STEAMBOAT</h3><p>Tree runs · Powder</p></div><b>10,568 FT</b></button>
+          <button class="route-card" data-route="5"><span class="route-number">06</span><div><small>GARMISCH-PARTENKIRCHEN · GERMANY</small><h3>HAUSBERG</h3><p>Classic pistes · Kandahar</p></div><b>1,330 M</b></button>
+          <button class="route-card" data-route="6"><span class="route-number">07</span><div><small>GERMANY’S HIGHEST</small><h3>ZUGSPITZE</h3><p>Glacier · High alpine</p></div><b>2,962 M</b></button>
+          <button class="route-card" data-route="7"><span class="route-number">08</span><div><small>WETTERSTEIN ALPS · GERMANY</small><h3>ALPSPITZE</h3><p>Faces · Technical chutes</p></div><b>2,628 M</b></button>
         </div>
-        <div class="loadout-row"><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><label class="run-picker"><small>DOWNHILL RUN</small><select id="runSelect" aria-label="Select downhill run"></select></label><label class="run-picker mode-picker"><small>GAME MODE</small><select id="modeSelect" aria-label="Select game mode"><option value="freeride">Freeride</option><option value="timetrial">Time Trial</option><option value="slalom">Slalom</option><option value="park">Terrain Park</option></select></label><div class="trick-keys"><span><kbd>Q</kbd><kbd>E</kbd> SPIN</span><span><kbd>SHIFT</kbd> GRAB</span><span><kbd>X</kbd> BOOST</span></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
+        <div class="loadout-row"><div><small>RIDER DESIGN</small><div class="rider-choice"><button type="button" data-rider="skier">SKIER</button><button type="button" data-rider="snowboarder">BOARD</button></div></div><div><small>JACKET</small><div class="swatches" id="swatches"><button class="active" data-skin="0" aria-label="Coral jacket"></button><button data-skin="1" aria-label="Cyan jacket"></button><button data-skin="2" aria-label="Gold jacket"></button></div></div><div><small>HELMET</small><div class="helmet-choice"><button type="button" data-helmet="0" aria-label="Night helmet"></button><button type="button" data-helmet="1" aria-label="Ice helmet"></button><button type="button" data-helmet="2" aria-label="Flame helmet"></button></div></div><label class="run-picker"><small>DOWNHILL RUN</small><select id="runSelect" aria-label="Select downhill run"></select></label><label class="run-picker mode-picker"><small>GAME MODE</small><select id="modeSelect" aria-label="Select game mode"><option value="freeride">Freeride</option><option value="timetrial">Time Trial</option><option value="slalom">Slalom</option><option value="park">Terrain Park</option></select></label><div class="trick-keys"><span><kbd>Q</kbd><kbd>E</kbd> SPIN</span><span><kbd>SHIFT</kbd> GRAB</span><span><kbd>X</kbd> BOOST</span></div><button class="action-button" id="startButton" type="button"><b>DROP IN</b><span>↘</span></button></div>
       </div>
     </section>
 
@@ -88,14 +92,15 @@
       </div>
     </section>
 
-    <dialog class="settings-dialog" id="settingsDialog"><form method="dialog"><header><div><small>ALPINE RUSH</small><h2>SETTINGS</h2></div><button value="close" aria-label="Close settings">×</button></header><label>Graphics quality<select id="qualitySetting"><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label><label>Motion<select id="motionSetting"><option value="full">Full</option><option value="reduced">Reduced</option></select></label><label>Audio volume<input id="volumeSetting" type="range" min="0" max="1" step="0.05"></label><label>Units<select id="unitsSetting"><option value="metric">Metric</option><option value="imperial">Imperial</option></select></label><p>Gamepad supported: left stick to carve, A to jump, B to boost, Menu to pause.</p><button class="action-button" value="close"><b>SAVE &amp; CLOSE</b><span>✓</span></button></form></dialog>
+    <dialog class="settings-dialog" id="settingsDialog"><form method="dialog"><header><div><small>ALPINE RUSH</small><h2>SETTINGS</h2></div><button value="close" aria-label="Close settings">×</button></header><label>Graphics quality<select id="qualitySetting"><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label><label>Motion<select id="motionSetting"><option value="full">Full</option><option value="reduced">Reduced</option></select></label><label>Audio volume<input id="volumeSetting" type="range" min="0" max="1" step="0.05"></label><label>Music<select id="musicSetting"><option value="random">Random track</option><option value="copperhead">The Copperhead Stomp</option><option value="highway">Highway Fever</option><option value="tiroler">Tiroler Polka</option></select></label><label>Units<select id="unitsSetting"><option value="metric">Metric</option><option value="imperial">Imperial</option></select></label><p>German mountain routes use Tiroler Polka automatically when music is set to Random. Gamepad supported: left stick to carve, A to jump, B to boost, Menu to pause.</p><button class="action-button" value="close"><b>SAVE &amp; CLOSE</b><span>✓</span></button></form></dialog>
 
     <div class="event-toast" id="toast" role="status" aria-live="polite"><small>PERFECT CLEAR</small><strong>+500</strong></div>
-    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="flipButton" type="button">FLIP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
+    <audio id="gameMusic" preload="auto" loop aria-label="The Copperhead Stomp by Rebel Road Music"><source src="assets/audio/copperhead-stomp.mp3" type="audio/mpeg"></audio>
+    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="frontFlipButton" type="button">FRONT</button><button id="flipButton" type="button">BACK</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
-  <script src="pro-systems.js?v=1"></script>
-  <script src="game.js?v=12"></script>
+  <script src="pro-systems.js?v=3"></script>
+  <script src="game.js?v=24"></script>
 </body>
 </html>

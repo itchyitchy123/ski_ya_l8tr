@@ -14,6 +14,10 @@
 
 Alpine Rush is a compact score-chasing ski game with an intentionally simple goal: stay on your feet, jump the pack, and push the pace as high as you can. It runs entirely in the browser with no framework, build step, or runtime dependencies.
 
+## Music
+
+The game soundtrack includes “The Copperhead Stomp (Official Release)” and “Highway Fever,” with random track selection by default. Players can choose a specific track or mute music from Settings. German mountain routes play “Tiroler Polka (Kloß mit Soß Remix)” automatically when Random track is selected.
+
 ### Highlights
 
 - Momentum-based carving with keyboard and touch controls
@@ -61,7 +65,7 @@ The behind-the-skier chase camera keeps the skier facing and traveling downhill 
 
 Echo Mountain in Idaho Springs is the default home mountain, while Eldora, Loveland Ski Area, Arapahoe Basin, and Steamboat are selectable from the first launch. Each route has dedicated scenic artwork built around recognizable local character: Echo's night lights and Front Range view, Eldora's wooded divide, Loveland's open bowls, A-Basin's rocky high-alpine wall, and Steamboat's rolling aspen terrain. Each is an original arcade interpretation; Alpine Rush is not affiliated with or endorsed by these ski areas.
 
-Each resort offers selectable named downhill runs rather than an endless generic course. Runs have finite top-to-base distances, map-informed trail direction, width and pitch changes, terrain-specific tree lines, bowls, moguls, lift lines, park sections, and a finish area. Echo's final approach includes an original slope-facing reconstruction of its lodge, patio, adjacent rental cabin, and chair terminal based on publicly available references. The geometry and buildings are game recreations, not navigational maps.
+Each resort offers selectable named downhill runs rather than an endless generic course. Runs have finite top-to-base distances, map-informed trail direction, width and pitch changes, terrain-specific tree lines, bowls, moguls, lift lines, park sections, and a finish area. The route roster includes Colorado mountains plus German home-country routes at Hausberg, Zugspitze, and Alpspitze. Echo's final approach includes an original slope-facing reconstruction of its lodge, patio, adjacent rental cabin, and chair terminal based on publicly available references. The geometry and buildings are game recreations, not navigational maps.
 
 ## Architecture
 
