@@ -1,4 +1,4 @@
-const CACHE='alpine-rush-v92';
+const CACHE='alpine-rush-v93';
 const ASSETS=['./','./index.html','./styles.css?v=40','./game.js?v=81','./pro-systems.js?v=3','./replay.js?v=5','./manifest.webmanifest','./assets/favicon.svg','./assets/alpine-rush-title.png','./assets/audio/ecstasy-of-gold-intro.mp3','./assets/audio/copperhead-stomp.mp3','./assets/audio/highway-fever.mp3','./assets/audio/roadhouse-rhythm.mp3','./assets/audio/copperhead-roadkill.mp3','./assets/audio/tiroler-polka.mp3','./assets/resorts/echo-mountain.webp','./assets/resorts/eldora.webp','./assets/resorts/loveland.webp','./assets/resorts/arapahoe-basin.webp','./assets/resorts/steamboat.webp','./assets/resorts/hausberg.webp','./assets/resorts/zugspitze.webp','./assets/resorts/alpspitze.webp','./assets/resorts/hoedown-hill.webp','./assets/resorts/purgatory.webp'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

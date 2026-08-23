@@ -41,6 +41,7 @@ All notable player-facing changes are documented here.
 - Added a dedicated Purgatory mountain renderer with San Juan ridgelines, powder fall line, chairlift towers, aspens, and base-area signage.
 - Replaced Purgatory’s stylized background with a realistic Colorado ski photography asset for visual parity with the other resorts.
 - Increased UI typography across resort selection, controls, HUD labels, results, and settings with responsive mobile minimum sizes.
+- Refined resort promotion into a quieter Mountain Guide experience with local context, safety notes, featured lines, and unobtrusive official links.
 
 ## 2.0.0 — 2026-08-22
 
