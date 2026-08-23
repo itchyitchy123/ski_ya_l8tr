@@ -249,6 +249,19 @@ const contractFinish=finish;finish=function(){
   if(!contractAwarded){contractAwarded=true;const c=AlpinePro.submitContract({trickCount,riskLines,patrolClears,downhill:AlpinePro.settings.mode==='downhill'?1:0});if(c.completed){score+=c.reward;toast('SPONSOR CONTRACT',`+${c.reward} PTS`)}const result=$('contractResult');if(result)result.textContent=c.completed?`CONTRACT COMPLETE · +${c.reward} PTS`:c.done?'CONTRACT COMPLETE · KEEP PUSHING':`CONTRACT: ${c.label}`;}
   contractFinish();
 };
+
+/* Personality and exploration layer. */
+const rivalBanter={overtake:['CLEAN LINE!','HEY, WAIT UP!','THAT WAS FAST.','OKAY, HOTSHOT.'],contact:['WATCH YOUR EDGES!','HEY! MY LINE!','SKI PATROL!','NO FIS RULES IN HERE!']};
+const banterClear=clearObstacle;clearObstacle=function(o,dx){if(o.type==='rival'){toast(rivalBanter.overtake[Math.floor(Math.random()*rivalBanter.overtake.length)],`${o.name} · OVERTAKEN`)}banterClear(o,dx)};
+const banterHit=hitObstacle;hitObstacle=function(o,dx){if(o.type==='rival'){toast(rivalBanter.contact[Math.floor(Math.random()*rivalBanter.contact.length)],`${o.name} · CONTACT`)}banterHit(o,dx)};
+const stashSpawn=spawn;spawn=function(){
+  stashSpawn();
+  if(state==='playing'&&spawnCount>5&&spawnCount%11===0&&distance<courseLength*.9){const s=courseSample(Math.min(1,(distance+courseLength*.16)/courseLength));obstacles.push({type:'stash',x:Math.max(.1,Math.min(.9,s.center+(Math.random()-.5)*s.width*.6)),y:.03,wobble:Math.random()*6.28,hit:false,cleared:false,color:'#ffd260',side:1,laneV:0})}
+};
+const stashHit=hitObstacle;hitObstacle=function(o,dx){if(o.type==='stash'){if(o.hit)return;o.hit=true;o.cleared=true;const points=1100*combo;scorePop(points,o.x*W,o.y*H-15,'SECRET STASH');combo=Math.min(8,combo+2);comboTime=4.2;bestCombo=Math.max(bestCombo,combo);toast('MOUNTAIN EASTER EGG',`+${points} · FOUND IT`);burst(o.x*W,o.y*H,'#ffd260',34);beep(1200,.22);return}stashHit(o,dx)};
+const stashClear=clearObstacle;clearObstacle=function(o,dx){if(o.type==='stash'){hitObstacle(o,dx);return}stashClear(o,dx)};
+const stashDraw=drawObstacle;drawObstacle=function(o){
+  if(o.type!=='stash'){stashDraw(o);return}if(o.y<.4||o.hit)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.9,pulse=1+Math.sin(performance.now()*.007+o.wobble)*.12;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale*pulse,scale*pulse);const g=ctx.createRadialGradient(0,0,2,0,0,34);g.addColorStop(0,'rgba(255,241,156,.95)');g.addColorStop(1,'rgba(255,210,96,0)');ctx.fillStyle=g;ctx.fillRect(-34,-34,68,68);ctx.fillStyle='#ffd260';ctx.rotate(Math.PI/4);ctx.fillRect(-12,-12,24,24);ctx.rotate(-Math.PI/4);ctx.fillStyle='#152b37';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('SECRET',0,3);ctx.restore()};
 const rivalReset=reset;
 reset=function(){rivalReset();rivalPasses=0};
 const rivalHit=hitObstacle;
