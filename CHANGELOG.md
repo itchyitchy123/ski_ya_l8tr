@@ -29,6 +29,7 @@ All notable player-facing changes are documented here.
 - Added persistent rival story arcs with remembered overtakes, rivalry commentary, rival records, and rematch challenges.
 - Expanded rival arcs into five persistent chapters, including escalating dialogue, milestone unlocks, and summit showdown rematches.
 - Added rival-specific showdown events with unique conditions, disciplines, routes, objectives, and results.
+- Added best-of-three rival campaigns with persistent round scores, campaign wins/losses, and final showdown outcomes.
 
 ## 2.0.0 — 2026-08-22
 
