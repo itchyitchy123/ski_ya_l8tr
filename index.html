@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=26">
+  <link rel="stylesheet" href="styles.css?v=27">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -67,6 +67,7 @@
         <div class="menu-heading"><div><p class="kicker"><span></span> CHOOSE YOUR LINE</p><h2>MOUNTAIN<br>SELECT</h2></div><p>Every mountain is open. Choose a real-world line, set your discipline, and chase a course medal.</p></div><div class="daily-cup"><div><small>DAILY CUP · <span id="cupDate">TODAY</span></small><strong id="cupRoute">LOADING EVENT</strong><p id="cupDetails">Same line for every rider · local best tracked</p></div><div class="cup-board"><small>LEADERBOARD</small><ol id="cupLeaderboard"><li>Loading scores…</li></ol></div><button class="text-button" id="cupButton" type="button">ENTER CUP</button></div><div class="quick-music"><div><small>NOW PLAYING</small><strong id="quickMusicLabel">RANDOM COLORADO ROTATION</strong></div><label><span>CHANGE MUSIC</span><select id="musicQuickSelect" aria-label="Change music track"><option value="random">Random track</option><option value="copperhead">The Copperhead Stomp</option><option value="highway">Highway Fever</option><option value="roadhouse">The Roadhouse Rhythm</option><option value="roadkill">Copperhead Roadkill</option><option value="tiroler">Tiroler Polka</option></select></label></div>
         <div class="career-card"><div><small>CAREER / SEASON 01</small><strong id="careerRank">LEVEL 1 · ROOKIE</strong><p id="careerRuns">0 RUNS LOGGED</p></div><div class="career-progress"><span id="careerXpLabel">0 XP</span><i id="careerXpFill"></i></div></div>
         <div class="contract-card"><div><small>SPONSOR CONTRACT · TODAY</small><strong id="contractLabel">LOADING CONTRACT</strong></div><b id="contractProgress">0 / 0</b></div>
+        <div class="badge-card"><div><small>BADGE WALL</small><strong id="badgeCount">0 / 7 EARNED</strong></div><span id="badgeNames">FIRST LINE AWAITS</span></div>
         <div class="run-preview"><canvas id="trailPreview" aria-label="Selected trail preview"></canvas><div><small id="previewResort">ECHO MOUNTAIN</small><strong id="previewRun">HOLLYWOOD</strong><p><span id="previewDifficulty">BLUE</span><span id="previewLength">980 M</span><span id="previewTerrain">PARK</span></p></div><div class="medal-case" id="medalCase"><small>COURSE RECORD</small><b>NO MEDAL YET</b></div></div>
         <div class="route-grid" id="routeGrid">
           <button class="route-card selected" data-route="0"><span class="route-number">01</span><div><small>IDAHO SPRINGS · HOME MOUNTAIN</small><h3>ECHO MOUNTAIN</h3><p>Night laps · Terrain park</p></div><b>10,650 FT</b></button>
@@ -90,7 +91,7 @@
     <section class="results-screen screen hidden" id="resultsScreen">
       <div class="results-card">
         <p class="kicker" id="resultKicker"><span></span> RUN COMPLETE</p><div class="medal" id="medal">A</div><h2 id="resultTitle">SOLID LINE.</h2>
-        <div class="final-score"><small>FINAL SCORE</small><strong id="finalScore">0</strong><span id="newBest">NEW PERSONAL BEST</span></div><p class="highlight-line" id="highlightText">Build a line worth sharing.</p><p class="battle-result" id="battleResult"></p><p class="career-result" id="careerResult"></p><p class="contract-result" id="contractResult"></p><p class="cup-result" id="cupResult"></p>
+        <div class="final-score"><small>FINAL SCORE</small><strong id="finalScore">0</strong><span id="newBest">NEW PERSONAL BEST</span></div><p class="highlight-line" id="highlightText">Build a line worth sharing.</p><p class="badge-result" id="badgeResult"></p><p class="battle-result" id="battleResult"></p><p class="career-result" id="careerResult"></p><p class="contract-result" id="contractResult"></p><p class="cup-result" id="cupResult"></p>
         <div class="run-stats"><span><small>DISTANCE</small><b id="finalDistance">0 M</b></span><span><small>BEST COMBO</small><b id="finalCombo">1×</b></span><span><small>CLEARS</small><b id="finalClears">0</b></span><span><small>TRICKS</small><b id="finalTricks">0</b></span><span><small>BEST TRICK</small><b id="finalBestTrick">—</b></span></div>
         <div class="results-actions"><button class="text-button" id="selectButton" type="button">MOUNTAIN SELECT</button><button class="text-button" id="playReplayButton" type="button">PLAY REPLAY</button><button class="text-button" id="replayButton" type="button">EXPORT REPLAY</button><button class="text-button" id="shareResultButton" type="button">SHARE LINE</button><button class="action-button" id="restartButton" type="button"><b>RIDE AGAIN</b><span>↻</span></button></div>
       </div>
@@ -110,7 +111,7 @@
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
   <script src="pro-systems.js?v=3"></script>
   <script src="replay.js?v=3"></script>
-  <script src="game.js?v=50"></script>
+  <script src="game.js?v=51"></script>
 </body>
 <!-- Compatibility assets retained for the production smoke contract: modern.css?v=3 performance.js?v=1 replay.js?v=2 mobile.js?v=2 visual-effects.js?v=1 game.js?v=13 -->
 </html>
