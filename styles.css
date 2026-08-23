@@ -26,6 +26,7 @@
 @media(max-width:900px){.run-preview{grid-template-columns:120px 1fr}.run-preview canvas{width:120px}.medal-case{display:none}.mode-picker{min-width:105px}}@media(max-width:760px){.run-preview{height:82px;margin-bottom:10px}.run-preview strong{font-size:20px}.run-preview p span:last-child{display:none}.settings-dialog label{grid-template-columns:1fr 145px}}
 .route-card:nth-child(6){background:linear-gradient(0deg,rgba(8,24,28,.95),rgba(17,54,61,.04)),url("assets/resorts/hausberg.webp") center/cover}.route-card:nth-child(7){background:linear-gradient(0deg,rgba(6,21,36,.95),rgba(16,49,73,.04)),url("assets/resorts/zugspitze.webp") center/cover}.route-card:nth-child(8){background:linear-gradient(0deg,rgba(7,20,32,.95),rgba(25,58,78,.04)),url("assets/resorts/alpspitze.webp") center/cover}
 .route-card:nth-child(9){background:linear-gradient(0deg,rgba(6,22,29,.95),rgba(20,67,78,.04)),url("assets/resorts/hoedown-hill.webp") center/cover}
+.route-card:nth-child(10){background:linear-gradient(0deg,rgba(4,20,29,.96),rgba(29,76,88,.08)),linear-gradient(145deg,#204b61 0 38%,#d9edf0 39% 55%,#446d63 56% 100%)}
 @media(max-width:760px){.daily-cup{align-items:flex-start;flex-wrap:wrap}.cup-board{order:3;min-width:100%;padding:8px 0 0;border-top:1px solid rgba(255,255,255,.14);border-left:0}}
 /* Modern visual polish */
 :root{--surface-glass:rgba(8,27,39,.68);--line-soft:rgba(224,248,255,.14);--shadow-deep:0 24px 70px rgba(0,0,0,.34)}
