@@ -16,6 +16,7 @@ All notable player-facing changes are documented here.
 - Added mobile rendering optimizations, service-worker cache updates, and continued production smoke coverage.
 - Added in-season live snow reports for every resort, with cached Open-Meteo conditions, snowfall/base-depth metrics, equipment recommendations, and a pre-run weather briefing.
 - Live snowfall, temperature, and wind now influence automatic surface conditions and handling recommendations.
+- Added dynamic in-game lift and trail status for each resort, including open, limited, wind-hold, and off-season states with live open-run counts.
 
 ## 2.0.0 — 2026-08-22
 
