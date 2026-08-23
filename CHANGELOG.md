@@ -2,6 +2,19 @@
 
 All notable player-facing changes are documented here.
 
+## Unreleased — 2026-08-23
+
+- Added persistent career progression with XP, levels, sponsor tiers, and daily sponsor contracts.
+- Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
+- Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
+- Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
+- Added secret mountain stashes, a persistent badge wall, collectible milestones, and replay timeline highlights.
+- Added equipment upgrade paths for edge control, jump pop, and powder float, with setup-specific handling.
+- Added friend ghost import/export and visible replay playback controls.
+- Added randomized snow-sports loss messages and improved character/result readability.
+- Added German mountain routes, Hoedown Hill, route-specific music behavior, and expanded soundtrack selection.
+- Added mobile rendering optimizations, service-worker cache updates, and continued production smoke coverage.
+
 ## 2.0.0 — 2026-08-22
 
 - Added Freeride, Time Trial, Slalom, and Terrain Park disciplines.
