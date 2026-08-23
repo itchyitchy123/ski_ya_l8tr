@@ -78,6 +78,8 @@ The project deliberately stays small and transparent:
 ├── styles.css           # Responsive visual system
 ├── modern.css           # Modern HUD and result-action enhancements
 ├── leaderboard.md       # Server-side leaderboard integration contract
+├── performance.js       # F3 performance diagnostics panel
+├── replay.js             # Local input replay capture and export
 ├── game.js              # Course simulation and Canvas renderer
 ├── pro-systems.js       # Audio, settings, records, gamepad, and PWA systems
 ├── manifest.webmanifest # Install metadata

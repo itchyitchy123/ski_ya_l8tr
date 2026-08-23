@@ -1,10 +1,10 @@
 (function(){
   'use strict';
   const KEY='alpineRushPro';
-  const defaults={mode:'freeride',quality:'high',motion:'full',contrast:'normal',volume:.65,units:'metric',tutorial:true};
+  const defaults={version:2,mode:'freeride',quality:'high',motion:'full',contrast:'normal',volume:.65,units:'metric',tutorial:true};
   let settings={...defaults};
-  try{settings={...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{}
-  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(settings))}catch{}};
+  try{const stored=JSON.parse(localStorage.getItem(KEY)||'{}');if(stored.version===1)stored.contrast='normal';settings={...defaults,...stored,version:2}}catch{}
+  const save=()=>{try{settings.version=2;localStorage.setItem(KEY,JSON.stringify(settings))}catch{}};
   const medals=()=>{try{return JSON.parse(localStorage.getItem('alpineRushMedals')||'{}')}catch{return{}}};
   function awardMedal(id,score,time){const all=medals(),rank=score>=8000?'gold':score>=4500?'silver':'bronze',order={bronze:1,silver:2,gold:3};if(!all[id]||order[rank]>order[all[id].rank])all[id]={rank,score,time,date:new Date().toISOString()};localStorage.setItem('alpineRushMedals',JSON.stringify(all));return rank}
   let audio=null,wind=null,edge=null,master=null;

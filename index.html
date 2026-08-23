@@ -18,7 +18,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="styles.css?v=5">
-  <link rel="stylesheet" href="modern.css?v=1">
+  <link rel="stylesheet" href="modern.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -85,7 +85,7 @@
         <p class="kicker"><span></span> RUN COMPLETE</p><div class="medal" id="medal">A</div><h2 id="resultTitle">SOLID LINE.</h2>
         <div class="final-score"><small>FINAL SCORE</small><strong id="finalScore">0</strong><span id="newBest">NEW PERSONAL BEST</span></div>
         <div class="run-stats"><span><small>DISTANCE</small><b id="finalDistance">0 M</b></span><span><small>BEST COMBO</small><b id="finalCombo">1×</b></span><span><small>CLEARS</small><b id="finalClears">0</b></span><span><small>TRICKS</small><b id="finalTricks">0</b></span><span><small>BEST TRICK</small><b id="finalBestTrick">—</b></span></div>
-        <div class="results-actions"><button class="text-button" id="selectButton" type="button">MOUNTAIN SELECT</button><button class="text-button" id="shareButton" type="button">SHARE RESULT</button><button class="action-button" id="restartButton" type="button"><b>RIDE AGAIN</b><span>↻</span></button></div>
+        <div class="results-actions"><button class="text-button" id="selectButton" type="button">MOUNTAIN SELECT</button><button class="text-button" id="shareButton" type="button">SHARE RESULT</button><button class="text-button" id="replayButton" type="button">EXPORT REPLAY</button><button class="action-button" id="restartButton" type="button"><b>RIDE AGAIN</b><span>↻</span></button></div>
       </div>
     </section>
 
@@ -93,11 +93,14 @@
     <dialog class="settings-dialog" id="settingsDialog"><form method="dialog"><header><div><small>ALPINE RUSH</small><h2>SETTINGS</h2></div><button value="close" aria-label="Close settings">×</button></header><label>Graphics quality<select id="qualitySetting"><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label><label>Motion<select id="motionSetting"><option value="full">Full</option><option value="reduced">Reduced</option></select></label><label>Contrast<select id="contrastSetting"><option value="normal">Normal</option><option value="high">High contrast</option></select></label><label>Audio volume<input id="volumeSetting" type="range" min="0" max="1" step="0.05"></label><label>Units<select id="unitsSetting"><option value="metric">Metric</option><option value="imperial">Imperial</option></select></label><p>Gamepad supported: left stick to carve, A to jump, B to boost, Menu to pause.</p><button class="action-button" value="close"><b>SAVE &amp; CLOSE</b><span>✓</span></button></form></dialog>
 
     <div class="event-toast" id="toast" role="status" aria-live="polite"><small>PERFECT CLEAR</small><strong>+500</strong></div>
+    <aside class="debug-panel" id="debugPanel" aria-live="polite"><b>PERFORMANCE</b><span>FPS <i id="debugFps">—</i></span><span>FRAME <i id="debugFrame">—</i></span><span>CANVAS <i id="debugCanvas">—</i></span><span>NETWORK <i id="debugNetwork">—</i></span><small>F3 to hide</small></aside>
     <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="flipButton" type="button">FLIP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
-  <script src="pro-systems.js?v=1"></script>
+  <script src="pro-systems.js?v=2"></script>
   <script src="game.js?v=13"></script>
+  <script src="performance.js?v=1"></script>
+  <script src="replay.js?v=1"></script>
 </body>
 </html>
