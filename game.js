@@ -27,7 +27,7 @@ const RUNS=[
 const SKINS=[{a:'#ff9343',b:'#dd3e27'},{a:'#69e1f5',b:'#1686aa'},{a:'#ffe071',b:'#d78c1e'}];
 const HELMETS=['#101d2b','#e8f4f7','#db4c38'];
 const GOGGLES=['#70dff1','#ffd260','#ff8d9b'];const SUIT_STYLES=['clean','stripe','split'];
-const SETUPS={racer:{name:'RACE / EDGE GRIP',description:'Fastest on groomers with precise edge control.',speed:.055,grip:1.08,powder:.92,pop:0},powder:{name:'POWDER / FLOAT',description:'Stays composed in soft and tracked snow.',speed:.015,grip:.94,powder:1.12,pop:0},freestyle:{name:'FREESTYLE / POP',description:'Extra lift and control for jumps, spins, and rails.',speed:-.025,grip:1,powder:.96,pop:85}};
+const SETUPS={racer:{name:'RACE / EDGE GRIP',description:'Fastest on groomers · sharpest carving · less float.',speed:.075,grip:1.12,powder:.88,pop:0},powder:{name:'POWDER / FLOAT',description:'Best soft-snow float · stable landings · slower hardpack.',speed:.01,grip:.92,powder:1.18,pop:12},freestyle:{name:'FREESTYLE / POP',description:'Highest jump pop · trick control · softer edge bite.',speed:-.03,grip:.98,powder:.96,pop:105}};
 const resortImages=['echo-mountain','eldora','loveland','arapahoe-basin','steamboat','hausberg','zugspitze','alpspitze','hoedown-hill'].map(name=>{const image=new Image();image.src=`assets/resorts/${name}.webp`;return image});
 let W=0,H=0,dpr=1,last=0,state='title',routeIndex=0,runIndex=0,courseLength=RUNS[0][0].length,skinIndex=+store.get('alpineRushSkin'),helmetIndex=+store.get('alpineRushHelmet'),goggleIndex=+store.get('alpineRushGoggles'),styleIndex=+store.get('alpineRushStyle'),riderType=store.get('alpineRushRider','skier'),best=+store.get('alpineRushBest'),sound=store.get('alpineRushSound','on')!=='off';
 let score=0,lives=3,speed=1,distance=0,spawnTimer=0,sceneryOffset=0,shake=0,slowmo=0,cameraX=0,cameraY=0,cameraRoll=0,combo=1,comboTime=0,bestCombo=1,clears=0,gatesCleared=0,gatesMissed=0,nearMisses=0,jumps=0,trickCount=0,boostPickups=0,riskLines=0,patrolClears=0,stashFinds=0,trickBattleTarget=3,bestTrick='—',bestTrickPoints=0,objectiveDone=false,courseComplete=false,spawnCount=0;
@@ -235,9 +235,39 @@ spawn=function(){
   if(state==='playing'&&spawnCount>2&&spawnCount%5===0&&Math.random()<.72){
     const ahead=Math.min(1,(distance+courseLength*.14)/courseLength),sample=courseSample(ahead);
     const lane=Math.max(.08,sample.width*.56),x=Math.max(.09,Math.min(.91,sample.center+(Math.random()-.5)*lane));
-    obstacles.push({type:'rival',x,y:.03,wobble:Math.random()*6.28,hit:false,cleared:false,color:['#f15b4f','#9b73ff','#f0b84c','#42c9b8'][Math.floor(Math.random()*4)],side:x<sample.center?-1:1,laneV:(Math.random()>.5?1:-1)*(.012+Math.random()*.018),name:rivalNames[Math.floor(Math.random()*rivalNames.length)],pace:.84+Math.random()*.22});
+    const personality=['BLOCKER','SPEED DEMON','TRICK HOUND'][Math.floor(Math.random()*3)];obstacles.push({type:'rival',x,y:.03,wobble:Math.random()*6.28,hit:false,cleared:false,color:['#f15b4f','#9b73ff','#f0b84c','#42c9b8'][Math.floor(Math.random()*4)],side:x<sample.center?-1:1,laneV:(Math.random()>.5?1:-1)*(.012+Math.random()*.018),name:rivalNames[Math.floor(Math.random()*rivalNames.length)],personality,pace:personality==='SPEED DEMON'?1.12:personality==='BLOCKER'?.72:.9});
   }
 };
+
+/* Dynamic resort hazards and changing weather. */
+let weatherState='CLEAR',weatherTimer=7,weatherPulse=0;
+const resortHazardSpawn=spawn;
+spawn=function(){
+  resortHazardSpawn();
+  if(state!=='playing'||spawnCount<6||spawnCount%13!==0)return;
+  const types=['wildlife','snowcat','liftTower','fallenSign','crowd'],type=types[Math.floor(Math.random()*types.length)],s=courseSample(Math.min(1,(distance+courseLength*.13)/courseLength));
+  obstacles.push({type,x:Math.max(.08,Math.min(.92,s.center+(Math.random()-.5)*s.width*.72)),y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='wildlife'?'#9a6b46':type==='snowcat'?'#e7b84d':'#e65d49',side:Math.random()>.5?1:-1,laneV:type==='wildlife'?(Math.random()>.5?1:-1)*.06:type==='crowd'?(Math.random()>.5?1:-1)*.025:0});
+};
+const resortHazardHit=hitObstacle;
+hitObstacle=function(o,dx){if(['wildlife','snowcat','liftTower','fallenSign','crowd'].includes(o.type)){if(o.hit)return;o.hit=true;crashPlayer(o.type==='wildlife'?'WILDLIFE CROSSING':o.type==='snowcat'?'SNOWCAT BLOCK':'PISTE OBSTACLE');return}resortHazardHit(o,dx)};
+const resortHazardUpdate=update;
+update=function(dt){
+  resortHazardUpdate(dt);if(state!=='playing')return;
+  obstacles.forEach(o=>{if(!['wildlife','crowd'].includes(o.type)||o.hit)return;o.x+=o.laneV*dt*speed;if(o.x<.08||o.x>.92){o.x=Math.max(.08,Math.min(.92,o.x));o.laneV*=-1}});
+  weatherTimer-=dt;if(weatherTimer<=0){const events=['WIND GUST','FLAT LIGHT','ICE PATCH','POWDER BURST'];weatherState=events[Math.floor(Math.random()*events.length)];weatherPulse=5.2;weatherTimer=10+Math.random()*9;toast(weatherState,weatherState==='WIND GUST'?'HOLD YOUR EDGE':weatherState==='FLAT LIGHT'?'FIND THE FALL LINE':weatherState==='ICE PATCH'?'EASY ON THE CARVE':'FLOAT THE LANDING')}
+  if(weatherPulse>0){weatherPulse-=dt;if(weatherState==='WIND GUST'){player.vx+=(Math.sin(performance.now()*.004)*.34)*dt;cameraRoll+=(Math.sin(performance.now()*.004)*.006-cameraRoll)*dt*3}if(weatherState==='ICE PATCH'&&player.jump===0){speed=Math.min(3.65,speed+dt*.12);player.vx*=Math.pow(.32,dt)}if(weatherState==='POWDER BURST'&&player.jump===0){speed=Math.max(.72,speed-dt*.05)}}else weatherState='CLEAR';
+};
+const resortHazardDraw=drawObstacle;
+drawObstacle=function(o){
+  if(!['wildlife','snowcat','liftTower','fallenSign','crowd'].includes(o.type)){resortHazardDraw(o);return}if(o.y<.4||o.hit)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);
+  if(o.type==='wildlife'){ctx.fillStyle='#855b3e';ctx.beginPath();ctx.ellipse(0,4,19,10,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#6f4933';ctx.beginPath();ctx.arc(-16,-5,8,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6f4933';ctx.lineWidth=3;for(const leg of [-10,5]){ctx.beginPath();ctx.moveTo(leg,9);ctx.lineTo(leg-3,22);ctx.stroke()}ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('WILDLIFE',0,-18)}
+  else if(o.type==='snowcat'){ctx.fillStyle='#e1ad3e';ctx.fillRect(-29,-13,58,26);ctx.fillStyle='#375361';ctx.fillRect(-10,-25,22,13);ctx.strokeStyle='#263f4c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-31,15);ctx.lineTo(31,15);ctx.stroke();ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('SNOWCAT',0,-31)}
+  else if(o.type==='liftTower'){ctx.strokeStyle='#394f5a';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,-42);ctx.lineTo(0,23);ctx.moveTo(-18,-32);ctx.lineTo(18,-32);ctx.stroke();ctx.fillStyle='#d95345';ctx.beginPath();ctx.arc(-20,-20,6,0,Math.PI*2);ctx.arc(20,-20,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('LIFT TOWER',0,35)}
+  else if(o.type==='fallenSign'){ctx.rotate(o.side*.28);ctx.fillStyle='#e85e43';ctx.fillRect(-31,-7,62,14);ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('SLOW',0,3);ctx.strokeStyle='#394f5a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,7);ctx.lineTo(12,25);ctx.stroke()}
+  else{for(let i=-2;i<=2;i++){ctx.fillStyle=i%2?'#e85e43':'#45b6c6';ctx.beginPath();ctx.arc(i*10,Math.sin(o.wobble+i)*4,7,0,Math.PI*2);ctx.fill()}ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('CROWD',0,-17)}ctx.restore();
+};
+const weatherReset=reset;reset=function(){weatherReset();weatherState='CLEAR';weatherTimer=7;weatherPulse=0};
+const weatherDraw=draw;draw=function(){weatherDraw();if(state!=='playing'||weatherPulse<=0)return;ctx.save();if(weatherState==='FLAT LIGHT'){ctx.fillStyle='rgba(238,248,252,.28)';ctx.fillRect(0,0,W,H)}if(weatherState==='WIND GUST'){ctx.strokeStyle='rgba(255,255,255,.34)';ctx.lineWidth=2;for(let i=0;i<7;i++){const y=H*(.28+i*.09),x=((performance.now()*.12+i*97)%W);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-45,y+5);ctx.stroke()}}if(weatherState==='POWDER BURST'){ctx.fillStyle='rgba(255,255,255,.22)';ctx.fillRect(0,H*.4,W,H*.5)}ctx.restore()};
 
 const contractClear=clearObstacle;
 clearObstacle=function(o,dx){if(['speedPatrol','skiPatrol'].includes(o.type))patrolClears++;contractClear(o,dx)};
@@ -310,7 +340,7 @@ drawObstacle=function(o){
   ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);
   ctx.fillStyle='rgba(8,31,41,.25)';ctx.beginPath();ctx.ellipse(0,31,24,5,0,0,Math.PI*2);ctx.fill();
   drawSkier(0,0,Math.sin(o.wobble+o.y*9)*.18,o.color,false);
-  ctx.fillStyle='rgba(7,27,39,.88)';ctx.fillRect(-24,-51,48,13);ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText(o.name,-0,-42);
+  ctx.fillStyle='rgba(7,27,39,.88)';ctx.fillRect(-34,-53,68,17);ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText(`${o.name} · ${o.personality||'RIVAL'}`,0,-42);
   ctx.restore();
 };
 
