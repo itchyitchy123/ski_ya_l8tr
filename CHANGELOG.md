@@ -48,6 +48,7 @@ All notable player-facing changes are documented here.
 - Added a no-penalty Training Run and post-run coaching recap with actionable feedback based on flow, tricks, clears, and difficulty.
 - Added guided Training Run milestones for carving, jumping, and boosting, plus compact shareable “beat my line” challenge codes.
 - Added a beginner-friendly Learn the Basics page covering skiing, snowboarding, lifts, etiquette, falling safely, and first-run advice.
+- Renamed the beginner entry point and page to clearly identify it as the “Ski & Snowboard Tutorial.”
 
 ## 2.0.0 — 2026-08-22
 
