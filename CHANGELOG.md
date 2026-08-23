@@ -14,6 +14,8 @@ All notable player-facing changes are documented here.
 - Added randomized snow-sports loss messages and improved character/result readability.
 - Added German mountain routes, Hoedown Hill, route-specific music behavior, and expanded soundtrack selection.
 - Added mobile rendering optimizations, service-worker cache updates, and continued production smoke coverage.
+- Added in-season live snow reports for every resort, with cached Open-Meteo conditions, snowfall/base-depth metrics, equipment recommendations, and a pre-run weather briefing.
+- Live snowfall, temperature, and wind now influence automatic surface conditions and handling recommendations.
 
 ## 2.0.0 — 2026-08-22
 
