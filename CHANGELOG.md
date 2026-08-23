@@ -31,6 +31,7 @@ All notable player-facing changes are documented here.
 - Added rival-specific showdown events with unique conditions, disciplines, routes, objectives, and results.
 - Added best-of-three rival campaigns with persistent round scores, campaign wins/losses, and final showdown outcomes.
 - Added signature rival showdown courses: Maya gate rhythms, Kai park features, Luca ice patches, and Nova patrol gauntlets.
+- Added a championship campaign finale that combines signature hazards from every rival in the deciding round.
 
 ## 2.0.0 — 2026-08-22
 
