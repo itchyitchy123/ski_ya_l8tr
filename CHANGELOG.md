@@ -38,6 +38,7 @@ All notable player-facing changes are documented here.
 - Added seasonal mountain events that change the briefing flavor and reward economy throughout the year.
 - Added Purgatory Resort in Durango, Colorado, with powder bowls, steep glades, a dedicated snow report location, and three new runs.
 - Added sponsor-ready resort partner spotlights with official resort links, signature-run promotion, safety messaging, and branded challenge hooks.
+- Added a dedicated Purgatory mountain renderer with San Juan ridgelines, powder fall line, chairlift towers, aspens, and base-area signage.
 
 ## 2.0.0 — 2026-08-22
 
