@@ -75,7 +75,10 @@
         <div class="apres-card"><div><small>APRÈS LODGE</small><strong>THE LAST CHAIR</strong><p id="apresCredits">0 LODGE CREDITS</p><p class="lift-line-status" id="liftLineStatus">The lift line is suspiciously calm.</p></div><div class="apres-actions"><button class="text-button" id="lodgeLiftButton" type="button">LIFT LINE GAME</button><button class="text-button" id="lodgeGossipButton" type="button">RIVAL GOSSIP</button><button class="text-button" id="lodgeJukeboxButton" type="button">JUKEBOX</button><button class="text-button" id="lodgeRepairButton" type="button">REPAIR GEAR</button></div></div>
         <div class="badge-card"><div><small>BADGE WALL</small><strong id="badgeCount">0 / 7 EARNED</strong></div><span id="badgeNames">FIRST LINE AWAITS</span></div>
         <div class="mastery-card"><div><small>RESORT MASTERY</small><strong id="masteryName">LOADING RESORT</strong><p id="masteryStats">0 / 3 RUNS MEDALED</p></div><div class="mastery-progress"><i id="masteryFill"></i></div><span id="masteryReward">MASTER EVERY LINE TO UNLOCK A TITLE</span></div>
+        <div class="reputation-card"><div><small>RESORT REPUTATION</small><strong id="reputationName">LOCAL ROOKIE</strong><p id="reputationDetails">Earn respect on this mountain to unlock local perks.</p></div><span id="reputationPoints">0 REP</span></div>
         <div class="rival-card"><div><small>RIVAL BOARD</small><strong id="rivalName">LOADING RIVAL</strong><p id="rivalStory">Your next rivalry is taking shape.</p></div><span id="rivalRecord">0 OVERTAKES</span><button class="text-button" id="rivalRematchButton" type="button">CALL REMATCH</button></div>
+        <div class="legendary-card"><div><small>LEGENDARY CHALLENGE · <span id="legendaryDate">TODAY</span></small><strong id="legendaryName">LOADING CHALLENGE</strong><p id="legendaryDetails">Complete the objective for a bonus medal.</p></div><span id="legendaryReward">+2,000 PTS</span></div>
+        <div class="season-card"><small>SEASONAL MOUNTAIN EVENT</small><strong id="seasonName">LOADING EVENT</strong><p id="seasonDetails">The mountain is preparing your next surprise.</p></div>
         <div class="modifier-card"><div><small>WEEKLY MODIFIER</small><strong id="modifierName">LOADING</strong><p id="modifierDescription"></p></div></div>
         <div class="weekly-board"><div><small>WEEKLY GHOST BOARD</small><strong id="weeklyBoardTitle">LOADING LINE</strong><p id="weeklyBoardStatus">Comparing riders on this mountain.</p></div><ol id="weeklyLeaderboard"><li>Loading online scores…</li></ol><button class="text-button" id="refreshWeeklyButton" type="button">REFRESH</button></div>
         <div class="run-preview"><canvas id="trailPreview" aria-label="Selected trail preview"></canvas><div><small id="previewResort">ECHO MOUNTAIN</small><strong id="previewRun">HOLLYWOOD</strong><p><span id="previewDifficulty">BLUE</span><span id="previewLength">980 M</span><span id="previewTerrain">PARK</span></p><em id="previewForecast">FORECAST · RESORT CONDITIONS</em></div><div class="medal-case" id="medalCase"><small>COURSE RECORD</small><b>NO MEDAL YET</b></div></div>
@@ -111,6 +114,15 @@
     <dialog class="photo-dialog" id="photoDialog"><form method="dialog"><header><div><small>RUN HIGHLIGHT</small><h2>PHOTO MODE</h2></div><button value="close" aria-label="Close photo mode">×</button></header><canvas id="photoCanvas" width="960" height="540"></canvas><div><button class="text-button" id="downloadPhotoButton" type="button">DOWNLOAD FRAME</button><button class="action-button" value="close"><b>BACK TO RESULTS</b><span>✓</span></button></div></form></dialog>
 
     <div class="event-toast" id="toast" role="status" aria-live="polite"><small>PERFECT CLEAR</small><strong>+500</strong></div>
+    <div class="rival-cutscene hidden" id="rivalCutscene" role="dialog" aria-modal="true" aria-labelledby="rivalCutsceneTitle">
+      <div class="rival-cutscene-card">
+        <small id="rivalCutsceneKicker">RIVAL CAMPAIGN</small>
+        <h2 id="rivalCutsceneTitle">THE NEXT RUN</h2>
+        <p id="rivalCutsceneLine">The mountain is waiting.</p>
+        <span id="rivalCutsceneRecord">ROUND 1 OF 3</span>
+        <button class="action-button" id="rivalCutsceneButton" type="button"><b>CONTINUE</b><span>↘</span></button>
+      </div>
+    </div>
     <audio id="gameMusic" preload="auto" loop aria-label="The Copperhead Stomp by Rebel Road Music"><source src="assets/audio/copperhead-stomp.mp3" type="audio/mpeg"></audio>
     <audio id="introMusic" preload="auto" loop aria-label="The Ecstasy of Gold by Ennio Morricone"><source src="assets/audio/ecstasy-of-gold-intro.mp3" type="audio/mpeg"></audio>
     <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="frontFlipButton" type="button">FRONT</button><button id="flipButton" type="button">BACK</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
@@ -122,7 +134,7 @@
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
   <script src="pro-systems.js?v=3"></script>
   <script src="replay.js?v=5"></script>
-  <script src="game.js?v=75"></script>
+  <script src="game.js?v=77"></script>
 </body>
 <!-- Compatibility assets retained for the production smoke contract: modern.css?v=3 performance.js?v=1 replay.js?v=2 mobile.js?v=2 visual-effects.js?v=1 game.js?v=13 -->
 </html>

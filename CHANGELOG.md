@@ -32,6 +32,10 @@ All notable player-facing changes are documented here.
 - Added best-of-three rival campaigns with persistent round scores, campaign wins/losses, and final showdown outcomes.
 - Added signature rival showdown courses: Maya gate rhythms, Kai park features, Luca ice patches, and Nova patrol gauntlets.
 - Added a championship campaign finale that combines signature hazards from every rival in the deciding round.
+- Added rival campaign cutscenes between rounds, with personality-driven dialogue, score context, and a dedicated championship finish.
+- Added persistent resort reputation ranks with local milestones and run-based reputation rewards.
+- Added rotating legendary challenges with bonus points, seasonal reward boosts, and clear daily objectives.
+- Added seasonal mountain events that change the briefing flavor and reward economy throughout the year.
 
 ## 2.0.0 — 2026-08-22
 
