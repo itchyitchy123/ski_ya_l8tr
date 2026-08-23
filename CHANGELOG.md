@@ -23,6 +23,7 @@ All notable player-facing changes are documented here.
 - Added sparse snow-sports humor from lift announcements, patrol radio, weather events, near-run commentary, and replay timeline markers.
 - Added the Après Lodge hub with earned lodge credits, rival gossip, jukebox access, and gear-repair interactions between runs.
 - Added live mountain events that close technical runs during limited conditions and label alternate powder, slush, and patrol lines in the run picker.
+- Added a lift-line balance mini-game in the Après Lodge that awards lodge credits and humorous liftie reactions.
 
 ## 2.0.0 — 2026-08-22
 
