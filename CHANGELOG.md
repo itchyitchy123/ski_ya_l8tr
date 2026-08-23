@@ -26,6 +26,7 @@ All notable player-facing changes are documented here.
 - Added a lift-line balance mini-game in the Après Lodge that awards lodge credits and humorous liftie reactions.
 - Added persistent gear wear from crashes, handling penalties for worn equipment, and lodge repair support.
 - Added current snow-condition labels to the weekly board so records are easier to compare fairly.
+- Added persistent rival story arcs with remembered overtakes, rivalry commentary, rival records, and rematch challenges.
 
 ## 2.0.0 — 2026-08-22
 

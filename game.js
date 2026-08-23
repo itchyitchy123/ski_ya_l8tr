@@ -344,7 +344,7 @@ hitObstacle=function(o,dx){
 const rivalClear=clearObstacle;
 clearObstacle=function(o,dx){
   if(o.type==='rival'){
-    if(o.cleared)return;o.cleared=true;rivalPasses++;recordChallenge('rival');const points=300*combo;scorePop(points,o.x*W,o.y*H,'OVERTAKE');combo=Math.min(8,combo+1);comboTime=3.4;bestCombo=Math.max(bestCombo,combo);toast('CLEAN OVERTAKE',`${o.name} · +${points}`);burst(o.x*W,o.y*H,'#ffd260',16);beep(860,.12);return;
+    if(o.cleared)return;o.cleared=true;rivalPasses++;recordChallenge('rival');recordRival(o.name);const points=300*combo;scorePop(points,o.x*W,o.y*H,'OVERTAKE');combo=Math.min(8,combo+1);comboTime=3.4;bestCombo=Math.max(bestCombo,combo);toast('CLEAN OVERTAKE',`${o.name} · +${points}`);burst(o.x*W,o.y*H,'#ffd260',16);beep(860,.12);return;
   }
   rivalClear(o,dx);
 };
@@ -426,6 +426,7 @@ spawn=function(){
 };
 paintChallenge();
 function paintGear(){const label=$('gearWearText');if(!label)return;const condition=gearWear>=70?'NEEDS REPAIR':gearWear>=35?'SCUFFED':'PRISTINE';label.textContent=`GEAR CONDITION · ${condition} · ${gearWear}% WEAR`;label.style.color=gearWear>=70?'#ff8066':gearWear>=35?'#ffd260':''}paintGear();$('lodgeRepairButton')?.addEventListener('click',()=>{gearWear=0;store.set('alpineRushGearWear','0');paintGear()});
+function rivalryProfile(){let profile={};try{profile=JSON.parse(localStorage.getItem('alpineRushRivals')||'{}')}catch{}return profile}function paintRival(){const name=$('rivalName'),story=$('rivalStory'),record=$('rivalRecord');if(!name)return;const profile=rivalryProfile(),rival=rivalNames[(routeIndex+runIndex)%rivalNames.length],wins=Number(profile[rival]||0);name.textContent=rival;record.textContent=`${wins} OVERTAKE${wins===1?'':'S'}`;story.textContent=wins?`${rival} still talks about the line you stole. Rematch?`:`${rival} is watching your line. Make the first pass count.`}function recordRival(name){const profile=rivalryProfile();profile[name]=(Number(profile[name])||0)+1;try{localStorage.setItem('alpineRushRivals',JSON.stringify(profile))}catch{}paintRival();const result=$('battleResult');if(result)result.textContent=`RIVALRY UPDATE · ${name} REMEMBERED THAT OVERTAKE`}paintRival();$('rivalRematchButton')?.addEventListener('click',()=>{const rival=rivalNames[(routeIndex+runIndex)%rivalNames.length];toast('RIVAL REMATCH',`${rival} says: SAME LINE, FASTER THIS TIME`);$('modeSelect').value='downhill';AlpinePro.setSetting('mode','downhill');updatePreview()});
 setInterval(()=>{updateTrailStatus(routeIndex);syncTrailAccess();updateMountainEvent();const weeklyStatus=$('weeklyBoardStatus');if(weeklyStatus&&state==='select')weeklyStatus.textContent=`${AlpinePro.weeklyModifier().name} · ${(snowSurface()||'GROOMED').toUpperCase()} · ${AlpinePro.settings.mode.toUpperCase()}`},2000);
 const challengeUpdate=update;
 update=function(dt){challengeUpdate(dt);if(state==='playing'){paintChallenge();paintGear();if(gearWear>0)speed=Math.max(.72,speed-dt*gearWear*.0007)}};
