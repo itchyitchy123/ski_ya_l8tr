@@ -82,6 +82,8 @@ The project deliberately stays small and transparent:
 ├── performance.js       # F3 performance diagnostics panel
 ├── replay.js             # Local input replay capture and export
 ├── mobile.js             # Touch controls, orientation, and mobile quality behavior
+├── leaderboard/          # Optional HMAC-validated leaderboard starter service
+├── docs/MOBILE.md        # Mobile QA and compatibility guidance
 ├── game.js              # Course simulation and Canvas renderer
 ├── pro-systems.js       # Audio, settings, records, gamepad, and PWA systems
 ├── manifest.webmanifest # Install metadata

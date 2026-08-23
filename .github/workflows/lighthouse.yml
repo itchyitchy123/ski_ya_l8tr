@@ -1,0 +1,20 @@
+name: Web performance
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Start local game
+        run: python3 -m http.server 8080 >/tmp/alpine-rush-http.log 2>&1 &
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.14.x autorun --collect.url=http://localhost:8080 --collect.numberOfRuns=1 --assert.preset=lighthouse:recommended
