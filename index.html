@@ -11,6 +11,8 @@
   <meta property="og:type" content="website">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>Alpine Rush — Master the Mountain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +20,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="styles.css?v=5">
-  <link rel="stylesheet" href="modern.css?v=2">
+  <link rel="stylesheet" href="modern.css?v=3">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -94,7 +96,8 @@
 
     <div class="event-toast" id="toast" role="status" aria-live="polite"><small>PERFECT CLEAR</small><strong>+500</strong></div>
     <aside class="debug-panel" id="debugPanel" aria-live="polite"><b>PERFORMANCE</b><span>FPS <i id="debugFps">—</i></span><span>FRAME <i id="debugFrame">—</i></span><span>CANVAS <i id="debugCanvas">—</i></span><span>NETWORK <i id="debugNetwork">—</i></span><small>F3 to hide</small></aside>
-    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="flipButton" type="button">FLIP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
+    <div class="orientation-prompt" id="orientationPrompt" role="dialog" aria-labelledby="orientationTitle"><div><span class="orientation-icon">↻</span><h2 id="orientationTitle">TURN FOR THE MOUNTAIN</h2><p>Alpine Rush plays best in landscape. Rotate your device for a wider line.</p><button id="orientationContinue" type="button">CONTINUE ANYWAY</button></div></div>
+    <div class="mobile-controls" aria-label="Touch controls"><div class="joystick" id="joystick" aria-label="Virtual steering joystick"><i id="joystickKnob"></i></div><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="flipButton" type="button">FLIP</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
@@ -102,5 +105,6 @@
   <script src="game.js?v=13"></script>
   <script src="performance.js?v=1"></script>
   <script src="replay.js?v=1"></script>
+  <script src="mobile.js?v=1"></script>
 </body>
 </html>

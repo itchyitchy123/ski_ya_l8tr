@@ -27,6 +27,7 @@ Alpine Rush is a compact score-chasing ski game with an intentionally simple goa
 - Responsive full-screen desktop and mobile presentation
 - Live run-progress HUD and one-tap result sharing through the Web Share API
 - First-run interactive tutorial and high-contrast accessibility mode
+- Mobile landscape mode with virtual steering, swipe gestures, and constrained-device quality tuning
 - Pause, sound, reduced-motion, and automatic tab-blur handling
 - Animated Canvas skiers, powder particles, ski trails, parallax scenery, and course objects
 
@@ -80,6 +81,7 @@ The project deliberately stays small and transparent:
 ├── leaderboard.md       # Server-side leaderboard integration contract
 ├── performance.js       # F3 performance diagnostics panel
 ├── replay.js             # Local input replay capture and export
+├── mobile.js             # Touch controls, orientation, and mobile quality behavior
 ├── game.js              # Course simulation and Canvas renderer
 ├── pro-systems.js       # Audio, settings, records, gamepad, and PWA systems
 ├── manifest.webmanifest # Install metadata
