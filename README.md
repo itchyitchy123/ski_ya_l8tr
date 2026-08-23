@@ -25,6 +25,7 @@ The game soundtrack includes “The Copperhead Stomp (Official Release),” “H
 - Risk/reward jumps, near misses, flow combos, and daily objectives
 - Dynamic difficulty, speed effects, camera banking, and brief impact slow-motion
 - Persistent local high scores
+- Shareable run highlights with route, setup, score, and flow summary
 - Four disciplines, persistent course medals, and personal-best ghost racing
 - Gamepad, fullscreen, offline installation, graphics, motion, audio, and unit settings
 - Unlockable jacket colors and score-based progression
