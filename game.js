@@ -152,7 +152,7 @@ const populateProfessional=populateRuns;populateRuns=function(){populateProfessi
 $('modeSelect').value=AlpinePro.settings.mode;$('modeSelect').addEventListener('change',e=>{AlpinePro.setSetting('mode',e.target.value);updatePreview()});
 const spawnModes=spawn;spawn=function(){spawnModes()};
 const resetProfessional=reset;reset=function(){resetProfessional();runStartedAt=performance.now();ghostTrace=[];ghostSampleAt=0;try{ghostBest=JSON.parse(localStorage.getItem(`alpineGhost:${runId()}`)||'null')}catch{ghostBest=null}if(AlpinePro.settings.tutorial){const tips=AlpinePro.settings.mode==='park'?['RAMPS AND RAILS CHARGE TRICKS','HOLD Q OR E IN THE AIR','RELEASE TO LAND CLEAN']:AlpinePro.settings.mode==='slalom'?['THREAD THE GATES','CARVE EARLY FOR THE NEXT GATE','MISSED GATES COST SPEED']:['HOLD ← OR → TO CARVE','JUMP OBSTACLES FOR FLOW','X USES BOOST AT 35%'];tips.forEach((tip,i)=>setTimeout(()=>state==='playing'&&toast('PRO TIP',tip),1200+i*1900));AlpinePro.setSetting('tutorial',false)}};
-const finishProfessional=finish;finish=function(){if(state==='over')return;const elapsed=Math.max(1,(performance.now()-runStartedAt)/1000),mode=AlpinePro.settings.mode;if(mode==='timetrial'){score+=Math.max(0,Math.round((courseLength/38-elapsed)*110));if(!ghostBest||elapsed<ghostBest.time){try{localStorage.setItem(`alpineGhost:${runId()}`,JSON.stringify({time:elapsed,trace:ghostTrace}))}catch{}}}finishProfessional();const rank=AlpinePro.awardMedal(runId(),Math.floor(score),elapsed),setup=SETUPS[AlpinePro.settings.setup]||SETUPS.racer;const highlight=`${rank.toUpperCase()} LINE · ${ROUTES[routeIndex].name} / ${RUNS[routeIndex][runIndex].name} · ${Math.floor(score).toLocaleString()} PTS · ${bestCombo}× FLOW · ${setup.name}`;try{localStorage.setItem('alpineRushLastHighlight',highlight)}catch{}$('highlightText').textContent=highlight;$('resultTitle').textContent=`${rank.toUpperCase()} · ${RUNS[routeIndex][runIndex].name.toUpperCase()}`;updatePreview()};
+const finishProfessional=finish;finish=function(){if(state==='over')return;const elapsed=Math.max(1,(performance.now()-runStartedAt)/1000),mode=AlpinePro.settings.mode;if(mode==='timetrial'){score+=Math.max(0,Math.round((courseLength/38-elapsed)*110));if(!ghostBest||elapsed<ghostBest.time){try{localStorage.setItem(`alpineGhost:${runId()}`,JSON.stringify({time:elapsed,trace:ghostTrace}))}catch{}}}else if(mode==='downhill'){score+=Math.round(speed*420);toast('DOWNHILL RESULT',`${Math.round(34+speed*19)} KM/H PEAK`)}else if(mode==='bigair'){score+=trickCount*650;toast('BIG AIR RESULT',`${trickCount} TRICKS LOGGED`)}else if(mode==='patrol'){score+=clears*120;toast('PATROL RESULT',`${clears} HAZARDS CLEARED`)}finishProfessional();const rank=AlpinePro.awardMedal(runId(),Math.floor(score),elapsed),setup=SETUPS[AlpinePro.settings.setup]||SETUPS.racer;const highlight=`${rank.toUpperCase()} LINE · ${ROUTES[routeIndex].name} / ${RUNS[routeIndex][runIndex].name} · ${Math.floor(score).toLocaleString()} PTS · ${bestCombo}× FLOW · ${setup.name}`;try{localStorage.setItem('alpineRushLastHighlight',highlight)}catch{}$('highlightText').textContent=highlight;$('resultTitle').textContent=`${rank.toUpperCase()} · ${RUNS[routeIndex][runIndex].name.toUpperCase()}`;updatePreview()};
 const finishCup=finish;finish=function(){finishCup();if(routeIndex!==cupRouteIndex||runIndex!==cupRunIndex){$('cupResult').textContent='';return}const cupScore=Math.floor(score);let previous=0;try{previous=Number(localStorage.getItem(`alpineCup:${cupKey}`)||0);if(cupScore>previous)localStorage.setItem(`alpineCup:${cupKey}`,String(cupScore))}catch{}const bestCup=Math.max(previous,cupScore);$('cupResult').textContent=`DAILY CUP BEST · ${bestCup.toLocaleString()} PTS · ${cupScore>=bestCup?'NEW EVENT BEST':'KEEP PUSHING'}`};
 const updateProfessional=update;
 update=function(dt){
@@ -179,8 +179,8 @@ update=function(dt){
   const elapsed=(performance.now()-runStartedAt)/1000;
   if(elapsed>=ghostSampleAt){ghostTrace.push([+elapsed.toFixed(2),+player.x.toFixed(3),Math.round(distance)]);ghostSampleAt=elapsed+.14}
   const mode=AlpinePro.settings.mode;
-  ui.objectiveText.textContent=mode==='timetrial'?'BEAT YOUR GHOST':mode==='slalom'?'CLEAR EVERY GATE':mode==='park'?'LAND TRICK COMBOS':dailyLabel;
-  ui.objectiveProgress.textContent=mode==='timetrial'?`${elapsed.toFixed(1)} S`:mode==='slalom'?`${gatesCleared} GATES`:mode==='park'?`${trickCount} TRICKS`:`${Math.min(challengeProgress(),dailyTarget)} / ${dailyTarget}`;
+  ui.objectiveText.textContent=mode==='timetrial'?'BEAT YOUR GHOST':mode==='downhill'?'MAX SPEED TO THE BOTTOM':mode==='slalom'?'CLEAR EVERY GATE':mode==='park'?'LAND TRICK COMBOS':mode==='bigair'?'STACK AIR TRICKS':mode==='patrol'?'OUTRUN THE PATROL':dailyLabel;
+  ui.objectiveProgress.textContent=mode==='timetrial'?`${elapsed.toFixed(1)} S`:mode==='downhill'?`${Math.round(34+speed*19)} KM/H`:mode==='slalom'?`${gatesCleared} GATES`:mode==='park'||mode==='bigair'?`${trickCount} TRICKS`:mode==='patrol'?`${clears} CLEARS`:`${Math.min(challengeProgress(),dailyTarget)} / ${dailyTarget}`;
   if(AlpinePro.settings.units==='imperial')ui.distance.textContent=`${Math.ceil(Math.max(0,courseLength-distance)*3.28084).toLocaleString()} FT`;
  }
  AlpinePro.setRideAudio(state==='playing',speed,player.edge)
@@ -318,3 +318,13 @@ const careerFinish=finish;finish=function(){
   careerFinish();
 };
 paintCareer();
+
+/* Event-specific course dressing. */
+const eventSpawn=spawn;
+spawn=function(){
+  const before=obstacles.length;eventSpawn();
+  if(state!=='playing')return;
+  const mode=AlpinePro.settings.mode;
+  if(mode==='bigair'&&spawnCount%3===0)obstacles.push({type:'ramp',x:.22+Math.random()*.56,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:'#ff9d52',side:1,laneV:0});
+  if(mode==='patrol'&&spawnCount%3===0){const type=Math.random()>.5?'speedPatrol':'skiPatrol';obstacles.push({type,x:.2+Math.random()*.6,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='speedPatrol'?'#e84d3d':'#2e8f9f',side:1,laneV:(Math.random()>.5?1:-1)*(type==='speedPatrol'?.08:.025)});}
+};
