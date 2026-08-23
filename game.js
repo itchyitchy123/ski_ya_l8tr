@@ -305,3 +305,16 @@ drawObstacle=function(o){
   const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.22+t*.92;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);
   ctx.strokeStyle=o.color;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,24);ctx.lineTo(0,-27);ctx.stroke();ctx.fillStyle=o.color;ctx.beginPath();ctx.moveTo(0,-31);ctx.lineTo(o.side*10,-18);ctx.lineTo(o.side*3,-18);ctx.lineTo(o.side*3,-7);ctx.lineTo(o.side*14,-7);ctx.lineTo(0,7);ctx.lineTo(-o.side*14,-7);ctx.lineTo(-o.side*3,-7);ctx.lineTo(-o.side*3,-18);ctx.lineTo(-o.side*10,-18);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(7,27,39,.9)';ctx.fillRect(-34,-47,68,12);ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText(o.risk?'RISK LINE':'GROOMER',0,-38);ctx.restore();
 };
+
+/* Career progression: every completed run contributes to a persistent season. */
+let careerAwarded=false;
+function paintCareer(c=AlpinePro.career()){
+  const rank=$('careerRank'),runs=$('careerRuns'),label=$('careerXpLabel'),fill=$('careerXpFill');if(!rank)return;
+  rank.textContent=`LEVEL ${c.level} · ${c.sponsor}`;runs.textContent=`${c.runs} RUN${c.runs===1?'':'S'} LOGGED`;label.textContent=`${c.progress||0} / 1800 XP`;if(fill)fill.style.transform=`scaleX(${Math.min(1,(c.progress||0)/1800)})`;
+}
+const careerReset=reset;reset=function(){careerReset();careerAwarded=false};
+const careerFinish=finish;finish=function(){
+  if(!careerAwarded){careerAwarded=true;const earned=AlpinePro.awardCareer(Math.floor(score),bestCombo);paintCareer(earned);const result=$('careerResult');if(result)result.textContent=earned.leveled?`CAREER LEVEL UP · LEVEL ${earned.level} · ${earned.sponsor}`:`CAREER XP +${Math.max(40,Math.round(score*.12)+Math.round(bestCombo*35))}`;if(earned.leveled)toast('CAREER LEVEL UP',`${earned.sponsor} SPONSOR TIER`)}
+  careerFinish();
+};
+paintCareer();

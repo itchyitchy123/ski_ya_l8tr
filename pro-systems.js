@@ -6,6 +6,8 @@
   try{settings={...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(settings))}catch{}};
   const medals=()=>{try{return JSON.parse(localStorage.getItem('alpineRushMedals')||'{}')}catch{return{}}};
+  const career=()=>{try{return{xp:0,level:1,sponsor:'ROOKIE',runs:0,...JSON.parse(localStorage.getItem('alpineRushCareer')||'{}')}}catch{return{xp:0,level:1,sponsor:'ROOKIE',runs:0}}};
+  function awardCareer(score,combo){const current=career(),before=current.level;current.xp+=Math.max(40,Math.round(score*.12)+Math.round(combo*35));current.runs++;current.level=Math.min(50,1+Math.floor(current.xp/1800));const sponsors=['ROOKIE','RIDGELINE','NORTHSTAR','SUMMIT CO.','ALPINE ELITE'];current.sponsor=sponsors[Math.min(sponsors.length-1,Math.floor((current.level-1)/5))];localStorage.setItem('alpineRushCareer',JSON.stringify(current));return{...current,leveled:current.level>before,next:current.level*1800,progress:current.xp%1800}};
   function awardMedal(id,score,time){const all=medals(),rank=score>=8000?'gold':score>=4500?'silver':'bronze',order={bronze:1,silver:2,gold:3};if(!all[id]||order[rank]>order[all[id].rank])all[id]={rank,score,time,date:new Date().toISOString()};localStorage.setItem('alpineRushMedals',JSON.stringify(all));return rank}
   let audio=null,wind=null,edge=null,master=null;
   function muted(){try{return localStorage.getItem('alpineRushSound')==='off'}catch{return false}}
@@ -16,5 +18,5 @@
   function gamepad(){const pad=navigator.getGamepads?.()[0];if(!pad)return null;return{steer:Math.abs(pad.axes[0]||0)>.14?pad.axes[0]:0,jump:!!pad.buttons[0]?.pressed,boost:!!pad.buttons[1]?.pressed,pause:!!pad.buttons[9]?.pressed}}
   function registerPWA(){if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{})}
   setSetting('quality',settings.quality);setSetting('motion',settings.motion);registerPWA();
-  window.AlpinePro={settings,setSetting,setRideAudio,drawPreview,gamepad,awardMedal,medals,ensureAudio};
+  window.AlpinePro={settings,setSetting,setRideAudio,drawPreview,gamepad,awardMedal,medals,career,awardCareer,ensureAudio};
 })();
