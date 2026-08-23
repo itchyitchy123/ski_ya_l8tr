@@ -30,7 +30,7 @@ const GOGGLES=['#70dff1','#ffd260','#ff8d9b'];const SUIT_STYLES=['clean','stripe
 const SETUPS={racer:{name:'RACE / EDGE GRIP',description:'Fastest on groomers with precise edge control.',speed:.055,grip:1.08,powder:.92,pop:0},powder:{name:'POWDER / FLOAT',description:'Stays composed in soft and tracked snow.',speed:.015,grip:.94,powder:1.12,pop:0},freestyle:{name:'FREESTYLE / POP',description:'Extra lift and control for jumps, spins, and rails.',speed:-.025,grip:1,powder:.96,pop:85}};
 const resortImages=['echo-mountain','eldora','loveland','arapahoe-basin','steamboat','hausberg','zugspitze','alpspitze','hoedown-hill'].map(name=>{const image=new Image();image.src=`assets/resorts/${name}.webp`;return image});
 let W=0,H=0,dpr=1,last=0,state='title',routeIndex=0,runIndex=0,courseLength=RUNS[0][0].length,skinIndex=+store.get('alpineRushSkin'),helmetIndex=+store.get('alpineRushHelmet'),goggleIndex=+store.get('alpineRushGoggles'),styleIndex=+store.get('alpineRushStyle'),riderType=store.get('alpineRushRider','skier'),best=+store.get('alpineRushBest'),sound=store.get('alpineRushSound','on')!=='off';
-let score=0,lives=3,speed=1,distance=0,spawnTimer=0,sceneryOffset=0,shake=0,slowmo=0,cameraX=0,cameraY=0,cameraRoll=0,combo=1,comboTime=0,bestCombo=1,clears=0,gatesCleared=0,gatesMissed=0,nearMisses=0,jumps=0,trickCount=0,boostPickups=0,bestTrick='—',bestTrickPoints=0,objectiveDone=false,courseComplete=false,spawnCount=0;
+let score=0,lives=3,speed=1,distance=0,spawnTimer=0,sceneryOffset=0,shake=0,slowmo=0,cameraX=0,cameraY=0,cameraRoll=0,combo=1,comboTime=0,bestCombo=1,clears=0,gatesCleared=0,gatesMissed=0,nearMisses=0,jumps=0,trickCount=0,boostPickups=0,riskLines=0,patrolClears=0,bestTrick='—',bestTrickPoints=0,objectiveDone=false,courseComplete=false,spawnCount=0;
 const keys={left:false,right:false,spinL:false,spinR:false,frontFlip:false,backFlip:false,grab:false},player={x:.5,y:.78,vx:0,jump:0,jumpV:0,tilt:0,edge:0,compression:0,anim:0,invincible:0,crash:0,spin:0,spinV:0,flip:0,flipV:0,grabTime:0,trickActive:false};
 let obstacles=[],particles=[],flakes=[],trails=[],popups=[];
 const challengeTypes=['clear','trick','near','boost'],challengeType=challengeTypes[new Date().getDate()%challengeTypes.length],dailyTarget=challengeType==='trick'?3:challengeType==='near'?4:challengeType==='boost'?3:5+(new Date().getDate()%3),dailyLabel={clear:`Clear ${dailyTarget} obstacles`,trick:`Land ${dailyTarget} tricks`,near:`Near-miss ${dailyTarget} hazards`,boost:`Collect ${dailyTarget} boost pickups`}[challengeType];
@@ -55,7 +55,7 @@ document.querySelectorAll('.swatches button').forEach((b,i)=>b.onclick=()=>{if(b
 document.querySelectorAll('[data-goggle]').forEach(button=>button.onclick=()=>{goggleIndex=+button.dataset.goggle;store.set('alpineRushGoggles',goggleIndex);document.querySelectorAll('[data-goggle]').forEach(x=>x.classList.toggle('active',x===button));toast('GOGGLE COLOR',['ICE','GOLD','ROSE'][goggleIndex])});document.querySelector(`[data-goggle="${goggleIndex}"]`)?.classList.add('active');document.querySelectorAll('[data-style]').forEach(button=>button.onclick=()=>{styleIndex=+button.dataset.style;store.set('alpineRushStyle',styleIndex);document.querySelectorAll('[data-style]').forEach(x=>x.classList.toggle('active',x===button));toast('SUIT STYLE',['CLEAN','STRIPE','SPLIT'][styleIndex])});document.querySelector(`[data-style="${styleIndex}"]`)?.classList.add('active');
 
 function beginCountdown(){activeMusicId=null;setMusic(true);hide(ui.routes);hide(ui.results);ui.routeName.textContent=`${ROUTES[routeIndex].name} · ${RUNS[routeIndex][runIndex].name}`;show(ui.countdown);state='countdown';let n=3;ui.countdownValue.textContent=n;const tick=setInterval(()=>{n--;ui.countdownValue.style.animation='none';void ui.countdownValue.offsetWidth;ui.countdownValue.style.animation='';if(n>0){ui.countdownValue.textContent=n;beep(260+n*90,.07)}else if(n===0){ui.countdownValue.textContent='GO';beep(640,.15)}else{clearInterval(tick);hide(ui.countdown);startRun()}},700)}
-function reset(){score=0;lives=3;speed=1;distance=0;courseLength=RUNS[routeIndex][runIndex].length;courseComplete=false;spawnTimer=.5;spawnCount=0;sceneryOffset=0;shake=0;slowmo=0;cameraX=0;cameraY=0;cameraRoll=0;combo=1;comboTime=0;bestCombo=1;clears=0;gatesCleared=0;gatesMissed=0;nearMisses=0;jumps=0;trickCount=0;boostPickups=0;bestTrick='—';bestTrickPoints=0;objectiveDone=false;obstacles=[];particles=[];flakes=[];trails=[];popups=[];Object.assign(player,{x:.5,vx:0,jump:0,jumpV:0,tilt:0,edge:0,compression:0,invincible:0,crash:0,spin:0,spinV:0,flip:0,flipV:0,grabTime:0,trickActive:false});updateUI()}
+function reset(){score=0;lives=3;speed=1;distance=0;courseLength=RUNS[routeIndex][runIndex].length;courseComplete=false;spawnTimer=.5;spawnCount=0;sceneryOffset=0;shake=0;slowmo=0;cameraX=0;cameraY=0;cameraRoll=0;combo=1;comboTime=0;bestCombo=1;clears=0;gatesCleared=0;gatesMissed=0;nearMisses=0;jumps=0;trickCount=0;boostPickups=0;riskLines=0;patrolClears=0;bestTrick='—';bestTrickPoints=0;objectiveDone=false;obstacles=[];particles=[];flakes=[];trails=[];popups=[];Object.assign(player,{x:.5,vx:0,jump:0,jumpV:0,tilt:0,edge:0,compression:0,invincible:0,crash:0,spin:0,spinV:0,flip:0,flipV:0,grabTime:0,trickActive:false});updateUI()}
 function startRun(){reset();state='playing';game.classList.add('playing');$('pauseButton').disabled=false;last=performance.now()}
 function finish(){if(state==='over')return;state='over';setMusic(false);game.classList.remove('playing');const final=Math.floor(score),wasBest=final>best;best=Math.max(best,final);store.set('alpineRushBest',best);$('titleBest').textContent=String(best).padStart(6,'0');$('finalScore').textContent=final.toLocaleString();$('finalDistance').textContent=`${Math.floor(distance).toLocaleString()} M`;$('finalCombo').textContent=`${bestCombo}×`;$('finalClears').textContent=clears;$('finalTricks').textContent=trickCount;$('finalBestTrick').textContent=bestTrick;$('newBest').classList.toggle('hidden',!wasBest);const rank=final>8000?'S':final>5000?'A':final>2500?'B':'C';$('medal').textContent=rank;$('resultTitle').textContent={S:'LEGENDARY LINE.',A:'MOUNTAIN MASTERED.',B:'SOLID LINE.',C:'ONE MORE RUN.'}[rank];show(ui.results);renderUnlocks()}
 function togglePause(){if(state==='playing'){state='paused';Object.keys(keys).forEach(key=>keys[key]=false);game.classList.remove('playing');show(ui.pause);$('pauseButton').setAttribute('aria-pressed','true')}else if(state==='paused'){state='playing';last=performance.now();game.classList.add('playing');hide(ui.pause);$('pauseButton').setAttribute('aria-pressed','false')}}
@@ -237,6 +237,17 @@ spawn=function(){
     obstacles.push({type:'rival',x,y:.03,wobble:Math.random()*6.28,hit:false,cleared:false,color:['#f15b4f','#9b73ff','#f0b84c','#42c9b8'][Math.floor(Math.random()*4)],side:x<sample.center?-1:1,laneV:(Math.random()>.5?1:-1)*(.012+Math.random()*.018),name:rivalNames[Math.floor(Math.random()*rivalNames.length)],pace:.84+Math.random()*.22});
   }
 };
+
+const contractClear=clearObstacle;
+clearObstacle=function(o,dx){if(['speedPatrol','skiPatrol'].includes(o.type))patrolClears++;contractClear(o,dx)};
+function paintContract(){const c=AlpinePro.contract(),label=$('contractLabel'),progress=$('contractProgress');if(label)label.textContent=c.label;if(progress)progress.textContent=`${c.done?c.target:Math.min(c.target,0)} / ${c.target}`}
+paintContract();
+let contractAwarded=false;
+const contractReset=reset;reset=function(){contractReset();contractAwarded=false};
+const contractFinish=finish;finish=function(){
+  if(!contractAwarded){contractAwarded=true;const c=AlpinePro.submitContract({trickCount,riskLines,patrolClears,downhill:AlpinePro.settings.mode==='downhill'?1:0});if(c.completed){score+=c.reward;toast('SPONSOR CONTRACT',`+${c.reward} PTS`)}const result=$('contractResult');if(result)result.textContent=c.completed?`CONTRACT COMPLETE · +${c.reward} PTS`:c.done?'CONTRACT COMPLETE · KEEP PUSHING':`CONTRACT: ${c.label}`;}
+  contractFinish();
+};
 const rivalReset=reset;
 reset=function(){rivalReset();rivalPasses=0};
 const rivalHit=hitObstacle;
@@ -284,7 +295,7 @@ spawn=function(){
 };
 function resolveFork(o){
   if(o.cleared)return;
-  o.cleared=true;obstacles.forEach(other=>{if(other.type==='fork'&&other.forkId===o.forkId){other.cleared=true;other.hit=true}});lineChoices++;
+  o.cleared=true;obstacles.forEach(other=>{if(other.type==='fork'&&other.forkId===o.forkId){other.cleared=true;other.hit=true}});lineChoices++;if(o.risk)riskLines++;
   const points=(o.risk?850:260)*combo;scorePop(points,o.x*W,o.y*H-12,o.risk?'RISKY LINE':'CLEAN LINE');combo=Math.min(8,combo+(o.risk?2:1));comboTime=3.8;bestCombo=Math.max(bestCombo,combo);
   if(o.risk){speed=Math.min(3.9,speed+.38);toast('SHORTCUT SEND',`RISK LINE · +${points}`);burst(o.x*W,o.y*H,'#ffd260',25);beep(1040,.18)}else{toast('LINE CHOICE',`GROOMER · +${points}`);burst(o.x*W,o.y*H,'#62d9f5',16);beep(760,.12)}
 }
