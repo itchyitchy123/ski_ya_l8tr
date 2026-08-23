@@ -29,6 +29,9 @@ The game soundtrack includes “The Copperhead Stomp (Official Release)” and �
 - Gamepad, fullscreen, offline installation, graphics, motion, audio, and unit settings
 - Unlockable jacket colors and score-based progression
 - Responsive full-screen desktop and mobile presentation
+- Live run-progress HUD and one-tap result sharing through the Web Share API
+- First-run interactive tutorial and high-contrast accessibility mode
+- Mobile landscape mode with virtual steering, swipe gestures, and constrained-device quality tuning
 - Pause, sound, reduced-motion, and automatic tab-blur handling
 - Animated Canvas skiers, powder particles, ski trails, parallax scenery, and course objects
 
@@ -78,6 +81,14 @@ The project deliberately stays small and transparent:
 ├── tests/               # Dependency-free production smoke checks
 ├── index.html           # Semantic game shell and UI
 ├── styles.css           # Responsive visual system
+├── modern.css           # Modern HUD and result-action enhancements
+├── leaderboard.md       # Server-side leaderboard integration contract
+├── performance.js       # F3 performance diagnostics panel
+├── replay.js             # Local input replay capture and export
+├── mobile.js             # Touch controls, orientation, and mobile quality behavior
+├── visual-effects.js     # Atmospheric lighting, snow, speed, and vignette layer
+├── leaderboard/          # Optional HMAC-validated leaderboard starter service
+├── docs/MOBILE.md        # Mobile QA and compatibility guidance
 ├── game.js              # Course simulation and Canvas renderer
 ├── pro-systems.js       # Audio, settings, records, gamepad, and PWA systems
 ├── manifest.webmanifest # Install metadata

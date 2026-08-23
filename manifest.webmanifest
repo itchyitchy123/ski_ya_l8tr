@@ -4,6 +4,7 @@
   "description": "A cinematic Colorado downhill skiing game.",
   "start_url": "./",
   "display": "fullscreen",
+  "orientation": "landscape",
   "background_color": "#07121c",
   "theme_color": "#07121c",
   "icons": [{"src":"assets/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
