@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   const KEY='alpineRushPro';
-  const defaults={mode:'freeride',quality:'high',motion:'full',volume:.65,units:'metric',music:'random',tutorial:true};
+  const defaults={mode:'freeride',setup:'racer',quality:'high',motion:'full',volume:.65,units:'metric',music:'random',tutorial:true};
   let settings={...defaults};
   try{settings={...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(settings))}catch{}};
