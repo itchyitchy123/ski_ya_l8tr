@@ -46,6 +46,7 @@ All notable player-facing changes are documented here.
 - Added Beginner, Rider, Pro, and Legend difficulty tiers with tuned hazard density, scoring, and a limited beginner assist.
 - Audited resort elevation metadata: corrected Hausberg to 1,338 m and separated Hoedown Hill’s 4,904 ft summit elevation from its 130 ft vertical drop.
 - Added a no-penalty Training Run and post-run coaching recap with actionable feedback based on flow, tricks, clears, and difficulty.
+- Added guided Training Run milestones for carving, jumping, and boosting, plus compact shareable “beat my line” challenge codes.
 
 ## 2.0.0 — 2026-08-22
 
