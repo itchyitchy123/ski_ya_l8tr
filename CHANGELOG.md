@@ -27,6 +27,7 @@ All notable player-facing changes are documented here.
 - Added persistent gear wear from crashes, handling penalties for worn equipment, and lodge repair support.
 - Added current snow-condition labels to the weekly board so records are easier to compare fairly.
 - Added persistent rival story arcs with remembered overtakes, rivalry commentary, rival records, and rematch challenges.
+- Expanded rival arcs into five persistent chapters, including escalating dialogue, milestone unlocks, and summit showdown rematches.
 
 ## 2.0.0 — 2026-08-22
 
