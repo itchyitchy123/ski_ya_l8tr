@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=40">
+  <link rel="stylesheet" href="styles.css?v=41">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -100,6 +100,7 @@
       </div>
     </section>
 
+    <section class="learn-screen screen hidden" id="learnScreen"><div class="learn-card"><p class="kicker"><span></span> NEW TO SNOW SPORTS?</p><h2>LEARN THE<br><em>BASICS.</em></h2><p class="learn-intro">Everything you need for your first day on snow, explained in plain language.</p><div class="learn-grid"><article><small>01 · BEFORE YOU DROP</small><h3>Start on the flat</h3><p>Keep your knees soft, look where you want to go, and make small movements. A lesson and helmet are always worth it.</p></article><article><small>02 · SKIERS</small><h3>Pizza to stop</h3><p>Point ski tips toward each other to slow down. Keep your hands forward and turn both skis together.</p></article><article><small>03 · SNOWBOARDERS</small><h3>Find your edge</h3><p>Use your heel edge to slow down, then gently roll onto your toe edge to turn across the slope. Stay loose.</p></article><article><small>04 · LIFTS & ETIQUETTE</small><h3>Look uphill</h3><p>Merge only when it is clear, stop at the side of the trail, and never sit in a blind landing or beneath a feature.</p></article><article><small>05 · FALLING</small><h3>Fall safely</h3><p>Relax, protect your head, and move to the edge when you can. On a snowboard, keep your board across the hill.</p></article><article><small>06 · YOUR FIRST RUN</small><h3>Green means go</h3><p>Choose an easy groomed run, take breaks, and celebrate control—not speed. Progress comes one turn at a time.</p></article></div><div class="learn-actions"><button class="text-button" id="learnBackButton" type="button">← BACK TO MOUNTAIN SELECT</button><button class="action-button" id="learnTrainingButton" type="button"><b>TRY TRAINING RUN</b><span>↘</span></button></div></div></section>
     <section class="countdown screen hidden" id="countdown"><p id="routeName">SUMMIT RUN</p><strong id="countdownValue">3</strong><span>FIND YOUR LINE</span></section>
     <section class="pause-screen screen hidden" id="pauseScreen"><p class="kicker"><span></span> RUN HELD</p><h2>PAUSED</h2><button class="action-button" id="resumeButton" type="button"><b>RESUME</b><span>▶</span></button><button class="text-button" id="quitButton" type="button">RETURN TO MOUNTAIN SELECT</button></section>
 
@@ -136,7 +137,7 @@
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
   <script src="pro-systems.js?v=3"></script>
   <script src="replay.js?v=5"></script>
-  <script src="game.js?v=86"></script>
+  <script src="game.js?v=87"></script>
 </body>
 <!-- Compatibility assets retained for the production smoke contract: modern.css?v=3 performance.js?v=1 replay.js?v=2 mobile.js?v=2 visual-effects.js?v=1 game.js?v=13 -->
 </html>
