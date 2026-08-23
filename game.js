@@ -32,7 +32,7 @@ let obstacles=[],particles=[],flakes=[],trails=[],popups=[];
 const challengeTypes=['clear','trick','near','boost'],challengeType=challengeTypes[new Date().getDate()%challengeTypes.length],dailyTarget=challengeType==='trick'?3:challengeType==='near'?4:challengeType==='boost'?3:5+(new Date().getDate()%3),dailyLabel={clear:`Clear ${dailyTarget} obstacles`,trick:`Land ${dailyTarget} tricks`,near:`Near-miss ${dailyTarget} hazards`,boost:`Collect ${dailyTarget} boost pickups`}[challengeType];
 function challengeProgress(){return challengeType==='trick'?trickCount:challengeType==='near'?nearMisses:challengeType==='boost'?boostPickups:clears}
 function recordChallenge(type){if(type!==challengeType||objectiveDone)return;if(challengeProgress()>=dailyTarget){objectiveDone=true;scorePop(1000,.5*W,.3*H,'CHALLENGE COMPLETE');toast('CHALLENGE COMPLETE','+1,000');beep(1040,.22)}}
-function snowSurface(){const run=RUNS[routeIndex][runIndex],progress=distance/courseLength;if(run.terrain==='moguls')return'MOGULS';if(run.terrain==='glades'||run.terrain==='aspen')return'POWDER';if(run.terrain==='steep'||run.terrain==='spine'||run.terrain==='alpine')return progress>.62?'PACKED ICE':'HARDPACK';if(run.terrain==='groomer')return progress>.72?'SPRING SLUSH':'GROOMED';return ROUTES[routeIndex].weather==='storm'?'POWDER':'GROOMED'}
+function snowSurface(){const run=RUNS[routeIndex][runIndex],progress=Math.max(0,Math.min(1,distance/courseLength)),weather=ROUTES[routeIndex].weather;if(weather==='storm'){if(progress>.7)return'PACKED ICE';if(progress>.34)return'WHITEOUT';return'POWDER'}if(run.terrain==='moguls')return'MOGULS';if(run.terrain==='glades'||run.terrain==='aspen')return progress>.58?'TRACKED POWDER':'POWDER';if(run.terrain==='steep'||run.terrain==='spine'||run.terrain==='alpine')return progress>.62?'PACKED ICE':'HARDPACK';if(run.terrain==='groomer')return progress>.72?'SPRING SLUSH':'GROOMED';return'GROOMED'}
 
 function resize(){const r=canvas.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);W=r.width;H=r.height}
 function roundedPath(x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
@@ -149,6 +149,11 @@ update=function(dt){
  if(pad){keys.left=pad.steer<-.14;keys.right=pad.steer>.14;if(pad.jump&&!padJump)jump();if(pad.boost&&!padBoost)activateBoost();if(pad.pause&&!padPause&&['playing','paused'].includes(state))togglePause();padJump=pad.jump;padBoost=pad.boost;padPause=pad.pause}
  updateProfessional(dt);
  if(state==='playing'){
+  const condition=snowSurface();
+  if(condition==='WHITEOUT')speed=Math.max(.72,speed-dt*.18);
+  if(condition==='TRACKED POWDER'&&player.jump===0)speed=Math.max(.72,speed-dt*.06);
+ }
+ if(state==='playing'){
   const run=RUNS[routeIndex][runIndex],grounded=player.jump===0;
   if(grounded&&keys.backFlip)speed=Math.min(3.5,speed+dt*.72);
   if(grounded&&keys.frontFlip)speed=Math.max(.72,speed-dt*.85);
@@ -169,3 +174,4 @@ const updateUnits=updateUI;updateUI=function(){updateUnits();if(AlpinePro.settin
 $('fullscreenButton').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen?.();else game.requestFullscreen?.()};
 const dialog=$('settingsDialog'),settingInputs={quality:$('qualitySetting'),motion:$('motionSetting'),volume:$('volumeSetting'),music:$('musicSetting'),units:$('unitsSetting')};Object.entries(settingInputs).forEach(([name,input])=>{input.value=AlpinePro.settings[name];input.addEventListener('input',()=>{AlpinePro.setSetting(name,input.value);if(name==='music'){activeMusicId=null;if(sound&&['playing','countdown','select'].includes(state))setMusic(true)}if(name==='units'){updatePreview();updateUI()}})});$('settingsButton').onclick=()=>dialog.showModal();dialog.addEventListener('close',()=>AlpinePro.ensureAudio());
 addEventListener('pointerdown',()=>{AlpinePro.ensureAudio();setMusic(true)},{once:true});addEventListener('keydown',()=>setMusic(true),{once:true});updatePreview();setMusic(true);
+const drawWeatherLayer=draw;draw=function(){drawWeatherLayer();if(state!=='playing'||snowSurface()!=='WHITEOUT')return;ctx.save();const veil=ctx.createLinearGradient(0,0,0,H);veil.addColorStop(0,'rgba(232,248,255,.08)');veil.addColorStop(.48,'rgba(236,249,255,.2)');veil.addColorStop(1,'rgba(236,249,255,.42)');ctx.fillStyle=veil;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(255,255,255,.75)';ctx.font='800 9px DM Sans';ctx.textAlign='center';ctx.fillText('WHITEOUT · FIND THE FALL LINE',W*.5,H*.2);ctx.restore()};
