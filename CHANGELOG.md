@@ -42,6 +42,7 @@ All notable player-facing changes are documented here.
 - Replaced Purgatory’s stylized background with a realistic Colorado ski photography asset for visual parity with the other resorts.
 - Increased UI typography across resort selection, controls, HUD labels, results, and settings with responsive mobile minimum sizes.
 - Refined resort promotion into a quieter Mountain Guide experience with local context, safety notes, featured lines, and unobtrusive official links.
+- Added a first-drop onboarding tutorial, surface-change feedback, and clearer control guidance for a more professional first session.
 
 ## 2.0.0 — 2026-08-22
 
