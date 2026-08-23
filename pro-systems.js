@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   const KEY='alpineRushPro';
-  const defaults={mode:'freeride',quality:'high',motion:'full',volume:.65,units:'metric',tutorial:true};
+  const defaults={mode:'freeride',quality:'high',motion:'full',contrast:'normal',volume:.65,units:'metric',tutorial:true};
   let settings={...defaults};
   try{settings={...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(settings))}catch{}};
@@ -10,10 +10,10 @@
   let audio=null,wind=null,edge=null,master=null;
   function ensureAudio(){if(audio)return audio;try{audio=new(window.AudioContext||window.webkitAudioContext)();master=audio.createGain();master.gain.value=settings.volume*.16;master.connect(audio.destination);const makeNoise=(type,frequency)=>{const length=audio.sampleRate*2,buffer=audio.createBuffer(1,length,audio.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<length;i++)data[i]=Math.random()*2-1;const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain();source.buffer=buffer;source.loop=true;filter.type=type;filter.frequency.value=frequency;gain.gain.value=0;source.connect(filter).connect(gain).connect(master);source.start();return{filter,gain}};wind=makeNoise('lowpass',620);edge=makeNoise('bandpass',1450)}catch{}return audio}
   function setRideAudio(active,speed=1,carve=0){ensureAudio();if(!audio)return;const now=audio.currentTime;wind.gain.gain.setTargetAtTime(active?Math.min(.42,.04+speed*.09):0,now,.12);wind.filter.frequency.setTargetAtTime(420+speed*390,now,.15);edge.gain.gain.setTargetAtTime(active?Math.abs(carve)*.22:0,now,.06);master.gain.setTargetAtTime(settings.volume*.16,now,.08)}
-  function setSetting(name,value){settings[name]=name==='volume'?Number(value):value;save();document.documentElement.dataset.quality=settings.quality;document.documentElement.dataset.motion=settings.motion;document.documentElement.style.setProperty('--motion-scale',settings.motion==='reduced'?'0':'1');if(master)master.gain.value=settings.volume*.16}
+  function setSetting(name,value){settings[name]=name==='volume'?Number(value):value;save();document.documentElement.dataset.quality=settings.quality;document.documentElement.dataset.motion=settings.motion;document.documentElement.dataset.contrast=settings.contrast;document.documentElement.style.setProperty('--motion-scale',settings.motion==='reduced'?'0':'1');if(master)master.gain.value=settings.volume*.16}
   function drawPreview(canvas,run,route){if(!canvas||!run)return;const dpr=Math.min(devicePixelRatio||1,2),w=canvas.clientWidth||300,h=canvas.clientHeight||150;canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);const g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,route.sky[0]);g.addColorStop(1,route.snow[0]);c.fillStyle=g;c.fillRect(0,0,w,h);c.strokeStyle='rgba(255,255,255,.18)';c.lineWidth=24;c.lineCap='round';c.beginPath();run.line.forEach((p,i)=>{const x=20+p[1]*(w-40),y=17+p[0]*(h-34);i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();c.strokeStyle=run.difficulty.includes('BLACK')?'#111820':'#58b8ef';c.lineWidth=4;c.beginPath();run.line.forEach((p,i)=>{const x=20+p[1]*(w-40),y=17+p[0]*(h-34);i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke()}
   function gamepad(){const pad=navigator.getGamepads?.()[0];if(!pad)return null;return{steer:Math.abs(pad.axes[0]||0)>.14?pad.axes[0]:0,jump:!!pad.buttons[0]?.pressed,boost:!!pad.buttons[1]?.pressed,pause:!!pad.buttons[9]?.pressed}}
   function registerPWA(){if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{})}
-  setSetting('quality',settings.quality);setSetting('motion',settings.motion);registerPWA();
+  setSetting('quality',settings.quality);setSetting('motion',settings.motion);setSetting('contrast',settings.contrast);registerPWA();
   window.AlpinePro={settings,setSetting,setRideAudio,drawPreview,gamepad,awardMedal,medals,ensureAudio};
 })();
