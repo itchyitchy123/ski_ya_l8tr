@@ -1,4 +1,4 @@
-const mobileDevice=matchMedia('(pointer:coarse)').matches||'ontouchstart'in window;const $=id=>document.getElementById(id),canvas=$('gameCanvas'),ctx=canvas.getContext('2d'),game=$('game');
+const mobileDevice=matchMedia('(pointer:coarse)').matches||'ontouchstart'in window;const $=id=>document.getElementById(id),canvas=$('gameCanvas');let ctx=canvas.getContext('2d'),game=$('game');
 const store={get(key,fallback='0'){try{return localStorage.getItem(key)??fallback}catch{return fallback}},set(key,value){try{localStorage.setItem(key,value)}catch{}}};
 const music=$('gameMusic');const introMusic=$('introMusic');music.volume=.42;if(introMusic)introMusic.volume=.34;const MUSIC_TRACKS={copperhead:{src:'assets/audio/copperhead-stomp.mp3',label:'THE COPPERHEAD STOMP'},highway:{src:'assets/audio/highway-fever.mp3',label:'HIGHWAY FEVER'},roadhouse:{src:'assets/audio/roadhouse-rhythm.mp3',label:'THE ROADHOUSE RHYTHM'},roadkill:{src:'assets/audio/copperhead-roadkill.mp3',label:'COPPERHEAD ROADKILL'},tiroler:{src:'assets/audio/tiroler-polka.mp3',label:'TIROLER POLKA'},ecstasy:{src:'assets/audio/ecstasy-of-gold-intro.mp3',label:'THE ECSTASY OF GOLD'}};let activeMusicId=null;
 const ui={score:$('score'),speed:$('speed'),surface:$('surface'),distance:$('distance'),lives:$('lives'),hud:$('hud'),title:$('titleScreen'),routes:$('routeScreen'),countdown:$('countdown'),countdownValue:$('countdownValue'),routeName:$('routeName'),pause:$('pauseScreen'),results:$('resultsScreen'),toast:$('toast'),combo:$('combo'),comboValue:$('comboValue'),comboBar:$('comboBar'),scoreDelta:$('scoreDelta'),objectiveText:$('objectiveText'),objectiveProgress:$('objectiveProgress'),trick:$('trickReadout'),trickName:$('trickName')};
@@ -206,6 +206,23 @@ const shortcutClear=clearObstacle;clearObstacle=function(o,dx){if(o.type==='shor
 const shortcutDraw=drawObstacle;drawObstacle=function(o){if(o.type!=='shortcut'&&o.type!=='patch'){shortcutDraw(o);return}if(o.y<.4)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.22+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);if(o.type==='shortcut'){ctx.strokeStyle='#ffd260';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-27,22);ctx.lineTo(-27,-24);ctx.quadraticCurveTo(0,-45,27,-24);ctx.lineTo(27,22);ctx.stroke();ctx.fillStyle='#142832';ctx.fillRect(-23,-17,46,13);ctx.fillStyle='#ffd260';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('SHORTCUT',0,-8)}else{ctx.fillStyle='#69e1f5';ctx.beginPath();ctx.arc(0,0,24,0,Math.PI*2);ctx.fill();ctx.fillStyle='#102a38';ctx.font='900 10px DM Sans';ctx.textAlign='center';ctx.fillText('PATCH',0,4);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()}ctx.restore()};
 const finishLoss=finish;finish=function(){const lost=lives<=0&&!courseComplete;finishLoss();if(lost){$('resultKicker').innerHTML='<span></span> RUN OVER';$('resultTitle').textContent='YOU LOSE!';$('highlightText').textContent='Back to the bun run honeybun';$('cupResult').textContent='Shake it off and drop back in.'}else $('resultKicker').innerHTML='<span></span> RUN COMPLETE'};
 const mobileBudgetUpdate=update;update=function(dt){mobileBudgetUpdate(dt);if(mobileDevice){if(particles.length>120)particles.splice(0,particles.length-120);if(trails.length>70)trails.splice(0,trails.length-70)}};
+
+/* Character designer preview: render the exact live loadout beside the controls. */
+function updateCharacterPreview(){
+  const preview=$('characterPreview');if(!preview)return;
+  const previewCtx=preview.getContext('2d'),previousCtx=ctx,previousW=W,previousH=H;
+  const pw=220,ph=220;preview.width=pw;preview.height=ph;ctx=previewCtx;W=pw;H=ph;
+  previewCtx.setTransform(1,0,0,1,0,0);previewCtx.clearRect(0,0,pw,ph);
+  const glow=previewCtx.createRadialGradient(pw*.5,ph*.3,4,pw*.5,ph*.42,pw*.62);glow.addColorStop(0,'rgba(255,226,143,.3)');glow.addColorStop(1,'rgba(255,255,255,0)');previewCtx.fillStyle=glow;previewCtx.fillRect(0,0,pw,ph);
+  previewCtx.save();previewCtx.translate(pw*.5,ph*.59);previewCtx.scale(1.62,1.62);
+  const snapshot={jump:player.jump,edge:player.edge,compression:player.compression,tilt:player.tilt,anim:player.anim};Object.assign(player,{jump:0,edge:0,compression:.18,tilt:0,anim:1.2});
+  drawRider();Object.assign(player,snapshot);previewCtx.restore();
+  ctx=previousCtx;W=previousW;H=previousH;
+  const skinNames=['CORAL','CYAN','GOLD'],helmetNames=['NIGHT','ICE','FLAME'],goggleNames=['ICE','GOLD','ROSE'];
+  $('characterPreviewName').textContent=riderType==='snowboarder'?'SNOWBOARDER':'SKIER';$('characterPreviewDetails').textContent=`${skinNames[skinIndex]||'CORAL'} · ${helmetNames[helmetIndex]||'NIGHT'} · ${goggleNames[goggleIndex]||'ICE'}`;
+}
+document.querySelectorAll('[data-rider],[data-helmet],[data-goggle],[data-style],.swatches button').forEach(button=>button.addEventListener('click',()=>requestAnimationFrame(updateCharacterPreview)));
+requestAnimationFrame(updateCharacterPreview);
 
 /* Rival riders: named, moving targets make a run feel shared instead of empty. */
 let rivalPasses=0;
