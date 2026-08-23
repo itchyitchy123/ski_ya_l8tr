@@ -270,3 +270,38 @@ drawObstacle=function(o){
   ctx.fillStyle='rgba(7,27,39,.88)';ctx.fillRect(-24,-51,48,13);ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText(o.name,-0,-42);
   ctx.restore();
 };
+
+/* Branching piste lines: choose the safe groomer or the risky shortcut. */
+let lineChoices=0;
+const forkReset=reset;
+reset=function(){forkReset();lineChoices=0};
+const forkSpawn=spawn;
+spawn=function(){
+  forkSpawn();
+  if(state!=='playing'||spawnCount<4||spawnCount%8!==0||distance>courseLength*.84)return;
+  const ahead=Math.min(1,(distance+courseLength*.14)/courseLength),sample=courseSample(ahead),gap=Math.min(.15,Math.max(.09,sample.width*.46)),id=`fork-${spawnCount}`,riskSide=Math.random()>.5?1:-1;
+  for(const side of [-1,1])obstacles.push({type:'fork',forkId:id,side,x:Math.max(.09,Math.min(.91,sample.center+side*gap)),center:sample.center,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,risk:side===riskSide,color:side===riskSide?'#ffd260':'#62d9f5'});
+};
+function resolveFork(o){
+  if(o.cleared)return;
+  o.cleared=true;obstacles.forEach(other=>{if(other.type==='fork'&&other.forkId===o.forkId){other.cleared=true;other.hit=true}});lineChoices++;
+  const points=(o.risk?850:260)*combo;scorePop(points,o.x*W,o.y*H-12,o.risk?'RISKY LINE':'CLEAN LINE');combo=Math.min(8,combo+(o.risk?2:1));comboTime=3.8;bestCombo=Math.max(bestCombo,combo);
+  if(o.risk){speed=Math.min(3.9,speed+.38);toast('SHORTCUT SEND',`RISK LINE · +${points}`);burst(o.x*W,o.y*H,'#ffd260',25);beep(1040,.18)}else{toast('LINE CHOICE',`GROOMER · +${points}`);burst(o.x*W,o.y*H,'#62d9f5',16);beep(760,.12)}
+}
+const forkHit=hitObstacle;
+hitObstacle=function(o,dx){if(o.type==='fork'){resolveFork(o);return}forkHit(o,dx)};
+const forkClear=clearObstacle;
+clearObstacle=function(o,dx){if(o.type==='fork'){resolveFork(o);return}forkClear(o,dx)};
+const forkUpdate=update;
+update=function(dt){
+  forkUpdate(dt);
+  if(state!=='playing')return;
+  const missed=new Set();obstacles.forEach(o=>{if(o.type==='fork'&&!o.cleared&&o.y>player.y+.16)missed.add(o.forkId)});
+  missed.forEach(id=>{obstacles.filter(o=>o.type==='fork'&&o.forkId===id).forEach(o=>{o.cleared=true;o.hit=true});combo=1;comboTime=0;speed=Math.max(.72,speed-.12);toast('FORK MISSED','STAY ON THE FALL LINE')});
+};
+const forkDraw=drawObstacle;
+drawObstacle=function(o){
+  if(o.type!=='fork'){forkDraw(o);return}if(o.y<.4||o.hit)return;
+  const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.22+t*.92;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);
+  ctx.strokeStyle=o.color;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,24);ctx.lineTo(0,-27);ctx.stroke();ctx.fillStyle=o.color;ctx.beginPath();ctx.moveTo(0,-31);ctx.lineTo(o.side*10,-18);ctx.lineTo(o.side*3,-18);ctx.lineTo(o.side*3,-7);ctx.lineTo(o.side*14,-7);ctx.lineTo(0,7);ctx.lineTo(-o.side*14,-7);ctx.lineTo(-o.side*3,-7);ctx.lineTo(-o.side*3,-18);ctx.lineTo(-o.side*10,-18);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(7,27,39,.9)';ctx.fillRect(-34,-47,68,12);ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText(o.risk?'RISK LINE':'GROOMER',0,-38);ctx.restore();
+};
