@@ -40,6 +40,7 @@ All notable player-facing changes are documented here.
 - Added sponsor-ready resort partner spotlights with official resort links, signature-run promotion, safety messaging, and branded challenge hooks.
 - Added a dedicated Purgatory mountain renderer with San Juan ridgelines, powder fall line, chairlift towers, aspens, and base-area signage.
 - Replaced Purgatory’s stylized background with a realistic Colorado ski photography asset for visual parity with the other resorts.
+- Increased UI typography across resort selection, controls, HUD labels, results, and settings with responsive mobile minimum sizes.
 
 ## 2.0.0 — 2026-08-22
 
