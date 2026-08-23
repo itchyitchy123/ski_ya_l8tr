@@ -61,7 +61,7 @@ function finish(){if(state==='over')return;state='over';setMusic(false);game.cla
 function togglePause(){if(state==='playing'){state='paused';Object.keys(keys).forEach(key=>keys[key]=false);game.classList.remove('playing');show(ui.pause);$('pauseButton').setAttribute('aria-pressed','true')}else if(state==='paused'){state='playing';last=performance.now();game.classList.add('playing');hide(ui.pause);$('pauseButton').setAttribute('aria-pressed','false')}}
 
 function beep(freq,duration,type='triangle',volume=.045){if(!sound)return;try{const ac=beep.ac||(beep.ac=new(window.AudioContext||window.webkitAudioContext)()),o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(freq,ac.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(40,freq*.72),ac.currentTime+duration);g.gain.setValueAtTime(volume,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+duration);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+duration)}catch{}}
-function jump(){if(state==='title'){enterRoutes();return}if(state==='select'){beginCountdown();return}if(state==='over'){beginCountdown();return}if(state==='playing'&&player.jump===0){Object.assign(player,{jumpV:580+speed*45,jump:.1,spin:0,spinV:0,flip:0,flipV:0,grabTime:0,trickActive:false,compression:.85});jumps++;burst(player.x*W,player.y*H+25,'#effcff',8);beep(480,.12)}}
+function jump(){if(state==='title'){enterRoutes();return}if(state==='select'){beginCountdown();return}if(state==='over'){beginCountdown();return}if(state==='playing'&&player.jump===0){if(AlpinePro.weeklyModifier().id==='no-jump'){toast('NO JUMP WEEK','KEEP IT GROUNDED');beep(160,.08);return}Object.assign(player,{jumpV:580+speed*45,jump:.1,spin:0,spinV:0,flip:0,flipV:0,grabTime:0,trickActive:false,compression:.85});jumps++;burst(player.x*W,player.y*H+25,'#effcff',8);beep(480,.12)}}
 function trickLabel(){const degrees=Math.round(Math.abs(player.spin)*180/Math.PI/90)*90,flipProgress=Math.abs(player.flip)/(Math.PI*2),flipName=player.flip<0?'FRONTFLIP':'BACKFLIP',parts=[];if(degrees)parts.push(`${degrees}° ${player.spin<0?'LEFT':'RIGHT'}`);if(flipProgress>.12)parts.push(flipProgress>1.5?`DOUBLE ${flipName}`:flipName);if(player.grabTime>.18)parts.push(riderType==='snowboarder'?'INDY GRAB':'SAFETY GRAB');return parts.join(' + ')||'SETTING UP'}
 function landTrick(){const attempted=Math.abs(player.spin)>.35||Math.abs(player.flip)>.35||player.grabTime>.18;if(!attempted)return true;const tau=Math.PI*2,spinR=Math.round(player.spin/tau),flipR=Math.round(player.flip/tau),spinError=Math.abs(player.spin-spinR*tau),flipError=Math.abs(player.flip-flipR*tau);if(spinError>.75||flipError>.75){toast('FAILED LANDING','ROTATION INCOMPLETE');crashPlayer('FAILED LANDING');return false}const rotations=Math.abs(spinR)+Math.abs(flipR),flipLabel=flipR?(Math.abs(flipR)===1?(flipR<0?'FRONTFLIP':'BACKFLIP'):`${Math.abs(flipR)}× ${flipR<0?'FRONTFLIP':'BACKFLIP'}`):'',grabLabel=player.grabTime>.18?(riderType==='snowboarder'?'INDY GRAB':'SAFETY GRAB'):'',label=[spinR?`${Math.abs(spinR)*360}° ${spinR<0?'LEFT':'RIGHT'}`:'',flipLabel,grabLabel].filter(Boolean).join(' + '),points=Math.max(150,rotations*450+(player.grabTime>.18?250:0))*combo;trickCount++;recordChallenge('trick');scorePop(points,player.x*W,player.y*H-45,label);if(points>bestTrickPoints){bestTrickPoints=points;bestTrick=label}combo=Math.min(8,combo+Math.max(1,rotations));comboTime=3.2;bestCombo=Math.max(bestCombo,combo);slowmo=.12;burst(player.x*W,player.y*H,'#ffd260',22);toast('TRICK LANDED',`${label} · +${points}`);beep(880,.18);return true}
 function toast(label,value=''){ui.toast.querySelector('small').textContent=label;ui.toast.querySelector('strong').textContent=value;ui.toast.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>ui.toast.classList.remove('show'),850)}
@@ -164,6 +164,9 @@ update=function(dt){
   if(condition==='WHITEOUT')speed=Math.max(.72,speed-dt*.18);
   if(condition==='TRACKED POWDER'&&player.jump===0)speed=Math.max(.72,speed-dt*.06);
   const setup=SETUPS[AlpinePro.settings.setup]||SETUPS.racer;
+  const upgrades=AlpinePro.upgrades();
+  speed=Math.max(.72,Math.min(3.8,speed+upgrades.edge*.012+upgrades.float*(condition==='POWDER'||condition==='TRACKED POWDER'?.008:0)));
+  if(player.jump>0&&upgrades.pop)player.jumpV+=upgrades.pop*18*dt;
   if((condition==='POWDER'||condition==='TRACKED POWDER')&&player.jump===0)speed*=Math.pow(setup.powder,dt);
   speed=Math.max(.72,Math.min(3.55,speed+setup.speed*dt));
   if(player.jump===0)player.vx*=Math.pow(setup.grip,dt);
@@ -245,11 +248,11 @@ const resortHazardSpawn=spawn;
 spawn=function(){
   resortHazardSpawn();
   if(state!=='playing'||spawnCount<6||spawnCount%13!==0)return;
-  const types=['wildlife','snowcat','liftTower','fallenSign','crowd'],type=types[Math.floor(Math.random()*types.length)],s=courseSample(Math.min(1,(distance+courseLength*.13)/courseLength));
-  obstacles.push({type,x:Math.max(.08,Math.min(.92,s.center+(Math.random()-.5)*s.width*.72)),y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='wildlife'?'#9a6b46':type==='snowcat'?'#e7b84d':'#e65d49',side:Math.random()>.5?1:-1,laneV:type==='wildlife'?(Math.random()>.5?1:-1)*.06:type==='crowd'?(Math.random()>.5?1:-1)*.025:0});
+  const types=['wildlife','snowcat','liftTower','fallenSign','crowd','rescue'],type=types[Math.floor(Math.random()*types.length)],s=courseSample(Math.min(1,(distance+courseLength*.13)/courseLength));
+  obstacles.push({type,x:Math.max(.08,Math.min(.92,s.center+(Math.random()-.5)*s.width*.72)),y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='wildlife'?'#9a6b46':type==='snowcat'?'#e7b84d':type==='rescue'?'#55c9dc':'#e65d49',side:Math.random()>.5?1:-1,laneV:type==='wildlife'?(Math.random()>.5?1:-1)*.06:type==='crowd'?(Math.random()>.5?1:-1)*.025:0});
 };
 const resortHazardHit=hitObstacle;
-hitObstacle=function(o,dx){if(['wildlife','snowcat','liftTower','fallenSign','crowd'].includes(o.type)){if(o.hit)return;o.hit=true;crashPlayer(o.type==='wildlife'?'WILDLIFE CROSSING':o.type==='snowcat'?'SNOWCAT BLOCK':'PISTE OBSTACLE');return}resortHazardHit(o,dx)};
+ hitObstacle=function(o,dx){if(['wildlife','snowcat','liftTower','fallenSign','crowd'].includes(o.type)){if(o.hit)return;o.hit=true;crashPlayer(o.type==='wildlife'?'WILDLIFE CROSSING':o.type==='snowcat'?'SNOWCAT BLOCK':'PISTE OBSTACLE');return}if(o.type==='rescue'){if(o.hit)return;o.hit=true;o.cleared=true;scorePop(500,o.x*W,o.y*H,'RESCUE COMPLETE');toast('RESCUE COMPLETE','YOU SAVED THE RIDER');beep(920,.16);return}resortHazardHit(o,dx)};
 const resortHazardUpdate=update;
 update=function(dt){
   resortHazardUpdate(dt);if(state!=='playing')return;
@@ -259,11 +262,12 @@ update=function(dt){
 };
 const resortHazardDraw=drawObstacle;
 drawObstacle=function(o){
-  if(!['wildlife','snowcat','liftTower','fallenSign','crowd'].includes(o.type)){resortHazardDraw(o);return}if(o.y<.4||o.hit)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);
+  if(!['wildlife','snowcat','liftTower','fallenSign','crowd','rescue'].includes(o.type)){resortHazardDraw(o);return}if(o.y<.4||o.hit)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);
   if(o.type==='wildlife'){ctx.fillStyle='#855b3e';ctx.beginPath();ctx.ellipse(0,4,19,10,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#6f4933';ctx.beginPath();ctx.arc(-16,-5,8,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6f4933';ctx.lineWidth=3;for(const leg of [-10,5]){ctx.beginPath();ctx.moveTo(leg,9);ctx.lineTo(leg-3,22);ctx.stroke()}ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('WILDLIFE',0,-18)}
   else if(o.type==='snowcat'){ctx.fillStyle='#e1ad3e';ctx.fillRect(-29,-13,58,26);ctx.fillStyle='#375361';ctx.fillRect(-10,-25,22,13);ctx.strokeStyle='#263f4c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-31,15);ctx.lineTo(31,15);ctx.stroke();ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('SNOWCAT',0,-31)}
   else if(o.type==='liftTower'){ctx.strokeStyle='#394f5a';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,-42);ctx.lineTo(0,23);ctx.moveTo(-18,-32);ctx.lineTo(18,-32);ctx.stroke();ctx.fillStyle='#d95345';ctx.beginPath();ctx.arc(-20,-20,6,0,Math.PI*2);ctx.arc(20,-20,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('LIFT TOWER',0,35)}
   else if(o.type==='fallenSign'){ctx.rotate(o.side*.28);ctx.fillStyle='#e85e43';ctx.fillRect(-31,-7,62,14);ctx.fillStyle='#fff';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('SLOW',0,3);ctx.strokeStyle='#394f5a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,7);ctx.lineTo(12,25);ctx.stroke()}
+  else if(o.type==='rescue'){ctx.fillStyle='#55c9dc';ctx.beginPath();ctx.arc(0,0,23,0,Math.PI*2);ctx.fill();ctx.fillStyle='#123344';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('RESCUE',0,3);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()}
   else{for(let i=-2;i<=2;i++){ctx.fillStyle=i%2?'#e85e43':'#45b6c6';ctx.beginPath();ctx.arc(i*10,Math.sin(o.wobble+i)*4,7,0,Math.PI*2);ctx.fill()}ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('CROWD',0,-17)}ctx.restore();
 };
 const weatherReset=reset;reset=function(){weatherReset();weatherState='CLEAR';weatherTimer=7;weatherPulse=0};
@@ -304,6 +308,9 @@ const battleFinish=finish;finish=function(){
 };
 function paintBadges(){const earned=AlpinePro.badges(),count=Object.keys(earned).length,total=AlpinePro.badgeDefinitions.length;if($('badgeCount'))$('badgeCount').textContent=`${count} / ${total} EARNED`;if($('badgeNames'))$('badgeNames').textContent=count?Object.values(earned).slice(-3).map(b=>b.name).join(' · '):'FIRST LINE AWAITS'}
 paintBadges();
+function paintModifier(){const m=AlpinePro.weeklyModifier();if($('modifierName'))$('modifierName').textContent=m.name;if($('modifierDescription'))$('modifierDescription').textContent=m.description}paintModifier();
+function paintUpgrades(){const u=AlpinePro.upgrades();document.querySelectorAll('[data-upgrade]').forEach(button=>{button.querySelector('b').textContent=u[button.dataset.upgrade]||0})}
+document.querySelectorAll('[data-upgrade]').forEach(button=>button.addEventListener('click',()=>{AlpinePro.buyUpgrade(button.dataset.upgrade);paintUpgrades();toast('EQUIPMENT UPGRADE',`${button.dataset.upgrade.toUpperCase()} TUNED`)}));paintUpgrades();
 let badgesReported=false;
 const badgesReset=reset;reset=function(){badgesReset();badgesReported=false};
 const badgesFinish=finish;finish=function(){
@@ -330,6 +337,7 @@ const rivalUpdate=update;
 update=function(dt){
   rivalUpdate(dt);
   if(state!=='playing')return;
+  if(AlpinePro.weeklyModifier().id==='all-patrol'&&spawnCount%4===0)obstacles.push({type:Math.random()>.5?'speedPatrol':'skiPatrol',x:.18+Math.random()*.64,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:'#e84d3d',side:1,laneV:.06});
   obstacles.forEach(o=>{if(o.type!=='rival'||o.hit)return;o.x+=o.laneV*dt*speed;if(o.x<.11||o.x>.89){o.x=Math.max(.11,Math.min(.89,o.x));o.laneV*=-1}o.y+=dt*.018*(o.pace-1)});
 };
 const rivalDraw=drawObstacle;

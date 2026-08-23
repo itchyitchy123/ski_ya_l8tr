@@ -12,6 +12,10 @@
   function contract(){const day=Math.floor(Date.now()/86400000),item=contracts[day%contracts.length];let done=false;try{done=localStorage.getItem(`alpineContract:${day}`)==='done'}catch{}return{...item,day,done}};
   function submitContract(stats){const item=contract(),value=Number(stats[item.stat]||0);if(item.done||value<item.target)return{...item,progress:Math.min(item.target,value),completed:false};try{localStorage.setItem(`alpineContract:${item.day}`,'done')}catch{}return{...item,progress:item.target,completed:true}};
   const badgeDefinitions=[{id:'first-line',name:'FIRST LINE',test:s=>s.runs>=1},{id:'trickster',name:'TRICKSTER',test:s=>s.trickCount>=5},{id:'risk-taker',name:'RISK TAKER',test:s=>s.riskLines>=1},{id:'patrol-proof',name:'PATROL PROOF',test:s=>s.patrolClears>=3},{id:'stash-hunter',name:'STASH HUNTER',test:s=>s.stashFinds>=1},{id:'speed-demon',name:'SPEED DEMON',test:s=>s.mode==='downhill'},{id:'alpine-pass',name:'ALPINE PASS',test:s=>s.routeIndex>=5}];
+  const weeklyModifiers=[{id:'no-jump',name:'NO JUMP WEEK',description:'Keep skis and boards grounded.'},{id:'all-patrol',name:'PATROL OVERLOAD',description:'More patrol hazards on every line.'},{id:'max-speed',name:'SEND IT WEEK',description:'Speed builds score faster.'}];
+  function weeklyModifier(){const day=Math.floor(Date.now()/86400000),m=weeklyModifiers[Math.floor(day/7)%weeklyModifiers.length];return{...m,week:Math.floor(day/7)}}
+  const upgrades=()=>{try{return{edge:0,pop:0,float:0,...JSON.parse(localStorage.getItem('alpineRushUpgrades')||'{}')}}catch{return{edge:0,pop:0,float:0}}};
+  function buyUpgrade(type){const u=upgrades();if(u[type]>=3)return u;u[type]++;localStorage.setItem('alpineRushUpgrades',JSON.stringify(u));return u}
   function badges(){try{return JSON.parse(localStorage.getItem('alpineRushBadges')||'{}')}catch{return{}}}
   function awardBadges(stats){const earned=badges(),newBadges=[];badgeDefinitions.forEach(b=>{if(!earned[b.id]&&b.test(stats)){earned[b.id]={name:b.name,date:new Date().toISOString()};newBadges.push(b.name)}});if(newBadges.length)localStorage.setItem('alpineRushBadges',JSON.stringify(earned));return{earned,newBadges,total:badgeDefinitions.length}};
   function awardMedal(id,score,time){const all=medals(),rank=score>=8000?'gold':score>=4500?'silver':'bronze',order={bronze:1,silver:2,gold:3};if(!all[id]||order[rank]>order[all[id].rank])all[id]={rank,score,time,date:new Date().toISOString()};localStorage.setItem('alpineRushMedals',JSON.stringify(all));return rank}
@@ -24,5 +28,5 @@
   function gamepad(){const pad=navigator.getGamepads?.()[0];if(!pad)return null;return{steer:Math.abs(pad.axes[0]||0)>.14?pad.axes[0]:0,jump:!!pad.buttons[0]?.pressed,boost:!!pad.buttons[1]?.pressed,pause:!!pad.buttons[9]?.pressed}}
   function registerPWA(){if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{})}
   setSetting('quality',settings.quality);setSetting('motion',settings.motion);registerPWA();
-  window.AlpinePro={settings,setSetting,setRideAudio,drawPreview,gamepad,awardMedal,medals,career,awardCareer,contract,submitContract,badges,awardBadges,badgeDefinitions,ensureAudio};
+  window.AlpinePro={settings,setSetting,setRideAudio,drawPreview,gamepad,awardMedal,medals,career,awardCareer,contract,submitContract,badges,awardBadges,badgeDefinitions,weeklyModifier,upgrades,buyUpgrade,ensureAudio};
 })();
