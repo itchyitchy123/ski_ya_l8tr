@@ -17,6 +17,7 @@ All notable player-facing changes are documented here.
 - Added in-season live snow reports for every resort, with cached Open-Meteo conditions, snowfall/base-depth metrics, equipment recommendations, and a pre-run weather briefing.
 - Live snowfall, temperature, and wind now influence automatic surface conditions and handling recommendations.
 - Added dynamic in-game lift and trail status for each resort, including open, limited, wind-hold, and off-season states with live open-run counts.
+- Added playable lift access: severe live winds place the selected mountain on patrol hold, disable drop-in, and show a clear reopening advisory.
 
 ## 2.0.0 — 2026-08-22
 
