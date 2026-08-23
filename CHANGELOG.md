@@ -43,6 +43,7 @@ All notable player-facing changes are documented here.
 - Increased UI typography across resort selection, controls, HUD labels, results, and settings with responsive mobile minimum sizes.
 - Refined resort promotion into a quieter Mountain Guide experience with local context, safety notes, featured lines, and unobtrusive official links.
 - Added a first-drop onboarding tutorial, surface-change feedback, and clearer control guidance for a more professional first session.
+- Added Beginner, Rider, Pro, and Legend difficulty tiers with tuned hazard density, scoring, and a limited beginner assist.
 
 ## 2.0.0 — 2026-08-22
 
