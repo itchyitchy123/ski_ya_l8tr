@@ -252,12 +252,12 @@ spawn=function(){
   obstacles.push({type,x:Math.max(.08,Math.min(.92,s.center+(Math.random()-.5)*s.width*.72)),y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='wildlife'?'#9a6b46':type==='snowcat'?'#e7b84d':type==='rescue'?'#55c9dc':'#e65d49',side:Math.random()>.5?1:-1,laneV:type==='wildlife'?(Math.random()>.5?1:-1)*.06:type==='crowd'?(Math.random()>.5?1:-1)*.025:0});
 };
 const resortHazardHit=hitObstacle;
- hitObstacle=function(o,dx){if(['wildlife','snowcat','liftTower','fallenSign','crowd'].includes(o.type)){if(o.hit)return;o.hit=true;crashPlayer(o.type==='wildlife'?'WILDLIFE CROSSING':o.type==='snowcat'?'SNOWCAT BLOCK':'PISTE OBSTACLE');return}if(o.type==='rescue'){if(o.hit)return;o.hit=true;o.cleared=true;scorePop(500,o.x*W,o.y*H,'RESCUE COMPLETE');toast('RESCUE COMPLETE','YOU SAVED THE RIDER');beep(920,.16);return}resortHazardHit(o,dx)};
+ hitObstacle=function(o,dx){if(['wildlife','snowcat','liftTower','fallenSign','crowd'].includes(o.type)){if(o.hit)return;o.hit=true;crashPlayer(o.type==='wildlife'?'WILDLIFE CROSSING':o.type==='snowcat'?'SNOWCAT BLOCK':'PISTE OBSTACLE');return}if(o.type==='rescue'){if(o.hit)return;o.hit=true;o.cleared=true;window.AlpineRushReplay?.mark('RESCUE COMPLETE');scorePop(500,o.x*W,o.y*H,'RESCUE COMPLETE');toast('RESCUE COMPLETE','YOU SAVED THE RIDER');beep(920,.16);return}resortHazardHit(o,dx)};
 const resortHazardUpdate=update;
 update=function(dt){
   resortHazardUpdate(dt);if(state!=='playing')return;
   obstacles.forEach(o=>{if(!['wildlife','crowd'].includes(o.type)||o.hit)return;o.x+=o.laneV*dt*speed;if(o.x<.08||o.x>.92){o.x=Math.max(.08,Math.min(.92,o.x));o.laneV*=-1}});
-  weatherTimer-=dt;if(weatherTimer<=0){const events=['WIND GUST','FLAT LIGHT','ICE PATCH','POWDER BURST'];weatherState=events[Math.floor(Math.random()*events.length)];weatherPulse=5.2;weatherTimer=10+Math.random()*9;toast(weatherState,weatherState==='WIND GUST'?'HOLD YOUR EDGE':weatherState==='FLAT LIGHT'?'FIND THE FALL LINE':weatherState==='ICE PATCH'?'EASY ON THE CARVE':'FLOAT THE LANDING')}
+  weatherTimer-=dt;if(weatherTimer<=0){const events=['WIND GUST','FLAT LIGHT','ICE PATCH','POWDER BURST'];weatherState=events[Math.floor(Math.random()*events.length)];weatherPulse=5.2;weatherTimer=10+Math.random()*9;window.AlpineRushReplay?.mark(weatherState);toast(weatherState,weatherState==='WIND GUST'?'HOLD YOUR EDGE':weatherState==='FLAT LIGHT'?'FIND THE FALL LINE':weatherState==='ICE PATCH'?'EASY ON THE CARVE':'FLOAT THE LANDING')}
   if(weatherPulse>0){weatherPulse-=dt;if(weatherState==='WIND GUST'){player.vx+=(Math.sin(performance.now()*.004)*.34)*dt;cameraRoll+=(Math.sin(performance.now()*.004)*.006-cameraRoll)*dt*3}if(weatherState==='ICE PATCH'&&player.jump===0){speed=Math.min(3.65,speed+dt*.12);player.vx*=Math.pow(.32,dt)}if(weatherState==='POWDER BURST'&&player.jump===0){speed=Math.max(.72,speed-dt*.05)}}else weatherState='CLEAR';
 };
 const resortHazardDraw=drawObstacle;
@@ -272,6 +272,7 @@ drawObstacle=function(o){
 };
 const weatherReset=reset;reset=function(){weatherReset();weatherState='CLEAR';weatherTimer=7;weatherPulse=0};
 const weatherDraw=draw;draw=function(){weatherDraw();if(state!=='playing'||weatherPulse<=0)return;ctx.save();if(weatherState==='FLAT LIGHT'){ctx.fillStyle='rgba(238,248,252,.28)';ctx.fillRect(0,0,W,H)}if(weatherState==='WIND GUST'){ctx.strokeStyle='rgba(255,255,255,.34)';ctx.lineWidth=2;for(let i=0;i<7;i++){const y=H*(.28+i*.09),x=((performance.now()*.12+i*97)%W);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-45,y+5);ctx.stroke()}}if(weatherState==='POWDER BURST'){ctx.fillStyle='rgba(255,255,255,.22)';ctx.fillRect(0,H*.4,W,H*.5)}ctx.restore()};
+const timelineFinish=finish;finish=function(){timelineFinish();const replay=window.AlpineRushReplay?.latest?.(),line=$('replayTimeline');if(line){const markers=replay?.markers||[];line.textContent=markers.length?`RUN TIMELINE · ${markers.slice(-5).map(m=>`${(m[0]/1000).toFixed(0)}s ${m[1]}`).join(' · ')}`:'RUN TIMELINE · No highlights recorded yet'}};
 
 const contractClear=clearObstacle;
 clearObstacle=function(o,dx){if(['speedPatrol','skiPatrol'].includes(o.type))patrolClears++;contractClear(o,dx)};
