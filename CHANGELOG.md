@@ -21,6 +21,7 @@ All notable player-facing changes are documented here.
 - Added a persistent patrol career with rescue/hazard action tracking, rank progression, and end-of-run patrol rewards.
 - Added a lift-briefing moment before each drop-in so riders see the selected line, current conditions, and patrol guidance.
 - Added sparse snow-sports humor from lift announcements, patrol radio, weather events, near-run commentary, and replay timeline markers.
+- Added the Après Lodge hub with earned lodge credits, rival gossip, jukebox access, and gear-repair interactions between runs.
 
 ## 2.0.0 — 2026-08-22
 
