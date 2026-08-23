@@ -37,6 +37,7 @@ All notable player-facing changes are documented here.
 - Added rotating legendary challenges with bonus points, seasonal reward boosts, and clear daily objectives.
 - Added seasonal mountain events that change the briefing flavor and reward economy throughout the year.
 - Added Purgatory Resort in Durango, Colorado, with powder bowls, steep glades, a dedicated snow report location, and three new runs.
+- Added sponsor-ready resort partner spotlights with official resort links, signature-run promotion, safety messaging, and branded challenge hooks.
 
 ## 2.0.0 — 2026-08-22
 
