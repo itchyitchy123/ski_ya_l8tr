@@ -338,7 +338,7 @@ update=function(dt){
   rivalUpdate(dt);
   if(state!=='playing')return;
   if(AlpinePro.weeklyModifier().id==='all-patrol'&&spawnCount%4===0)obstacles.push({type:Math.random()>.5?'speedPatrol':'skiPatrol',x:.18+Math.random()*.64,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:'#e84d3d',side:1,laneV:.06});
-  obstacles.forEach(o=>{if(o.type!=='rival'||o.hit)return;o.x+=o.laneV*dt*speed;if(o.x<.11||o.x>.89){o.x=Math.max(.11,Math.min(.89,o.x));o.laneV*=-1}o.y+=dt*.018*(o.pace-1)});
+  obstacles.forEach(o=>{if(o.type!=='rival'||o.hit)return;const gap=player.x-o.x;if(o.personality==='BLOCKER'&&Math.abs(gap)<.28)o.laneV+=(Math.sign(gap)*.045-o.laneV)*dt*2.4;if(o.personality==='SPEED DEMON'&&o.y>player.y-.04)o.y-=dt*.035;if(o.personality==='TRICK HOUND'&&o.y>player.y-.12&&o.y<player.y+.04&&player.jump>0){o.wobble+=dt*8;if(!o.taunted){o.taunted=true;toast('SIGNATURE TRICK',`${o.name} · ${riderType==='snowboarder'?'BOARD':'SKI'} SPIN`);}}o.x+=o.laneV*dt*speed;if(o.x<.11||o.x>.89){o.x=Math.max(.11,Math.min(.89,o.x));o.laneV*=-1}o.y+=dt*.018*(o.pace-1)});
 };
 const rivalDraw=drawObstacle;
 drawObstacle=function(o){
