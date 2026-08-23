@@ -44,6 +44,7 @@ All notable player-facing changes are documented here.
 - Refined resort promotion into a quieter Mountain Guide experience with local context, safety notes, featured lines, and unobtrusive official links.
 - Added a first-drop onboarding tutorial, surface-change feedback, and clearer control guidance for a more professional first session.
 - Added Beginner, Rider, Pro, and Legend difficulty tiers with tuned hazard density, scoring, and a limited beginner assist.
+- Audited resort elevation metadata: corrected Hausberg to 1,338 m and separated Hoedown Hill’s 4,904 ft summit elevation from its 130 ft vertical drop.
 
 ## 2.0.0 — 2026-08-22
 
