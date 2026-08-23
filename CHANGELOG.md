@@ -20,6 +20,7 @@ All notable player-facing changes are documented here.
 - Added playable lift access: severe live winds place the selected mountain on patrol hold, disable drop-in, and show a clear reopening advisory.
 - Added a persistent patrol career with rescue/hazard action tracking, rank progression, and end-of-run patrol rewards.
 - Added a lift-briefing moment before each drop-in so riders see the selected line, current conditions, and patrol guidance.
+- Added sparse snow-sports humor from lift announcements, patrol radio, weather events, near-run commentary, and replay timeline markers.
 
 ## 2.0.0 — 2026-08-22
 
