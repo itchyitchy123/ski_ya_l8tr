@@ -15,6 +15,7 @@ All notable player-facing changes are documented here.
 - Added a persistent resort/run identity badge during gameplay, smoother screen transitions, and a more polished results highlight treatment.
 - Added resort-specific visual theming and image-backed result posters so every finished run carries the identity of its mountain.
 - Removed the painted trail corridor from desktop gameplay; desktop now shows the natural mountain surface with restrained marker poles, while mobile retains clearer touch-oriented piste guidance.
+- Added progressive mountain parallax: distant ridges, nearer terrain layers, and snow streaks now move with the run to reinforce downhill travel.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
