@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07121c">
   <meta name="description" content="Alpine Rush — a cinematic downhill skiing game for your browser.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://api.open-meteo.com; frame-ancestors 'none';">
   <meta property="og:title" content="Alpine Rush">
   <meta property="og:description" content="Carve hard, chain close calls, and master the mountain.">
   <meta property="og:image" content="assets/alpine-rush-cover.png">
@@ -138,10 +139,9 @@
     <section class="mountain-details-screen screen hidden" id="mountainDetailsScreen"><div class="mountain-details-card"><div class="details-heading"><div><p class="kicker"><span></span> MOUNTAIN DETAILS</p><h2 id="detailsTitle">THE MOUNTAIN</h2></div><button class="text-button" id="detailsBackButton" type="button">← BACK TO MOUNTAIN SELECT</button></div><div id="mountainDetailsPanels"></div></div></section>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
-  <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
   <script src="pro-systems.js?v=3"></script>
   <script src="replay.js?v=5"></script>
-  <script src="game.js?v=113"></script>
+  <script src="game.js?v=114"></script>
 </body>
 <!-- Compatibility assets retained for the production smoke contract: modern.css?v=3 performance.js?v=1 replay.js?v=2 mobile.js?v=2 visual-effects.js?v=1 game.js?v=13 -->
 </html>

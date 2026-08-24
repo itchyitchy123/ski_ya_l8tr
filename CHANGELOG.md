@@ -10,6 +10,7 @@ All notable player-facing changes are documented here.
 - Replaced the crude foreground cuboid rider with a high-contrast illustrated downhill rider overlay, including recognizable stance, skis/board, poles, goggles, snow spray, and animated carving lean.
 - Removed the floating 2D rider layer and restored a fully grounded 3D-only rider, so skis, boots, jumps, and piste contact all share the same world coordinates.
 - Rebuilt the WebGL piste from continuous triangulated snow and terrain-shoulder surfaces instead of repeated box slabs, improving downhill depth and reducing the road-like appearance.
+- Hardened leaderboard CORS, headers, rate limiting, key validation, score bounds, and replay imports; added a restrictive browser Content Security Policy and removed the remaining inline boot script.
 - Replaced the WebGL prototype renderer with a clean forward-chase 3D scene: continuous piste mesh, grounded rider, same-direction traffic, recycled downhill scenery, touch input, and preserved resort backdrops.
 - Restored the polished 2D gameplay renderer as the active experience; the experimental WebGL renderer is retained in the repository but no longer loaded by the game.
 - Added persistent career progression with XP, levels, sponsor tiers, and daily sponsor contracts.
