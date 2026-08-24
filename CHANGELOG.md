@@ -24,6 +24,7 @@ All notable player-facing changes are documented here.
 - Unified the rider’s downhill position with the piste projection so feet, shadow, tracks, and snow surface share the same ground contact point.
 - Consolidated the final rider contact pass around one authoritative world-space piste projection, including lane position, look-ahead depth, slope, and jump height.
 - Added a render-time ground lock so the rider is snapped to the projected piste surface every frame, preventing camera/update drift from producing a floating appearance.
+- Added a softly shaded, projection-matched desktop piste surface with natural banks and terrain undulation, replacing the empty snow beneath the rider without restoring the street-like track.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
