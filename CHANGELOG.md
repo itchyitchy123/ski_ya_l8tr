@@ -49,6 +49,7 @@ All notable player-facing changes are documented here.
 - Added guided Training Run milestones for carving, jumping, and boosting, plus compact shareable “beat my line” challenge codes.
 - Added a beginner-friendly Learn the Basics page covering skiing, snowboarding, lifts, etiquette, falling safely, and first-run advice.
 - Renamed the beginner entry point and page to clearly identify it as the “Ski & Snowboard Tutorial.”
+- Added a clearer next-goal progression card, next-run recommendations, accurate career XP progress, high-contrast settings, reduced-motion support, and stronger first-session guidance.
 
 ## 2.0.0 — 2026-08-22
 

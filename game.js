@@ -209,7 +209,7 @@ const musicQuickSelect=$('musicQuickSelect'),quickMusicLabel=$('quickMusicLabel'
 introMusic&&$('soundButton').addEventListener('click',()=>{introMusic.muted=!sound});
 const shareResultButton=$('shareResultButton');shareResultButton?.addEventListener('click',async()=>{const text=$('highlightText')?.textContent||'Alpine Rush line';try{if(navigator.share)await navigator.share({title:'Alpine Rush line',text});else await navigator.clipboard.writeText(text);toast('LINE COPIED','SHARE YOUR RUN')}catch{} });
 const photoModeButton=$('photoModeButton'),photoDialog=$('photoDialog'),photoCanvas=$('photoCanvas');photoModeButton?.addEventListener('click',()=>{if(!photoCanvas)return;const pctx=photoCanvas.getContext('2d');pctx.clearRect(0,0,photoCanvas.width,photoCanvas.height);pctx.drawImage(canvas,0,0,photoCanvas.width,photoCanvas.height);pctx.fillStyle='rgba(4,17,25,.72)';pctx.fillRect(24,photoCanvas.height-76,photoCanvas.width-48,50);pctx.fillStyle='#fff';pctx.font='900 22px Barlow Condensed';pctx.fillText(`${ROUTES[routeIndex].name} · ${RUNS[routeIndex][runIndex].name}`.toUpperCase(),42,photoCanvas.height-44);pctx.fillStyle='#ffd260';pctx.font='700 13px DM Sans';pctx.fillText(`${Math.floor(score).toLocaleString()} PTS · ${bestCombo}× FLOW · ${riderType==='snowboarder'?'SNOWBOARD':'SKIS'}`,42,photoCanvas.height-25);photoDialog?.showModal()});$('downloadPhotoButton')?.addEventListener('click',()=>{if(!photoCanvas)return;const link=document.createElement('a');link.download=`alpine-rush-${ROUTES[routeIndex].name.toLowerCase().replaceAll(' ','-')}.png`;link.href=photoCanvas.toDataURL('image/png');link.click()});
-const dialog=$('settingsDialog'),settingInputs={quality:$('qualitySetting'),motion:$('motionSetting'),volume:$('volumeSetting'),music:$('musicSetting'),units:$('unitsSetting')};Object.entries(settingInputs).forEach(([name,input])=>{input.value=AlpinePro.settings[name];input.addEventListener('input',()=>{AlpinePro.setSetting(name,input.value);if(name==='music'){activeMusicId=null;if(sound&&['playing','countdown','select'].includes(state))setMusic(true)}if(name==='units'){updatePreview();updateUI();loadSnowReport(routeIndex)}})});$('settingsButton').onclick=()=>dialog.showModal();dialog.addEventListener('close',()=>AlpinePro.ensureAudio());
+const dialog=$('settingsDialog'),settingInputs={quality:$('qualitySetting'),motion:$('motionSetting'),contrast:$('contrastSetting'),volume:$('volumeSetting'),music:$('musicSetting'),units:$('unitsSetting')};Object.entries(settingInputs).forEach(([name,input])=>{if(!input)return;input.value=AlpinePro.settings[name]||input.value;if(name==='contrast')document.documentElement.dataset.contrast=input.value;input.addEventListener('input',()=>{AlpinePro.setSetting(name,input.value);if(name==='contrast')document.documentElement.dataset.contrast=input.value;if(name==='music'){activeMusicId=null;if(sound&&['playing','countdown','select'].includes(state))setMusic(true)}if(name==='units'){updatePreview();updateUI();loadSnowReport(routeIndex)}})});$('settingsButton').onclick=()=>dialog.showModal();dialog.addEventListener('close',()=>AlpinePro.ensureAudio());
 addEventListener('pointerdown',()=>{AlpinePro.ensureAudio();if(state==='title')setIntroMusic(true);else setMusic(true)},{once:true});addEventListener('keydown',()=>{if(state==='title')setIntroMusic(true);else setMusic(true)},{once:true});updatePreview();
 const drawWeatherLayer=draw;draw=function(){drawWeatherLayer();if(state!=='playing'||snowSurface()!=='WHITEOUT')return;ctx.save();const veil=ctx.createLinearGradient(0,0,0,H);veil.addColorStop(0,'rgba(232,248,255,.08)');veil.addColorStop(.48,'rgba(236,249,255,.2)');veil.addColorStop(1,'rgba(236,249,255,.42)');ctx.fillStyle=veil;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(255,255,255,.75)';ctx.font='800 9px DM Sans';ctx.textAlign='center';ctx.fillText('WHITEOUT · FIND THE FALL LINE',W*.5,H*.2);ctx.restore()};
 const updateUIFrame=updateUI;let uiPaintAt=0;updateUI=function(){const now=performance.now();if(state==='playing'&&now-uiPaintAt<80)return;uiPaintAt=now;updateUIFrame()};
@@ -404,11 +404,29 @@ drawObstacle=function(o){
   ctx.strokeStyle=o.color;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,24);ctx.lineTo(0,-27);ctx.stroke();ctx.fillStyle=o.color;ctx.beginPath();ctx.moveTo(0,-31);ctx.lineTo(o.side*10,-18);ctx.lineTo(o.side*3,-18);ctx.lineTo(o.side*3,-7);ctx.lineTo(o.side*14,-7);ctx.lineTo(0,7);ctx.lineTo(-o.side*14,-7);ctx.lineTo(-o.side*3,-7);ctx.lineTo(-o.side*3,-18);ctx.lineTo(-o.side*10,-18);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(7,27,39,.9)';ctx.fillRect(-34,-47,68,12);ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText(o.risk?'RISK LINE':'GROOMER',0,-38);ctx.restore();
 };
 
+/* Retention and presentation polish: make the next worthwhile action obvious. */
+function paintProgression(){
+  const goal=$('progressionGoal'),details=$('progressionDetails'),reward=$('progressionReward');if(!goal)return;
+  const c=AlpinePro.career(),badges=AlpinePro.badges(),medals=AlpinePro.medals();
+  if(!c.runs){goal.textContent='COMPLETE YOUR FIRST RUN';details.textContent='Finish a run to earn XP, a course medal, and your first badge.';reward.textContent='+XP · FIRST BADGE';return}
+  if(c.level<3){goal.textContent=`REACH LEVEL 3 · ${Math.max(0,3-c.level)} LEVEL${3-c.level===1?'':'S'} TO GO`;details.textContent='Keep chaining clean clears and tricks to unlock stronger equipment.';reward.textContent='NEW SETUP UNLOCK';return}
+  if(!badges['alpine-pass']){goal.textContent='DISCOVER THE ALPINE PASS';details.textContent='Ride a German mountain to add a new badge to your passport.';reward.textContent='MOUNTAIN BADGE';return}
+  const routeMedals=Object.keys(medals).filter(k=>k.startsWith(`${routeIndex}:`)).length,total=RUNS[routeIndex]?.length||1;
+  if(routeMedals<total){goal.textContent=`MASTER ${ROUTES[routeIndex].name}`;details.textContent=`Earn ${total-routeMedals} more course medal${total-routeMedals===1?'':'s'} on this mountain.`;reward.textContent='RESORT TITLE';return}
+  goal.textContent='CHASE A PERSONAL BEST';details.textContent='Switch to Time Trial and race your ghost on a mastered line.';reward.textContent='NEW RECORD';
+}
+paintProgression();
+const resultFinishForPolish=finish;
+finish=function(){resultFinishForPolish();const nextRun=RUNS[routeIndex]?.[(runIndex+1)%Math.max(1,RUNS[routeIndex]?.length||1)],tip=$('nextRunTip');if(tip&&nextRun)tip.textContent=`NEXT UP · ${nextRun.name.toUpperCase()} · ${nextRun.difficulty} ${nextRun.terrain.toUpperCase()} · TRY A ${AlpinePro.settings.setup==='powder'?'FLOATING':'CLEAN'} LINE`;paintProgression()};
+const originalEnterRoutesForPolish=enterRoutes;
+enterRoutes=function(){originalEnterRoutesForPolish();paintProgression();if(store.get('alpineRushTutorialSeen','0')!=='1')toast('FIRST DROP','OPEN THE SKI & SNOWBOARD TUTORIAL OR TRY TRAINING RUN')};
+if(ui.objectiveText)ui.objectiveText.setAttribute('aria-live','polite');
+
 /* Career progression: every completed run contributes to a persistent season. */
 let careerAwarded=false;
 function paintCareer(c=AlpinePro.career()){
   const rank=$('careerRank'),runs=$('careerRuns'),label=$('careerXpLabel'),fill=$('careerXpFill');if(!rank)return;
-  rank.textContent=`LEVEL ${c.level} · ${c.sponsor}`;runs.textContent=`${c.runs} RUN${c.runs===1?'':'S'} LOGGED`;label.textContent=`${c.progress||0} / 1800 XP`;if(fill)fill.style.transform=`scaleX(${Math.min(1,(c.progress||0)/1800)})`;
+  const progress=Number.isFinite(c.progress)?c.progress:(Number(c.xp||0)%1800);rank.textContent=`LEVEL ${c.level} · ${c.sponsor}`;runs.textContent=`${c.runs} RUN${c.runs===1?'':'S'} LOGGED`;label.textContent=`${progress} / 1800 XP`;if(fill)fill.style.transform=`scaleX(${Math.min(1,progress/1800)})`;
 }
 const careerReset=reset;reset=function(){careerReset();careerAwarded=false};
 const careerFinish=finish;finish=function(){
