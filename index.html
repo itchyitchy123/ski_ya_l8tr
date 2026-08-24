@@ -131,14 +131,14 @@
     <audio id="introMusic" preload="auto" loop aria-label="The Ecstasy of Gold by Ennio Morricone"><source src="assets/audio/ecstasy-of-gold-intro.mp3" type="audio/mpeg"></audio>
     <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="frontFlipButton" type="button">FRONT</button><button id="flipButton" type="button">BACK</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
     <div hidden aria-hidden="true"><span id="runProgressFill"></span><button id="shareButton" type="button"></button></div>
-    <dialog class="tutorial-dialog" id="tutorialDialog"><form method="dialog"><small>ALPINE RUSH · FIRST DROP</small><h2>FIND YOUR LINE</h2><p>Carve with <kbd>←</kbd> <kbd>→</kbd>, jump with <kbd>SPACE</kbd>, and use <kbd>X</kbd> when your boost meter is ready.</p><p>Clear hazards, link carves, and land tricks cleanly. Every surface changes how your rider reacts.</p><div><button class="text-button" id="tutorialSkipButton" value="skip" type="button">SKIP TUTORIAL</button><button class="action-button" id="tutorialStartButton" value="start" type="submit"><b>DROP IN</b><span>↘</span></button></div></form></dialog>
+    <dialog class="tutorial-dialog" id="tutorialDialog"><form method="dialog"><small>ALPINE RUSH · FIRST DROP</small><h2>FIND YOUR LINE</h2><div class="drop-briefing"><strong id="briefingResort">ECHO MOUNTAIN</strong><span id="briefingRun">HOLLYWOOD · BLUE · 980 M</span><p id="briefingAdvice">A forgiving first line with room to learn your edges.</p></div><p>Carve with <kbd>←</kbd> <kbd>→</kbd>, jump with <kbd>SPACE</kbd>, and use <kbd>X</kbd> when your boost meter is ready.</p><p>Clear hazards, link carves, and land tricks cleanly. Every surface reacts differently—watch the surface label in your HUD.</p><div><button class="text-button" id="tutorialSkipButton" value="skip" type="button">SKIP TUTORIAL</button><button class="action-button" id="tutorialStartButton" value="start" type="submit"><b>DROP IN</b><span>↘</span></button></div></form></dialog>
     <select id="contrastSetting" hidden><option>normal</option></select><select id="sensitivitySetting" hidden><option>standard</option></select><select id="hapticsSetting" hidden><option>on</option></select>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script>window.__bootTimer=setTimeout(function(){var m=document.getElementById('bootMessage');if(m)m.textContent='The game took too long to start. Refresh to try again.'},7000)</script>
   <script src="pro-systems.js?v=3"></script>
   <script src="replay.js?v=5"></script>
-  <script src="game.js?v=89"></script>
+  <script src="game.js?v=90"></script>
 </body>
 <!-- Compatibility assets retained for the production smoke contract: modern.css?v=3 performance.js?v=1 replay.js?v=2 mobile.js?v=2 visual-effects.js?v=1 game.js?v=13 -->
 </html>
