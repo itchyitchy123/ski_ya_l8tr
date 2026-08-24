@@ -22,6 +22,7 @@ All notable player-facing changes are documented here.
 - Improved grounded rider animation with downhill stance lean, ski/board contact tracks, edge compression cues, and directional snow spray.
 - Aligned the rider’s skis, contact shadow, and track marks to the same piste point to remove the floating appearance.
 - Unified the rider’s downhill position with the piste projection so feet, shadow, tracks, and snow surface share the same ground contact point.
+- Consolidated the final rider contact pass around one authoritative world-space piste projection, including lane position, look-ahead depth, slope, and jump height.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
