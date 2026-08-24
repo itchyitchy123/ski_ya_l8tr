@@ -4,6 +4,14 @@ All notable player-facing changes are documented here.
 
 ## Unreleased — 2026-08-23
 
+- WebGL piste presentation now composites the selected resort's actual mountain artwork behind the 3D run, with a transparent snow scene, stronger skier silhouette, and a WebGL fallback for unsupported browsers.
+- Rebuilt the visible rider model with downhill stance, bent legs, jacket and helmet silhouette, goggles, poles, skis or snowboard, carving lean, and loadout-aware colors.
+- Fixed WebGL chase-camera tracking so carving is visibly readable, added touch-button input to the 3D renderer, and increased ski/snowboard contrast with dark equipment and bright bindings.
+- Replaced the crude foreground cuboid rider with a high-contrast illustrated downhill rider overlay, including recognizable stance, skis/board, poles, goggles, snow spray, and animated carving lean.
+- Removed the floating 2D rider layer and restored a fully grounded 3D-only rider, so skis, boots, jumps, and piste contact all share the same world coordinates.
+- Rebuilt the WebGL piste from continuous triangulated snow and terrain-shoulder surfaces instead of repeated box slabs, improving downhill depth and reducing the road-like appearance.
+- Replaced the WebGL prototype renderer with a clean forward-chase 3D scene: continuous piste mesh, grounded rider, same-direction traffic, recycled downhill scenery, touch input, and preserved resort backdrops.
+- Restored the polished 2D gameplay renderer as the active experience; the experimental WebGL renderer is retained in the repository but no longer loaded by the game.
 - Added persistent career progression with XP, levels, sponsor tiers, and daily sponsor contracts.
 - Fixed duplicate settings controls, stale delayed finishes, persisted-setting validation, cancellable snow reports, and mobile results/settings overflow.
 - Simplified resort selection with larger type and moved snow reports, Colorado flavor, progression, and optional resort panels into a dedicated Mountain Details screen.
