@@ -10,6 +10,7 @@ All notable player-facing changes are documented here.
 - Refined the resort layout into a predictable full-width flow and increased Mountain Details typography for easier reading.
 - Added high-contrast piste edges, colored boundary lines, and alternating marker poles so the playable trail is obvious during desktop runs.
 - Added a visual polish pass with stronger hierarchy, premium depth/shadows, improved focus states, larger HUD typography, and more dimensional resort cards.
+- Reworked the run surface so the visible piste is a distinct, natural snow corridor that matches the rider’s playable width instead of a broad painted track.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
