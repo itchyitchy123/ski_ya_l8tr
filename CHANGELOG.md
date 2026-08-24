@@ -55,6 +55,7 @@ All notable player-facing changes are documented here.
 - Added a Pond Skim spring festival event, Colorado county-plate collectibles, 14er/bluebird/pond-skimmer/county-cruiser badges, and Colorado trivia in the Après Lodge.
 - Added a Parking Lot Survivor shuttle challenge, pass-specific Colorado weather flavor, Green Chile Lodge quests, and local achievement titles for parking, dust-on-crust, San Juan lines, and chile-powered laps.
 - Added a persistent Colorado season map with regional passport stamps, mountain-radio updates, and county-plate progress that carries between runs.
+- Fixed resort elevation units, duplicate finish rewards, route-click overwork, stale background refreshes, invalid saved settings, mobile result actions, desktop card placement, and noisy screen-reader notifications.
 
 ## 2.0.0 — 2026-08-22
 
