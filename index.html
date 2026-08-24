@@ -17,13 +17,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=48">
+  <link rel="stylesheet" href="styles.css?v=49">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
   <main class="game" id="game">
     <div class="boot-screen" id="bootScreen" role="status"><span class="boot-mark">▲</span><b>LOADING COLORADO</b><i></i><p id="bootMessage">Preparing the mountain…</p></div>
-    <canvas id="gameCanvas" role="img" aria-label="A downhill ski course. Carve around hazards and jump obstacles to score."></canvas>
+    <canvas id="gameCanvas" role="img" aria-label="A downhill ski course. Carve around hazards and jump obstacles to score."></canvas><canvas id="worldCanvas" aria-hidden="true"></canvas>
     <div class="speed-wash" aria-hidden="true"></div>
 
     <header class="game-header">
@@ -142,6 +142,7 @@
   <script src="pro-systems.js?v=3"></script>
   <script src="replay.js?v=5"></script>
   <script src="game.js?v=113"></script>
+  <script src="world3d.js?v=1"></script>
 </body>
 <!-- Compatibility assets retained for the production smoke contract: modern.css?v=3 performance.js?v=1 replay.js?v=2 mobile.js?v=2 visual-effects.js?v=1 game.js?v=13 -->
 </html>

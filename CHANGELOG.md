@@ -25,6 +25,7 @@ All notable player-facing changes are documented here.
 - Consolidated the final rider contact pass around one authoritative world-space piste projection, including lane position, look-ahead depth, slope, and jump height.
 - Added a render-time ground lock so the rider is snapped to the projected piste surface every frame, preventing camera/update drift from producing a floating appearance.
 - Added a softly shaded, projection-matched desktop piste surface with natural banks and terrain undulation, replacing the empty snow beneath the rider without restoring the street-like track.
+- Retired the legacy 2D gameplay canvas in favor of a native WebGL piste scene with perspective camera, 3D snow geometry, world-space skier traffic, trees, and terrain depth.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
