@@ -6,6 +6,7 @@ All notable player-facing changes are documented here.
 
 - Added persistent career progression with XP, levels, sponsor tiers, and daily sponsor contracts.
 - Fixed duplicate settings controls, stale delayed finishes, persisted-setting validation, cancellable snow reports, and mobile results/settings overflow.
+- Simplified resort selection with larger type and moved snow reports, Colorado flavor, progression, and optional resort panels into a dedicated Mountain Details screen.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
