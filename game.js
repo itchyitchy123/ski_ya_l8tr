@@ -416,6 +416,28 @@ const hapticLand=landTrick;landTrick=function(){const result=hapticLand();haptic
 const hapticClear=clearObstacle;clearObstacle=function(o,dx){hapticClear(o,dx);haptic(o?.type==='rail'?[10,18]:7)};
 const hapticCrash=crashPlayer;crashPlayer=function(reason){hapticCrash(reason);haptic([32,18,45])};
 
+/* Colorado flavor pack: I-70 traffic, 14er goals, wildlife jokes, and local notes. */
+const coloradoNotes=[
+  ['BLUEBIRD OR BUST','Sunny at the trailhead does not mean sunny above treeline.','14ER READY'],
+  ['POWDER DAY SICK','The group chat called in. Nobody is answering emails today.','FIRST TRACKS'],
+  ['I-70 WILDCARD','Brake lights ahead. The mountain is moving faster than the highway.','BEAT TRAFFIC'],
+  ['CORN SNOW SEASON','Soft turns, loud jackets, and one last run before lunch.','SPRING SLUSH']
+];
+function paintColoradoCard(){const title=$('coloradoTitle'),details=$('coloradoDetails'),badge=$('coloradoBadge');if(!title)return;const note=coloradoNotes[(routeIndex+new Date().getDate())%coloradoNotes.length];title.textContent=note[0];details.textContent=routeIndex>=5?`German alpine line selected · ${note[1]}`:note[1];badge.textContent=note[2]}
+paintColoradoCard();
+const coloradoSpawn=spawn;
+spawn=function(){const before=obstacles.length;coloradoSpawn();if(state!=='playing'||AlpinePro.settings.mode!=='colorado')return;const sample=courseSample(Math.min(1,(distance+courseLength*.13)/courseLength)),x=Math.max(.12,Math.min(.88,sample.center+(Math.random()-.5)*sample.width*.72)),type=spawnCount%3===0?'chainZone':'traffic';obstacles.push({type,x,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='traffic'?'#e34d3d':'#f0b84c',side:x<sample.center?-1:1,laneV:type==='traffic'?(Math.random()>.5?1:-1)*(.025+Math.random()*.025):0})};
+const coloradoHit=hitObstacle;
+hitObstacle=function(o,dx){if(o.type==='chainZone'){o.hit=true;speed=Math.max(.72,speed-.32);combo=1;toast('CHAIN-UP ZONE','COLORADO TRAFFIC TAX');beep(180,.16);return}if(o.type==='traffic'){coloradoHit(o,dx);return}coloradoHit(o,dx)};
+const coloradoClear=clearObstacle;
+clearObstacle=function(o,dx){if(o.type==='traffic'){const points=420*combo;scorePop(points,o.x*W,o.y*H,'BEAT THE TRAFFIC');toast('I-70 PASS','+ '+points);recordChallenge('clear');combo=Math.min(8,combo+1);bestCombo=Math.max(bestCombo,combo);return}coloradoClear(o,dx)};
+const coloradoDraw=drawObstacle;
+drawObstacle=function(o){if(!['traffic','chainZone'].includes(o.type)){coloradoDraw(o);return}if(o.y<.4||o.hit)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);if(o.type==='traffic'){ctx.fillStyle='#263947';ctx.fillRect(-30,2,60,23);ctx.fillStyle='#e34d3d';ctx.fillRect(-21,-7,42,12);ctx.fillStyle='#ffe38c';ctx.fillRect(-25,11,7,5);ctx.fillRect(18,11,7,5);ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('I-70',0,30)}else{ctx.fillStyle='#f0b84c';ctx.fillRect(-36,-4,72,8);ctx.fillStyle='#223542';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('CHAIN-UP ZONE',0,-12)}ctx.restore()};
+const coloradoUpdate=update;
+update=function(dt){coloradoUpdate(dt);if(state!=='playing')return;if(AlpinePro.settings.mode==='colorado'){ui.objectiveText.textContent='BEAT THE I-70 TRAFFIC';ui.objectiveProgress.textContent=`${clears} CLEAN PASSES`;obstacles.forEach(o=>{if(o.type!=='traffic')return;o.x+=o.laneV*dt*speed;if(o.x<.12||o.x>.88){o.x=Math.max(.12,Math.min(.88,o.x));o.laneV*=-1}})}};
+const coloradoReset=reset;reset=function(){coloradoReset();if(AlpinePro.settings.mode==='colorado')toast('COLORADO DAY','WATCH FOR I-70 TRAFFIC AND CHAIN-UP ZONES')};
+setInterval(paintColoradoCard,2500);
+
 /* Retention and presentation polish: make the next worthwhile action obvious. */
 function paintProgression(){
   const goal=$('progressionGoal'),details=$('progressionDetails'),reward=$('progressionReward');if(!goal)return;

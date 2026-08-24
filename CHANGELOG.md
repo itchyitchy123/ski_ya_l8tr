@@ -51,6 +51,7 @@ All notable player-facing changes are documented here.
 - Renamed the beginner entry point and page to clearly identify it as the “Ski & Snowboard Tutorial.”
 - Added a clearer next-goal progression card, next-run recommendations, accurate career XP progress, high-contrast settings, reduced-motion support, and stronger first-session guidance.
 - Added resort-specific first-drop briefings, terrain coaching, mobile haptic feedback for landings and crashes, and clearer run identity before the countdown.
+- Added a Colorado Day event with I-70 traffic and chain-up zones, Colorado local notes, 14er and bluebird badges, and a mountain passport presentation.
 
 ## 2.0.0 — 2026-08-22
 
