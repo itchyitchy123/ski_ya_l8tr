@@ -423,7 +423,7 @@ const coloradoNotes=[
   ['I-70 WILDCARD','Brake lights ahead. The mountain is moving faster than the highway.','BEAT TRAFFIC'],
   ['CORN SNOW SEASON','Soft turns, loud jackets, and one last run before lunch.','SPRING SLUSH']
 ];
-function paintColoradoCard(){const title=$('coloradoTitle'),details=$('coloradoDetails'),badge=$('coloradoBadge');if(!title)return;const note=coloradoNotes[(routeIndex+new Date().getDate())%coloradoNotes.length];title.textContent=note[0];details.textContent=routeIndex>=5?`German alpine line selected · ${note[1]}`:note[1];badge.textContent=note[2]}
+function paintColoradoCard(){const title=$('coloradoTitle'),details=$('coloradoDetails'),badge=$('coloradoBadge');if(!title)return;const passNotes=[['LOVELAND PASS WIND','The pass is howling. Hold your edge and keep your goggles on.','DIVIDE WIND'],['BERTHOUD POWDER','Fresh snow, tight trees, and a local who says the stash is “secret.”','NORTHWEST POW'],['MONARCH BLUEBIRD','A long drive, a quiet lift, and the kind of sky Colorado brags about.','SOUTHWEST SKY'],['SAN JUAN SEND','Big views, steep lines, and a good reason to check the exit plan.','SAN JUAN LINE']];const note=routeIndex<5?coloradoNotes[(routeIndex+new Date().getDate())%coloradoNotes.length]:passNotes[(routeIndex-5)%passNotes.length];title.textContent=note[0];details.textContent=routeIndex>=5?`German alpine line selected · ${note[1]}`:note[1];badge.textContent=note[2]}
 paintColoradoCard();
 const coloradoSpawn=spawn;
 spawn=function(){const before=obstacles.length;coloradoSpawn();if(state!=='playing'||AlpinePro.settings.mode!=='colorado')return;const sample=courseSample(Math.min(1,(distance+courseLength*.13)/courseLength)),x=Math.max(.12,Math.min(.88,sample.center+(Math.random()-.5)*sample.width*.72)),type=spawnCount%3===0?'chainZone':'traffic';obstacles.push({type,x,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='traffic'?'#e34d3d':'#f0b84c',side:x<sample.center?-1:1,laneV:type==='traffic'?(Math.random()>.5?1:-1)*(.025+Math.random()*.025):0})};
@@ -452,6 +452,20 @@ const coloradoCollectibleUpdate=update;
 update=function(dt){coloradoCollectibleUpdate(dt);if(state!=='playing')return;const mode=AlpinePro.settings.mode;if(mode==='pondskim'){ui.objectiveText.textContent='CLEAR THE POND SKIM';ui.objectiveProgress.textContent=`${pondSkims} / 3 SPLASHES`}if(mode==='colorado')ui.objectiveProgress.textContent=`${clears} PASSES · ${plateFinds} PLATES`};
 const lodgeTrivia=[['What does “bluebird” mean?','A clear, sunny day after a storm.'],['What is a 14er?','A Colorado peak over 14,000 feet.'],['What is corn snow?','Soft, spring snow that turns creamy in the sun.'],['What does “one more run” usually mean?','At least three more runs.']];
 $('lodgeTriviaButton')?.addEventListener('click',()=>{const item=lodgeTrivia[Math.floor(Math.random()*lodgeTrivia.length)];toast(`COLORADO TRIVIA · ${item[0]}`,item[1])});
+const chileQuests=['Find the greenest chile in the lodge kitchen.','Trade one lodge credit for extra heat.','Ask the cook whether “mild” is actually mild.','Finish a run, then report directly to the burrito line.'];
+$('lodgeChileButton')?.addEventListener('click',()=>{const quest=chileQuests[Math.floor(Math.random()*chileQuests.length)];toast('GREEN CHILE QUEST',quest);try{store.set('alpineRushChileQuest',new Date().toISOString().slice(0,10))}catch{}});
+
+let parkingCones=0;
+const parkingSpawn=spawn;
+spawn=function(){const before=obstacles.length;parkingSpawn();if(state!=='playing'||AlpinePro.settings.mode!=='parking')return;const s=courseSample(Math.min(1,(distance+courseLength*.11)/courseLength));const type=spawnCount%3===0?'shuttle':'cone';obstacles.push({type,x:Math.max(.12,Math.min(.88,s.center+(Math.random()-.5)*s.width*.7)),y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:type==='shuttle'?'#2e7fa8':'#f28e3d',side:1,laneV:type==='shuttle'?(Math.random()>.5?1:-1)*.04:0})};
+const parkingHit=hitObstacle;
+hitObstacle=function(o,dx){if(o.type==='cone'){if(o.hit)return;o.hit=true;parkingCones++;toast('PARKING CONE','NICE SAVE · SHUTTLE LINE MOVING');beep(260,.1);return}if(o.type==='shuttle'){if(o.hit)return;o.hit=true;toast('SHUTTLE BLOCK','THE LOT IS FULL');parkingHit(o,dx);return}parkingHit(o,dx)};
+const parkingClear=clearObstacle;
+clearObstacle=function(o,dx){if(o.type==='cone'){o.cleared=true;parkingCones++;score+=240*combo;combo=Math.min(8,combo+1);toast('CONE CLEARED','LEGAL PARKING LINE');return}parkingClear(o,dx)};
+const parkingDraw=drawObstacle;
+drawObstacle=function(o){if(!['cone','shuttle'].includes(o.type)){parkingDraw(o);return}if(o.y<.4||o.hit)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);if(o.type==='cone'){ctx.fillStyle='#f28e3d';ctx.beginPath();ctx.moveTo(0,-26);ctx.lineTo(-13,21);ctx.lineTo(13,21);ctx.closePath();ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(-8,-2,16,5);ctx.fillRect(-11,10,22,5)}else{ctx.fillStyle='#2e7fa8';ctx.fillRect(-34,-18,68,38);ctx.fillStyle='#cceef4';ctx.fillRect(-24,-11,18,13);ctx.fillRect(6,-11,18,13);ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('MOUNTAIN SHUTTLE',0,29)}ctx.restore()};
+const parkingReset=reset;reset=function(){parkingReset();parkingCones=0};
+const parkingUpdate=update;update=function(dt){parkingUpdate(dt);if(state!=='playing'||AlpinePro.settings.mode!=='parking')return;ui.objectiveText.textContent='BEAT THE SHUTTLE RUSH';ui.objectiveProgress.textContent=`${parkingCones} LOT CLEARS`;obstacles.forEach(o=>{if(o.type!=='shuttle')return;o.x+=o.laneV*dt*speed;if(o.x<.12||o.x>.88){o.x=Math.max(.12,Math.min(.88,o.x));o.laneV*=-1}})};
 
 /* Retention and presentation polish: make the next worthwhile action obvious. */
 function paintProgression(){

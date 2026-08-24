@@ -53,6 +53,7 @@ All notable player-facing changes are documented here.
 - Added resort-specific first-drop briefings, terrain coaching, mobile haptic feedback for landings and crashes, and clearer run identity before the countdown.
 - Added a Colorado Day event with I-70 traffic and chain-up zones, Colorado local notes, 14er and bluebird badges, and a mountain passport presentation.
 - Added a Pond Skim spring festival event, Colorado county-plate collectibles, 14er/bluebird/pond-skimmer/county-cruiser badges, and Colorado trivia in the Après Lodge.
+- Added a Parking Lot Survivor shuttle challenge, pass-specific Colorado weather flavor, Green Chile Lodge quests, and local achievement titles for parking, dust-on-crust, San Juan lines, and chile-powered laps.
 
 ## 2.0.0 — 2026-08-22
 
