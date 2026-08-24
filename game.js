@@ -331,7 +331,7 @@ document.querySelectorAll('[data-upgrade]').forEach(button=>button.addEventListe
 let badgesReported=false;
 const badgesReset=reset;reset=function(){badgesReset();badgesReported=false};
 const badgesFinish=finish;finish=function(){
-  if(!badgesReported){badgesReported=true;const earned=AlpinePro.awardBadges({runs:AlpinePro.career().runs+1,trickCount,riskLines,patrolClears,stashFinds,mode:AlpinePro.settings.mode,routeIndex}),result=$('badgeResult');paintBadges();if(result&&earned.newBadges.length)result.textContent=`BADGE EARNED · ${earned.newBadges.join(' · ')}`;}
+  if(!badgesReported){badgesReported=true;const earned=AlpinePro.awardBadges({runs:AlpinePro.career().runs+1,trickCount,riskLines,patrolClears,stashFinds,plateFinds,mode:AlpinePro.settings.mode,routeIndex}),result=$('badgeResult');paintBadges();if(result&&earned.newBadges.length)result.textContent=`BADGE EARNED · ${earned.newBadges.join(' · ')}`;}
   badgesFinish();
 };
 const rivalReset=reset;
@@ -437,6 +437,21 @@ const coloradoUpdate=update;
 update=function(dt){coloradoUpdate(dt);if(state!=='playing')return;if(AlpinePro.settings.mode==='colorado'){ui.objectiveText.textContent='BEAT THE I-70 TRAFFIC';ui.objectiveProgress.textContent=`${clears} CLEAN PASSES`;obstacles.forEach(o=>{if(o.type!=='traffic')return;o.x+=o.laneV*dt*speed;if(o.x<.12||o.x>.88){o.x=Math.max(.12,Math.min(.88,o.x));o.laneV*=-1}})}};
 const coloradoReset=reset;reset=function(){coloradoReset();if(AlpinePro.settings.mode==='colorado')toast('COLORADO DAY','WATCH FOR I-70 TRAFFIC AND CHAIN-UP ZONES')};
 setInterval(paintColoradoCard,2500);
+
+let plateFinds=0,pondSkims=0;
+const coloradoCollectibleSpawn=spawn;
+spawn=function(){const before=obstacles.length;coloradoCollectibleSpawn();if(state!=='playing')return;if(AlpinePro.settings.mode==='colorado'&&spawnCount%4===0){const s=courseSample(Math.min(1,(distance+courseLength*.14)/courseLength));obstacles.push({type:'plate',x:Math.max(.14,Math.min(.86,s.center+(Math.random()-.5)*s.width*.55)),y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:'#f5c95b',side:1,laneV:0})}if(AlpinePro.settings.mode==='pondskim'&&spawnCount%3===0){const s=courseSample(Math.min(1,(distance+courseLength*.12)/courseLength));obstacles.push({type:'pond',x:s.center,y:.035,wobble:Math.random()*6.28,hit:false,cleared:false,color:'#63d8ed',side:1,laneV:0})}};
+const coloradoCollectibleHit=hitObstacle;
+hitObstacle=function(o,dx){if(o.type==='plate'){if(o.hit)return;o.hit=true;o.cleared=true;plateFinds++;score+=850;recordChallenge('stash');toast('COUNTY PLATE FOUND',`${plateFinds} COLLECTED`);beep(1040,.16);return}if(o.type==='pond'){if(o.hit)return;if(player.jump>25){o.cleared=true;pondSkims++;score+=700*combo;combo=Math.min(8,combo+1);bestCombo=Math.max(bestCombo,combo);toast('POND SKIM','STAY DRY · +'+(700*combo));beep(760,.18);return}coloradoCollectibleHit(o,dx);return}coloradoCollectibleHit(o,dx)};
+const coloradoCollectibleClear=clearObstacle;
+clearObstacle=function(o,dx){if(o.type==='plate'){o.cleared=true;plateFinds++;score+=850;toast('COUNTY PLATE FOUND',`${plateFinds} COLLECTED`);beep(1040,.16);return}if(o.type==='pond'){o.cleared=true;pondSkims++;score+=700*combo;combo=Math.min(8,combo+1);bestCombo=Math.max(bestCombo,combo);toast('POND SKIM','CLEAN SPLASH · +'+(700*combo));return}coloradoCollectibleClear(o,dx)};
+const coloradoCollectibleDraw=drawObstacle;
+drawObstacle=function(o){if(!['plate','pond'].includes(o.type)){coloradoCollectibleDraw(o);return}if(o.y<.4||o.hit)return;const t=Math.max(0,Math.min(1,(o.y-.4)/.48)),scale=.2+t*.9;ctx.save();ctx.translate(o.x*W,o.y*H);ctx.scale(scale,scale);if(o.type==='plate'){ctx.fillStyle='#f5c95b';ctx.fillRect(-27,-18,54,36);ctx.strokeStyle='#fff3b1';ctx.lineWidth=2;ctx.strokeRect(-27,-18,54,36);ctx.fillStyle='#233d4b';ctx.font='900 8px DM Sans';ctx.textAlign='center';ctx.fillText('COLORADO',0,-4);ctx.font='900 6px DM Sans';ctx.fillText('MILE HIGH',0,8)}else{ctx.fillStyle='rgba(63,207,234,.55)';ctx.beginPath();ctx.ellipse(0,12,42,18,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#d9fbff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-33,0);ctx.quadraticCurveTo(0,-20,33,0);ctx.stroke();ctx.fillStyle='#fff';ctx.font='900 7px DM Sans';ctx.textAlign='center';ctx.fillText('POND SKIM',0,-26)}ctx.restore()};
+const coloradoCollectibleReset=reset;reset=function(){coloradoCollectibleReset();plateFinds=0;pondSkims=0};
+const coloradoCollectibleUpdate=update;
+update=function(dt){coloradoCollectibleUpdate(dt);if(state!=='playing')return;const mode=AlpinePro.settings.mode;if(mode==='pondskim'){ui.objectiveText.textContent='CLEAR THE POND SKIM';ui.objectiveProgress.textContent=`${pondSkims} / 3 SPLASHES`}if(mode==='colorado')ui.objectiveProgress.textContent=`${clears} PASSES · ${plateFinds} PLATES`};
+const lodgeTrivia=[['What does “bluebird” mean?','A clear, sunny day after a storm.'],['What is a 14er?','A Colorado peak over 14,000 feet.'],['What is corn snow?','Soft, spring snow that turns creamy in the sun.'],['What does “one more run” usually mean?','At least three more runs.']];
+$('lodgeTriviaButton')?.addEventListener('click',()=>{const item=lodgeTrivia[Math.floor(Math.random()*lodgeTrivia.length)];toast(`COLORADO TRIVIA · ${item[0]}`,item[1])});
 
 /* Retention and presentation polish: make the next worthwhile action obvious. */
 function paintProgression(){

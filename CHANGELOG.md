@@ -52,6 +52,7 @@ All notable player-facing changes are documented here.
 - Added a clearer next-goal progression card, next-run recommendations, accurate career XP progress, high-contrast settings, reduced-motion support, and stronger first-session guidance.
 - Added resort-specific first-drop briefings, terrain coaching, mobile haptic feedback for landings and crashes, and clearer run identity before the countdown.
 - Added a Colorado Day event with I-70 traffic and chain-up zones, Colorado local notes, 14er and bluebird badges, and a mountain passport presentation.
+- Added a Pond Skim spring festival event, Colorado county-plate collectibles, 14er/bluebird/pond-skimmer/county-cruiser badges, and Colorado trivia in the Après Lodge.
 
 ## 2.0.0 — 2026-08-22
 
