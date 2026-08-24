@@ -612,3 +612,6 @@ drawNaturalBoundaries=function(){const slices=[];for(let i=0;i<=24;i++){const t=
 mountain=function(){renderTerrain();if(['playing','countdown'].includes(state)){drawNaturalPiste();drawNaturalBoundaries();drawBaseArea()}};
 /* Persistent resort identity keeps the run presentation grounded in a real mountain and line. */
 const hudIdentity=document.createElement('div');hudIdentity.className='run-identity';hudIdentity.innerHTML='<small></small><strong></strong>';ui.hud.append(hudIdentity);function paintHudIdentity(){hudIdentity.querySelector('small').textContent=ROUTES[routeIndex].name;hudIdentity.querySelector('strong').textContent=RUNS[routeIndex][runIndex].name.toUpperCase()}const baseHudUpdate=updateUI;updateUI=function(){baseHudUpdate();paintHudIdentity()};paintHudIdentity();
+/* Carry the selected resort’s visual identity through gameplay and the result poster. */
+function syncResortTheme(){const image=resortImages[routeIndex];document.documentElement.dataset.resort=String(routeIndex);const results=$('resultsScreen');if(results&&image?.src)results.style.setProperty('--resort-image',`url("${image.src}")`)}
+const themeUpdatePreview=updatePreview;updatePreview=function(){themeUpdatePreview();syncResortTheme()};syncResortTheme();

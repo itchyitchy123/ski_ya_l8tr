@@ -13,6 +13,7 @@ All notable player-facing changes are documented here.
 - Reworked the run surface so the visible piste is a distinct, natural snow corridor that matches the rider’s playable width instead of a broad painted track.
 - Widened the playable fall line and removed the dark full-width overlay so the rider can use the whole visible piste while the mountain background remains visible.
 - Added a persistent resort/run identity badge during gameplay, smoother screen transitions, and a more polished results highlight treatment.
+- Added resort-specific visual theming and image-backed result posters so every finished run carries the identity of its mountain.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
