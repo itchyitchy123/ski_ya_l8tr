@@ -18,6 +18,7 @@ All notable player-facing changes are documented here.
 - Added progressive mountain parallax: distant ridges, nearer terrain layers, and snow streaks now move with the run to reinforce downhill travel.
 - Added same-direction piste riders with gentle traverses/merges, plus mogul bumps that compress and launch the skier or boarder instead of acting like incoming traffic.
 - Added a forward chase-camera pass so the rider advances from the upper piste toward the foreground as the run progresses, rather than remaining vertically pinned.
+- Added a world-space shared-rider layer with downhill distance, relative speed, lane traversal, piste-curve projection, and rider-merge collisions.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
