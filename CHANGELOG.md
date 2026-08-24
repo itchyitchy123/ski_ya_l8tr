@@ -8,6 +8,7 @@ All notable player-facing changes are documented here.
 - Fixed duplicate settings controls, stale delayed finishes, persisted-setting validation, cancellable snow reports, and mobile results/settings overflow.
 - Simplified resort selection with larger type and moved snow reports, Colorado flavor, progression, and optional resort panels into a dedicated Mountain Details screen.
 - Refined the resort layout into a predictable full-width flow and increased Mountain Details typography for easier reading.
+- Added high-contrast piste edges, colored boundary lines, and alternating marker poles so the playable trail is obvious during desktop runs.
 - Added Downhill Race, Big Air, Patrol Chase, weekly modifiers, trick battles, and photo-finish results.
 - Added branching groomer/risk lines, rival riders with personalities, blocking, speed pressure, signature tricks, and banter.
 - Added wildlife, snowcats, lift towers, fallen signs, crowds, rescue events, patrol overloads, and changing weather hazards.
