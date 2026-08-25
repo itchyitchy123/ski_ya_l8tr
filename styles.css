@@ -128,3 +128,6 @@ html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}button
 @media(max-width:760px){.results-card:after{opacity:.2}.results-card h2{font-size:clamp(48px,15vw,72px)}}
 /* WebGL replaces the legacy 2D gameplay canvas; screens and HUD remain HTML overlays. */
 #gameCanvas{display:block!important}#worldCanvas{display:none!important}
+/* Colorado is the default route page; Germany is a deliberate regional switch. */
+.region-nav{display:flex;gap:8px;margin-top:16px}.region-tab{padding:9px 12px;border:1px solid rgba(255,255,255,.25);border-radius:7px;color:#b9cbd0;background:rgba(7,27,39,.7);font-size:10px;font-weight:900;letter-spacing:1px;cursor:pointer}.region-tab.active,.region-tab:hover,.region-tab:focus-visible{border-color:var(--gold);color:#071522;background:var(--gold);outline:none}.route-card[hidden]{display:none}
+.route-card:nth-child(11){background:linear-gradient(0deg,rgba(4,20,29,.92),rgba(29,76,88,.06)),url("assets/resorts/keystone.webp") center/cover}.route-card:nth-child(12){background:linear-gradient(0deg,rgba(4,20,29,.92),rgba(29,76,88,.06)),url("assets/resorts/cooper.webp") center/cover}.route-card:nth-child(13){background:linear-gradient(0deg,rgba(4,20,29,.92),rgba(29,76,88,.06)),url("assets/resorts/copper-mountain.webp") center/cover}

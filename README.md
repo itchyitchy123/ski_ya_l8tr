@@ -21,7 +21,7 @@ The title-screen intro uses “The Ecstasy of Gold” by Ennio Morricone. The ga
 ### Highlights
 
 - Momentum-based carving with keyboard and touch controls
-- Ten mountain routes across Colorado and Germany, with a forgiving starter lineup and score-based unlocks for deeper terrain
+- Thirteen mountain routes across Colorado and Germany, including Keystone, Cooper, and Copper Mountain, with a forgiving starter lineup and score-based unlocks for deeper terrain
 - Risk/reward jumps, near misses, flow combos, and daily objectives
 - Optional glowing shortcut gates that trade line precision for speed and bonus points
 - Collectible mountain patches that reward exploration with combo-scaled discoveries

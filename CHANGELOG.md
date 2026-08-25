@@ -4,6 +4,7 @@ All notable player-facing changes are documented here.
 
 ## Unreleased — 2026-08-25
 
+- Added Keystone, Cooper, and Copper Mountain routes with distinct Colorado terrain, run names, elevations, unlock thresholds, snow-report coordinates, resort artwork, and offline asset caching.
 - Added persistent mobile steering sensitivity options with low, standard, and high response profiles.
 - Added persistent haptic feedback controls for tilt steering, touch gestures, and mobile action buttons.
 - Hardened lodge-credit upgrades against unavailable storage, invalid credit values, and failed saves.
