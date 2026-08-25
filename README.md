@@ -21,7 +21,7 @@ The title-screen intro uses “The Ecstasy of Gold” by Ennio Morricone. The ga
 ### Highlights
 
 - Momentum-based carving with keyboard and touch controls
-- Ten immediately playable mountain routes across Colorado and Germany, each with unique weather, scenery, and hazard mixes
+- Ten mountain routes across Colorado and Germany, with a forgiving starter lineup and score-based unlocks for deeper terrain
 - Risk/reward jumps, near misses, flow combos, and daily objectives
 - Optional glowing shortcut gates that trade line precision for speed and bonus points
 - Collectible mountain patches that reward exploration with combo-scaled discoveries
@@ -29,7 +29,7 @@ The title-screen intro uses “The Ecstasy of Gold” by Ennio Morricone. The ga
 - Dynamic difficulty, speed effects, camera banking, and brief impact slow-motion
 - Persistent local high scores
 - Shareable run highlights with route, setup, score, and flow summary
-- Four disciplines, persistent course medals, and personal-best ghost racing
+- Ten event disciplines, persistent course medals, and personal-best ghost racing
 - Gamepad, fullscreen, offline installation, graphics, motion, audio, and unit settings
 - Unlockable jacket colors and score-based progression
 - Responsive full-screen desktop and mobile presentation

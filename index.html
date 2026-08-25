@@ -19,7 +19,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="styles.css?v=50">
-  <link rel="stylesheet" href="modern.css?v=3">
+  <link rel="stylesheet" href="modern.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -59,6 +59,7 @@
         <h1>ALPINE<br><em>RUSH</em></h1>
         <p class="tagline">Find your line. Hold your nerve.<br>Leave nothing on the mountain.</p>
         <button class="action-button" id="enterButton" type="button"><b>ENTER THE MOUNTAIN</b><span>↘</span></button>
+        <button class="quick-drop-button" id="quickDropButton" type="button"><b>QUICK DROP</b><span>▶</span></button>
         <p class="press-key"><kbd>SPACE</kbd> TO CONTINUE</p>
       </div>
       <div class="title-footer"><span>AR / COLORADO SERIES</span><span>MUSIC: THE COPPERHEAD STOMP · REBEL ROAD MUSIC</span><span>BEST <b id="titleBest">000000</b></span></div>
@@ -118,7 +119,7 @@
       </div>
     </section>
 
-    <dialog class="settings-dialog" id="settingsDialog"><form method="dialog"><header><div><small>ALPINE RUSH</small><h2>SETTINGS</h2></div><button value="close" aria-label="Close settings">×</button></header><label>Graphics quality<select id="qualitySetting"><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label><label>Motion<select id="motionSetting"><option value="full">Full</option><option value="reduced">Reduced</option></select></label><label>Interface contrast<select id="contrastSetting"><option value="normal">Standard</option><option value="high">High contrast</option></select></label><label>Audio volume<input id="volumeSetting" type="range" min="0" max="1" step="0.05"></label><label>Music<select id="musicSetting"><option value="random">Random track</option><option value="copperhead">The Copperhead Stomp</option><option value="highway">Highway Fever</option><option value="tiroler">Tiroler Polka</option></select></label><label>Units<select id="unitsSetting"><option value="metric">Metric</option><option value="imperial">Imperial</option></select></label><p>German mountain routes use Tiroler Polka automatically when music is set to Random. Gamepad supported: left stick to carve, A to jump, B to boost, Menu to pause.</p><button class="action-button" value="close"><b>SAVE &amp; CLOSE</b><span>✓</span></button></form></dialog>
+    <dialog class="settings-dialog" id="settingsDialog"><form method="dialog"><header><div><small>ALPINE RUSH</small><h2>SETTINGS</h2></div><button value="close" aria-label="Close settings">×</button></header><label>Graphics quality<select id="qualitySetting"><option value="high">High</option><option value="balanced">Balanced</option><option value="low">Battery saver</option></select></label><label>Motion<select id="motionSetting"><option value="full">Full</option><option value="reduced">Reduced</option></select></label><label>Interface contrast<select id="contrastSetting"><option value="normal">Standard</option><option value="high">High contrast</option></select></label><label>Audio volume<input id="volumeSetting" type="range" min="0" max="1" step="0.05"></label><label>Music<select id="musicSetting"><option value="random">Random track</option><option value="copperhead">The Copperhead Stomp</option><option value="highway">Highway Fever</option><option value="tiroler">Tiroler Polka</option></select></label><label>Units<select id="unitsSetting"><option value="metric">Metric</option><option value="imperial">Imperial</option></select></label><label>Mobile steering<select id="sensitivitySetting"><option value="low">Low sensitivity</option><option value="standard">Standard sensitivity</option><option value="high">High sensitivity</option></select></label><label>Haptic feedback<select id="hapticsSetting"><option value="on">On</option><option value="off">Off</option></select></label><p>German mountain routes use Tiroler Polka automatically when music is set to Random. Gamepad supported: left stick to carve, A to jump, B to boost, Menu to pause.</p><button class="action-button" value="close"><b>SAVE &amp; CLOSE</b><span>✓</span></button></form></dialog>
     <dialog class="photo-dialog" id="photoDialog"><form method="dialog"><header><div><small>RUN HIGHLIGHT</small><h2>PHOTO MODE</h2></div><button value="close" aria-label="Close photo mode">×</button></header><canvas id="photoCanvas" width="960" height="540"></canvas><div><button class="text-button" id="downloadPhotoButton" type="button">DOWNLOAD FRAME</button><button class="action-button" value="close"><b>BACK TO RESULTS</b><span>✓</span></button></div></form></dialog>
 
     <div class="event-toast" id="toast" aria-hidden="true"><small>PERFECT CLEAR</small><strong>+500</strong></div><div class="sr-only" id="importantAnnouncer" role="status" aria-live="polite"></div>
@@ -135,15 +136,17 @@
     <audio id="introMusic" preload="auto" loop aria-label="The Ecstasy of Gold by Ennio Morricone"><source src="assets/audio/ecstasy-of-gold-intro.mp3" type="audio/mpeg"></audio>
     <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="rightButton" type="button" aria-label="Carve right">→</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="spinButton" type="button">SPIN</button><button id="grabButton" type="button">GRAB</button><button id="frontFlipButton" type="button">FRONT</button><button id="flipButton" type="button">BACK</button></div>
     <button class="tilt-toggle" id="tiltButton" type="button" aria-pressed="false"><span>✦</span> TILT STEERING</button>
+    <div class="joystick" id="joystick" aria-label="Virtual steering joystick"><i id="joystickKnob"></i></div>
+    <div class="orientation-prompt" id="orientationPrompt"><div><span class="orientation-icon">▱</span><h2>ROTATE TO RIDE</h2><p>Alpine Rush is tuned for landscape play. Turn your phone sideways for a wider line and better control.</p><button id="orientationContinue" type="button">CONTINUE ANYWAY</button></div></div>
     <div hidden aria-hidden="true"><span id="runProgressFill"></span><button id="shareButton" type="button"></button></div>
     <dialog class="tutorial-dialog" id="tutorialDialog"><form method="dialog"><small>ALPINE RUSH · FIRST DROP</small><h2>FIND YOUR LINE</h2><div class="drop-briefing"><strong id="briefingResort">ECHO MOUNTAIN</strong><span id="briefingRun">HOLLYWOOD · BLUE · 980 M</span><p id="briefingAdvice">A forgiving first line with room to learn your edges.</p></div><p>Carve with <kbd>←</kbd> <kbd>→</kbd>, jump with <kbd>SPACE</kbd>, and use <kbd>X</kbd> when your boost meter is ready.</p><p>Clear hazards, link carves, and land tricks cleanly. Every surface reacts differently—watch the surface label in your HUD.</p><div><button class="text-button" id="tutorialSkipButton" value="skip" type="button">SKIP TUTORIAL</button><button class="action-button" id="tutorialStartButton" value="start" type="submit"><b>DROP IN</b><span>↘</span></button></div></form></dialog>
-    <select id="sensitivitySetting" hidden><option>standard</option></select><select id="hapticsSetting" hidden><option>on</option></select>
     <section class="mountain-details-screen screen hidden" id="mountainDetailsScreen"><div class="mountain-details-card"><div class="details-heading"><div><p class="kicker"><span></span> MOUNTAIN DETAILS</p><h2 id="detailsTitle">THE MOUNTAIN</h2></div><button class="text-button" id="detailsBackButton" type="button">← BACK TO MOUNTAIN SELECT</button></div><div id="mountainDetailsPanels"></div></div></section>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
-  <script src="pro-systems.js?v=3"></script>
+  <script src="pro-systems.js?v=4"></script>
   <script src="replay.js?v=5"></script>
-  <script src="game.js?v=114"></script>
+  <script src="game.js?v=116"></script>
+  <script src="mobile.js?v=3"></script>
 </body>
-<!-- Compatibility assets retained for the production smoke contract: modern.css?v=3 performance.js?v=1 replay.js?v=2 mobile.js?v=2 visual-effects.js?v=1 game.js?v=13 -->
+<!-- Compatibility assets retained for the production smoke contract: modern.css?v=4 performance.js?v=1 replay.js?v=2 mobile.js?v=3 visual-effects.js?v=1 game.js?v=116 -->
 </html>

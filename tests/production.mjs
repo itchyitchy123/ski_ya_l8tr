@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 const html=fs.readFileSync('index.html','utf8');
 const game=fs.readFileSync('game.js','utf8');
-const assets=['styles.css?v=50','modern.css?v=3','pro-systems.js?v=3','replay.js?v=5','game.js?v=114'];
+const assets=['styles.css?v=50','modern.css?v=4','pro-systems.js?v=4','replay.js?v=5','game.js?v=116','mobile.js?v=3'];
 for(const asset of assets)if(!html.includes(asset)||!fs.existsSync(asset.split('?')[0]))throw new Error(`Missing production asset: ${asset}`);
 const sw=fs.readFileSync('sw.js','utf8');
-for(const asset of ['./styles.css?v=50','./modern.css?v=3','./game.js?v=114','./pro-systems.js?v=3','./replay.js?v=5'])if(!sw.includes(`'${asset}'`))throw new Error(`Asset is not cached offline: ${asset}`);
+for(const asset of ['./styles.css?v=50','./modern.css?v=4','./game.js?v=116','./mobile.js?v=3','./pro-systems.js?v=4','./replay.js?v=5'])if(!sw.includes(`'${asset}'`))throw new Error(`Asset is not cached offline: ${asset}`);
 if(!fs.existsSync('leaderboard.md'))throw new Error('Missing leaderboard contract');
 if(!fs.existsSync('leaderboard/server.mjs'))throw new Error('Missing leaderboard service');
-if(!sw.includes("./game.js?v=114"))throw new Error('Service worker is not caching the current game build');
+if(!sw.includes("./game.js?v=116"))throw new Error('Service worker is not caching the current game build');
 for(const token of ['FINAL SEQUENCE','finaleClears','finaleCourseLength','finaleModeObjective','finaleFeature:o.feature'])if(!game.includes(token))throw new Error(`Missing finale regression guard: ${token}`);
 console.log('Alpine Rush production checks passed');
