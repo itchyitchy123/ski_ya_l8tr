@@ -2,6 +2,18 @@
 
 All notable player-facing changes are documented here.
 
+## Unreleased — 2026-08-25
+
+- Added persistent mobile steering sensitivity options with low, standard, and high response profiles.
+- Added persistent haptic feedback controls for tilt steering, touch gestures, and mobile action buttons.
+- Hardened lodge-credit upgrades against unavailable storage, invalid credit values, and failed saves.
+- Added visible upgrade costs and max-level states directly to the gear buttons for touch users.
+- Updated the service worker to use network-first loading for live weather and leaderboard APIs.
+- Restricted offline `index.html` fallback behavior to navigation requests so missing assets report correctly.
+- Preserved Training Run as a valid saved event instead of silently converting it to Freeride after reload.
+- Added the snowboarder’s clear-line bonus to obstacle and rail scoring.
+- Bumped the offline cache version and verified syntax, smoke, production, and whitespace checks.
+
 ## Unreleased — 2026-08-23
 
 - WebGL piste presentation now composites the selected resort's actual mountain artwork behind the 3D run, with a transparent snow scene, stronger skier silhouette, and a WebGL fallback for unsupported browsers.
