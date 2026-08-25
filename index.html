@@ -19,6 +19,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="styles.css?v=50">
+  <link rel="stylesheet" href="modern.css?v=3">
 </head>
 <body>
   <a class="skip-link" href="#gameCanvas">Skip to game</a>
@@ -38,15 +39,15 @@
     </header>
 
     <section class="floating-hud" id="hud" aria-label="Current run statistics">
-      <div class="score-block"><small>SCORE</small><strong id="score">000000</strong><span id="scoreDelta">+250</span></div>
+      <div class="score-block"><small>SCORE</small><strong id="score">000000</strong><span id="scoreDelta"></span></div>
       <div class="hud-right">
-        <div class="metric"><small>PACE</small><strong id="speed">1.0×</strong></div>
+        <div class="metric"><small>PACE</small><strong id="speed">—</strong></div>
         <div class="metric surface-metric"><small>SURFACE</small><strong id="surface">GROOMED</strong></div>
-        <div class="metric"><small>REMAINING</small><strong id="distance">0 M</strong></div>
+        <div class="metric"><small>REMAINING</small><strong id="distance">—</strong></div>
         <div class="hearts" id="lives" aria-label="3 hearts"><i></i><i></i><i></i></div>
       </div>
       <div class="combo hidden" id="combo"><small>FLOW</small><strong><span id="comboValue">2</span>×</strong><div><i id="comboBar"></i></div></div>
-      <div class="objective" id="objective"><span>DAILY</span><p id="objectiveText">Clear 5 rivals</p><b id="objectiveProgress">0 / 5</b></div>
+      <div class="objective" id="objective"><span>OBJECTIVE</span><p id="objectiveText">Choose a line to begin</p><b id="objectiveProgress">—</b></div>
       <div class="boost-meter" id="boostMeter"><small>BOOST <kbd>X</kbd></small><div><i id="boostFill"></i></div><b id="boostValue">20%</b></div>
       <div class="trick-readout hidden" id="trickReadout"><small>TRICK IN PROGRESS</small><strong id="trickName">360°</strong></div>
     </section>
@@ -132,7 +133,8 @@
     </div>
     <audio id="gameMusic" preload="auto" loop aria-label="The Copperhead Stomp by Rebel Road Music"><source src="assets/audio/copperhead-stomp.mp3" type="audio/mpeg"></audio>
     <audio id="introMusic" preload="auto" loop aria-label="The Ecstasy of Gold by Ennio Morricone"><source src="assets/audio/ecstasy-of-gold-intro.mp3" type="audio/mpeg"></audio>
-    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="spinButton" type="button">SPIN</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="grabButton" type="button">GRAB</button><button id="frontFlipButton" type="button">FRONT</button><button id="flipButton" type="button">BACK</button><button id="rightButton" type="button" aria-label="Carve right">→</button></div>
+    <div class="mobile-controls" aria-label="Touch controls"><button id="leftButton" type="button" aria-label="Carve left">←</button><button id="rightButton" type="button" aria-label="Carve right">→</button><button id="jumpButton" type="button">JUMP</button><button id="boostButton" type="button">BOOST</button><button id="spinButton" type="button">SPIN</button><button id="grabButton" type="button">GRAB</button><button id="frontFlipButton" type="button">FRONT</button><button id="flipButton" type="button">BACK</button></div>
+    <button class="tilt-toggle" id="tiltButton" type="button" aria-pressed="false"><span>✦</span> TILT STEERING</button>
     <div hidden aria-hidden="true"><span id="runProgressFill"></span><button id="shareButton" type="button"></button></div>
     <dialog class="tutorial-dialog" id="tutorialDialog"><form method="dialog"><small>ALPINE RUSH · FIRST DROP</small><h2>FIND YOUR LINE</h2><div class="drop-briefing"><strong id="briefingResort">ECHO MOUNTAIN</strong><span id="briefingRun">HOLLYWOOD · BLUE · 980 M</span><p id="briefingAdvice">A forgiving first line with room to learn your edges.</p></div><p>Carve with <kbd>←</kbd> <kbd>→</kbd>, jump with <kbd>SPACE</kbd>, and use <kbd>X</kbd> when your boost meter is ready.</p><p>Clear hazards, link carves, and land tricks cleanly. Every surface reacts differently—watch the surface label in your HUD.</p><div><button class="text-button" id="tutorialSkipButton" value="skip" type="button">SKIP TUTORIAL</button><button class="action-button" id="tutorialStartButton" value="start" type="submit"><b>DROP IN</b><span>↘</span></button></div></form></dialog>
     <select id="sensitivitySetting" hidden><option>standard</option></select><select id="hapticsSetting" hidden><option>on</option></select>

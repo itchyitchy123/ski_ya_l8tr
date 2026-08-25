@@ -5,10 +5,32 @@
   if(!coarse)return;
   const key=(type,keyName)=>window.dispatchEvent(new KeyboardEvent(type,{key:keyName,code:keyName===' '?'Space':keyName,bubbles:true}));
   let steering='';
+  let tiltEnabled=false;
+  let tiltListening=false;
   function steer(next){if(next===steering)return;if(steering)key('keyup',steering);steering=next;if(steering)key('keydown',steering)}
   function release(){steer('');if(knob)knob.style.transform='translate(-50%,-50%)'}
-  joystick?.addEventListener('pointerdown',event=>{event.preventDefault();joystick.setPointerCapture?.(event.pointerId);move(event)});
-  joystick?.addEventListener('pointermove',event=>{if(event.buttons)move(event)});
+  function tilt(event){
+    if(!tiltEnabled)return;
+    const gamma=Number(event.gamma)||0;
+    const sensitivity={high:1.35,low:.75,standard:1}[window.AlpinePro?.settings.sensitivity||'standard'];
+    const threshold=10/sensitivity;
+    steer(Math.abs(gamma)>threshold?(gamma<0?'ArrowLeft':'ArrowRight'):'');
+    if(knob){const rect=joystick?.getBoundingClientRect();if(rect){const max=rect.width*.36,x=Math.max(-max,Math.min(max,gamma/35*max));knob.style.transform=`translate(calc(-50% + ${x}px),-50%)`}}
+  }
+  async function toggleTilt(){
+    if(!tiltEnabled&&typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
+      try{if(await DeviceOrientationEvent.requestPermission()!=='granted')return}catch{return}
+    }
+    tiltEnabled=!tiltEnabled;
+    const button=document.getElementById('tiltButton');
+    button?.classList.toggle('active',tiltEnabled);button?.setAttribute('aria-pressed',String(tiltEnabled));
+    if(button)button.innerHTML=tiltEnabled?'<span>✦</span> TILT ON':'<span>✦</span> TILT STEERING';
+    if(tiltEnabled&&!tiltListening){addEventListener('deviceorientation',tilt,{passive:true});tiltListening=true}
+    if(!tiltEnabled)release();
+    if(window.AlpinePro?.settings.haptics==='on')navigator.vibrate?.(tiltEnabled?[12,30,12]:10);
+  }
+  joystick?.addEventListener('pointerdown',event=>{if(tiltEnabled)return;event.preventDefault();joystick.setPointerCapture?.(event.pointerId);move(event)});
+  joystick?.addEventListener('pointermove',event=>{if(!tiltEnabled&&event.buttons)move(event)});
   ['pointerup','pointercancel','lostpointercapture'].forEach(type=>joystick?.addEventListener(type,release));
   function move(event){const rect=joystick.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,dx=event.clientX-cx,dy=event.clientY-cy,max=rect.width*.36,amount=Math.min(1,Math.hypot(dx,dy)/max),sensitivity={high:1.35,low:.75,standard:1}[window.AlpinePro?.settings.sensitivity||'standard'],x=Math.max(-1,Math.min(1,dx/max*sensitivity));if(knob)knob.style.transform=`translate(calc(-50% + ${Math.max(-max,Math.min(max,dx))}px),calc(-50% + ${Math.max(-max,Math.min(max,dy))}px))`;steer(Math.abs(x)>.2?(x<0?'ArrowLeft':'ArrowRight'):'');if(amount<.2)release()}
   let touchStart=null;
@@ -18,6 +40,7 @@
   function pulse(name){if(window.AlpinePro?.settings.haptics==='on')navigator.vibrate?.(12);key('keydown',name);setTimeout(()=>key('keyup',name),180)}
   function orientation(){const portrait=innerHeight>innerWidth;prompt?.classList.toggle('visible',portrait);if(!portrait&&document.fullscreenElement&&screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{})}
   addEventListener('resize',orientation);addEventListener('orientationchange',orientation);document.getElementById('orientationContinue')?.addEventListener('click',()=>prompt?.classList.remove('visible'));orientation();
+  document.getElementById('tiltButton')?.addEventListener('pointerdown',event=>{event.preventDefault();toggleTilt()});
   addEventListener('contextmenu',event=>{if(event.target.closest('#game'))event.preventDefault()});addEventListener('touchmove',event=>{if(event.target.closest('#game'))event.preventDefault()},{passive:false});document.querySelectorAll('.mobile-controls button').forEach(button=>button.addEventListener('pointerdown',()=>{if(window.AlpinePro?.settings.haptics==='on')navigator.vibrate?.(10)}));
   try{const constrained=(navigator.deviceMemory&&navigator.deviceMemory<=4)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4);if(constrained&&window.AlpinePro?.settings.quality==='high')AlpinePro.setSetting('quality','balanced')}catch{}
 })();

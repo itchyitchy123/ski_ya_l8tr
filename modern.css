@@ -7,6 +7,12 @@
 .run-progress b{position:absolute;right:12px;top:8px;color:#fff;font:800 8px var(--body)}
 .results-actions .text-button{white-space:nowrap}
 .results-actions .text-button:hover{color:var(--gold)}
+.results-card .replay-timeline,.results-card .badge-result,.results-card .battle-result,.results-card .career-result,.results-card .contract-result,.results-card .patrol-result,.results-card .cup-result{max-width:520px;margin:8px auto 0;color:#a9c2ca;font-size:9px;line-height:1.4;letter-spacing:.35px}
+.results-card .mastery-recap{position:relative;z-index:1}
+.finale-banner{position:absolute;z-index:24;top:18%;left:50%;display:grid;gap:5px;width:min(440px,calc(100% - 36px));padding:15px 18px;border:1px solid rgba(255,210,96,.55);border-radius:12px;background:linear-gradient(110deg,rgba(8,28,39,.94),rgba(21,50,61,.82));box-shadow:0 12px 50px rgba(0,0,0,.35),0 0 30px rgba(255,210,96,.12);opacity:0;pointer-events:none;text-align:center;transform:translate(-50%,-14px) scale(.96);transition:opacity .35s,transform .35s}.finale-banner.visible{opacity:1;transform:translate(-50%,0) scale(1)}.finale-banner small{color:var(--gold);font-size:7px;font-weight:900;letter-spacing:2px}.finale-banner strong{color:#fff;font:italic 900 clamp(24px,5vw,42px)/.9 var(--display);letter-spacing:.5px}.finale-banner span{color:#c6d9df;font-size:10px;line-height:1.35}.mastery-recap{margin:10px 0 0;padding:9px 12px;border:1px solid rgba(255,210,96,.24);border-radius:7px;color:#ffe29a;background:rgba(255,210,96,.07);font-size:9px;font-weight:800;letter-spacing:.35px;text-transform:uppercase}.results-screen.loss-state .mastery-recap{border-color:rgba(98,217,245,.25);color:#a9e8f5;background:rgba(98,217,245,.06)}
+.game.finale-active .objective{border-color:rgba(255,210,96,.8);box-shadow:0 0 26px rgba(255,210,96,.25)}
+.finale-mode-objective{display:block;margin-top:5px;color:#b5dce5;font-size:7px;font-weight:800;letter-spacing:.8px;line-height:1.15}.finale-mode-objective[hidden]{display:none}
+@media(max-width:760px){.finale-banner{top:22%;width:min(360px,calc(100% - 24px));padding:11px 13px}.finale-banner strong{font-size:28px}.finale-banner span{font-size:9px}.finale-mode-objective{font-size:6px}}
 @media(max-width:760px){.run-progress{top:159px;left:15px;width:calc(100% - 30px);transform:none}.run-progress span{font-size:6px}.results-actions{flex-wrap:wrap}.results-actions .text-button{font-size:7px}.results-actions .action-button{order:-1;width:100%}}
 .tutorial-dialog{width:min(520px,calc(100% - 30px));padding:34px;border:1px solid rgba(255,255,255,.25);border-radius:18px;color:var(--white);background:linear-gradient(145deg,rgba(18,52,70,.98),rgba(5,19,29,.98));box-shadow:0 35px 100px rgba(0,0,0,.65)}
 .tutorial-dialog::backdrop{background:rgba(2,10,17,.78);backdrop-filter:blur(9px)}
@@ -24,3 +30,25 @@ html[data-contrast=high] body{--white:#fff;--muted:#e5f7ff}html[data-contrast=hi
 .boost-meter,.combo,.objective,.run-progress{transition:transform .25s,box-shadow .25s}.game.boosted .boost-meter{box-shadow:0 0 28px rgba(98,217,245,.34);border-color:rgba(98,217,245,.68)}.game.fast .hud-right{box-shadow:0 0 24px rgba(255,210,96,.2)}
 @keyframes medal-arrive{from{opacity:0;transform:scale(.45) rotate(-22deg)}to{opacity:1;transform:scale(1) rotate(0)}}@keyframes score-arrive{from{opacity:0;transform:translateY(12px);letter-spacing:12px}to{opacity:1;transform:none;letter-spacing:0}}@keyframes stat-arrive{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.results-screen:not(.hidden) .medal,.results-screen:not(.hidden) .final-score strong,.results-screen:not(.hidden) .run-stats span{animation:none}.visual-layer{display:none!important}}
+
+/* Phone-first ride controls: the four decisions used every second get the
+   largest targets; trick buttons stay available as a quieter second row. */
+.tilt-toggle{display:none}
+@media(max-width:760px){
+  .mobile-controls{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:54px 38px;grid-auto-rows:auto;gap:7px;padding:8px 9px calc(8px + env(safe-area-inset-bottom));}
+  .mobile-controls button{height:54px;min-height:54px;border-radius:14px;font-size:clamp(10px,2.7vw,13px);font-weight:900;box-shadow:0 7px 15px rgba(0,0,0,.2)}
+  .mobile-controls button:nth-child(n+5){height:38px;min-height:38px;border-radius:9px;opacity:.78;font-size:clamp(8px,2.2vw,10px);background:rgba(5,26,38,.46)}
+  .mobile-controls #leftButton,.mobile-controls #rightButton{font-size:27px;line-height:1}
+  .mobile-controls #jumpButton{grid-column:3;grid-row:1}
+  .mobile-controls #boostButton{grid-column:4;grid-row:1}
+  .mobile-controls #spinButton{grid-column:1;grid-row:2}
+  .mobile-controls #grabButton{grid-column:2;grid-row:2}
+  .mobile-controls #frontFlipButton{grid-column:3;grid-row:2}
+  .mobile-controls #flipButton{grid-column:4;grid-row:2}
+  .tilt-toggle{position:absolute;z-index:13;display:block;right:10px;bottom:calc(116px + env(safe-area-inset-bottom));padding:7px 10px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:#d6e9ee;background:rgba(5,26,38,.62);font:900 9px var(--body);letter-spacing:.7px;backdrop-filter:blur(8px);touch-action:manipulation}
+  .tilt-toggle.active{color:#09232c;background:var(--cyan);border-color:#baf3ff;box-shadow:0 0 18px rgba(98,217,245,.38)}
+  .game:not(.playing) .tilt-toggle{display:none}
+  .joystick{bottom:calc(126px + env(safe-area-inset-bottom));width:84px;height:84px;opacity:.86}
+  .joystick:after{bottom:-15px;font-size:6px}
+  .game.playing .objective{bottom:170px}
+}
