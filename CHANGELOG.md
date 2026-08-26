@@ -4,6 +4,10 @@ All notable player-facing changes are documented here.
 
 ## Unreleased — 2026-08-25
 
+- Added gameplay-feedback polish with crash impact animation, live surface-state HUD color, personal-record medal celebration, and a new personal-best audio/toast moment.
+- Improved touch controls with pressed-state feedback and accessible `aria-pressed` labels for held actions.
+- Improved Web Audio reliability by resuming the audio context when browser autoplay policies suspend it.
+- Added predictable `npm test` coverage and production regression checks for accessibility and presentation states.
 - Added Keystone, Cooper, and Copper Mountain routes with distinct Colorado terrain, run names, elevations, unlock thresholds, snow-report coordinates, resort artwork, and offline asset caching.
 - Added persistent mobile steering sensitivity options with low, standard, and high response profiles.
 - Added persistent haptic feedback controls for tilt steering, touch gestures, and mobile action buttons.
