@@ -23,6 +23,12 @@
 .snow-report[aria-busy="true"] #snowReportStatus{color:var(--gold)}
 .mobile-controls button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .mobile-controls button.active,.mobile-controls button:active{transform:translateY(2px);filter:brightness(1.16);border-bottom-width:2px}
+.debug-panel{position:fixed;z-index:120;top:76px;right:18px;display:none;width:190px;padding:13px;border:1px solid rgba(98,217,245,.45);border-radius:10px;color:#dff8ff;background:rgba(4,20,30,.92);box-shadow:0 16px 40px rgba(0,0,0,.4);font:10px var(--body);pointer-events:none}
+.debug-panel.visible{display:block}
+.debug-panel strong{display:block;color:var(--cyan);font-size:9px;letter-spacing:1.5px}
+.debug-panel dl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 0}
+.debug-panel dl div{padding:7px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.debug-panel dt{color:#829ca7;font-size:8px;letter-spacing:1px}.debug-panel dd{margin:3px 0 0;font-weight:800}
 .game.impact #gameCanvas{animation:impact .28s cubic-bezier(.2,.8,.2,1)}
 @keyframes impact{0%{transform:scale(1)}22%{transform:scale(1.012) translate(2px,-1px)}48%{transform:scale(.996) translate(-2px,1px)}100%{transform:scale(1)}}
 .game[data-surface="powder"] .surface-metric strong,.game[data-surface="tracked-powder"] .surface-metric strong{color:#bdefff}

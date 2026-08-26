@@ -144,11 +144,13 @@
     <div hidden aria-hidden="true"><span id="runProgressFill"></span><button id="shareButton" type="button"></button></div>
     <dialog class="tutorial-dialog" id="tutorialDialog"><form method="dialog"><small>ALPINE RUSH · FIRST DROP</small><h2>FIND YOUR LINE</h2><div class="drop-briefing"><strong id="briefingResort">ECHO MOUNTAIN</strong><span id="briefingRun">HOLLYWOOD · BLUE · 980 M</span><p id="briefingAdvice">A forgiving first line with room to learn your edges.</p></div><p>Carve with <kbd>←</kbd> <kbd>→</kbd>, jump with <kbd>SPACE</kbd>, and use <kbd>X</kbd> when your boost meter is ready.</p><p>Clear hazards, link carves, and land tricks cleanly. Every surface reacts differently—watch the surface label in your HUD.</p><div><button class="text-button" id="tutorialSkipButton" value="skip" type="button">SKIP TUTORIAL</button><button class="action-button" id="tutorialStartButton" value="start" type="submit"><b>DROP IN</b><span>↘</span></button></div></form></dialog>
     <section class="mountain-details-screen screen hidden" id="mountainDetailsScreen"><div class="mountain-details-card"><div class="details-heading"><div><p class="kicker"><span></span> MOUNTAIN DETAILS</p><h2 id="detailsTitle">THE MOUNTAIN</h2></div><button class="text-button" id="detailsBackButton" type="button">← BACK TO MOUNTAIN SELECT</button></div><div id="mountainDetailsPanels"></div></div></section>
+    <aside class="debug-panel" id="debugPanel" aria-label="Performance diagnostics"><strong>PERFORMANCE · F3</strong><dl><div><dt>FPS</dt><dd id="debugFps">—</dd></div><div><dt>FRAME</dt><dd id="debugFrame">—</dd></div><div><dt>CANVAS</dt><dd id="debugCanvas">—</dd></div><div><dt>NETWORK</dt><dd id="debugNetwork">—</dd></div></dl></aside>
   </main>
   <noscript>Alpine Rush requires JavaScript to play.</noscript>
   <script src="pro-systems.js?v=4"></script>
   <script src="replay.js?v=5"></script>
   <script src="game.js?v=117"></script>
+  <script src="performance.js?v=1"></script>
   <script src="mobile.js?v=3"></script>
 </body>
 <!-- Compatibility assets retained for the production smoke contract: modern.css?v=4 performance.js?v=1 replay.js?v=2 mobile.js?v=3 visual-effects.js?v=1 game.js?v=117 -->
