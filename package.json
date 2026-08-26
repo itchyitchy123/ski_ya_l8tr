@@ -5,6 +5,7 @@
   "description": "Professional browser-based Colorado downhill skiing game",
   "scripts": {
     "check": "node --check game.js && node --check pro-systems.js && node --check sw.js && node --check world3d.js && node --check performance.js && node --check replay.js && node --check mobile.js && node --check leaderboard/server.mjs && node tests/smoke.mjs && node tests/production.mjs",
+    "test": "npm run check",
     "serve": "python3 -m http.server 8080",
     "leaderboard:serve": "node leaderboard/server.mjs"
   },

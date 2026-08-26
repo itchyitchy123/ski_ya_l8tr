@@ -13,6 +13,24 @@
 @keyframes loading{from{transform:translateX(-110%)}to{transform:translateX(290%)}}@keyframes kenburns{from{transform:scale(1.07)}to{transform:scale(1)}}@keyframes count{from{opacity:0;transform:scale(1.5)}to{opacity:1;transform:scale(1)}}@keyframes scorepop{50%{opacity:1;transform:translateY(-5px)}}@keyframes pulse{to{opacity:.5}}
 @media(max-width:760px){.game-header{padding:15px}.mini-brand b{font-size:16px}.mountain-mark{width:32px;height:32px}.floating-hud .score-block{top:70px;left:15px}.score-block strong{font-size:29px}.hud-right{top:68px;right:15px;gap:10px;padding:8px}.metric:nth-child(2){display:none}.objective{left:15px;bottom:83px}.combo{left:15px;top:130px}.title-content{margin:0 26px}.title-art{background-position:62% center}.title-content h1{font-size:91px}.route-screen{padding:70px 15px 80px;align-items:flex-start}.menu-heading{display:block}.menu-heading>p{display:none}.route-grid{grid-template-columns:1fr}.route-card{height:128px}.loadout-row{position:sticky;bottom:0;padding:14px 0;background:linear-gradient(transparent,#071522 20%)}.mobile-controls{position:absolute;z-index:12;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));opacity:0;pointer-events:none;transition:.3s}.game.playing .mobile-controls{opacity:1;pointer-events:auto}.mobile-controls button{height:56px;border:1px solid rgba(255,255,255,.35);border-bottom-width:4px;border-radius:10px;color:#fff;background:rgba(5,26,38,.6);backdrop-filter:blur(10px);font-weight:900;touch-action:none}.mobile-controls #jumpButton{border-color:#ff9b73;background:rgba(221,70,40,.8)}.results-card{padding:25px}.run-stats{grid-template-columns:1fr 1fr}.results-card h2{font-size:53px}.medal{width:55px;height:55px;font-size:31px}.results-actions{justify-content:space-between}.action-button{min-width:185px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}.title-art{animation:none}}
+
+/* Accessibility and interaction finish: make state changes obvious without relying on color alone. */
+.glass-button:focus-visible,.text-button:focus-visible,.route-card:focus-visible,.action-button:focus-visible{outline:3px solid rgba(98,217,245,.7);outline-offset:3px}
+.route-card[aria-disabled="true"]{cursor:not-allowed}
+.route-card[aria-disabled="true"]:hover{transform:none;box-shadow:none;border-color:rgba(255,255,255,.18)}
+.route-card[aria-disabled="true"]:focus-visible{outline-color:rgba(255,210,96,.8)}
+.snow-report[aria-busy="true"]{opacity:.72}
+.snow-report[aria-busy="true"] #snowReportStatus{color:var(--gold)}
+.mobile-controls button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.mobile-controls button.active,.mobile-controls button:active{transform:translateY(2px);filter:brightness(1.16);border-bottom-width:2px}
+.game.impact #gameCanvas{animation:impact .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes impact{0%{transform:scale(1)}22%{transform:scale(1.012) translate(2px,-1px)}48%{transform:scale(.996) translate(-2px,1px)}100%{transform:scale(1)}}
+.game[data-surface="powder"] .surface-metric strong,.game[data-surface="tracked-powder"] .surface-metric strong{color:#bdefff}
+.game[data-surface="packed-ice"] .surface-metric strong,.game[data-surface="hardpack"] .surface-metric strong{color:#b8c8ff}
+.game[data-surface="spring-slush"] .surface-metric strong{color:#ffd78a}
+.game[data-surface="whiteout"] .surface-metric strong{color:#fff}
+.results-screen.new-record .medal{animation:record-pulse 1.2s ease-in-out infinite alternate;border-color:var(--gold);box-shadow:0 0 0 5px rgba(255,210,96,.08),0 0 38px rgba(255,210,96,.5)}
+@keyframes record-pulse{to{transform:scale(1.06);box-shadow:0 0 0 9px rgba(255,210,96,.04),0 0 55px rgba(255,210,96,.72)}}
 .rider-choice{display:flex;gap:5px}.rider-choice button{height:33px;padding:0 9px;border:1px solid rgba(255,255,255,.2);border-radius:6px;color:#abc0c8;background:rgba(255,255,255,.06);font-size:7px;font-weight:900;letter-spacing:1px;cursor:pointer}.rider-choice button.active{border-color:var(--gold);color:#15232c;background:var(--gold)}
 .helmet-choice{display:flex;gap:6px}.helmet-choice button{width:27px;height:27px;border:2px solid transparent;border-radius:50%;background:#101d2b;box-shadow:inset 0 0 0 4px #0b2837;cursor:pointer}.helmet-choice button:nth-child(2){background:#e8f4f7}.helmet-choice button:nth-child(3){background:#db4c38}.helmet-choice button.active{border-color:#fff}
 .route-card:nth-child(4){background:linear-gradient(0deg,rgba(4,10,24,.97),rgba(15,28,68,.16)),linear-gradient(135deg,#152250,#71507f)}

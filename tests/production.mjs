@@ -1,6 +1,15 @@
 import fs from 'node:fs';
 const html=fs.readFileSync('index.html','utf8');
 const game=fs.readFileSync('game.js','utf8');
+const packageJson=JSON.parse(fs.readFileSync('package.json','utf8'));
+if(packageJson.scripts?.test!=='npm run check')throw new Error('Missing predictable npm test script');
+for(const token of ['aria-live="polite"','aria-label="Activate boost"','aria-label="Front flip"'])if(!html.includes(token))throw new Error(`Missing accessible interaction: ${token}`);
+if(!game.includes('aria-pressed'))throw new Error('Route selection is missing an accessible selected state');
+if(!fs.readFileSync('styles.css','utf8').includes('@keyframes impact'))throw new Error('Missing impact feedback styling');
+if(!game.includes("game.dataset.surface"))throw new Error('Missing surface presentation state');
+if(!fs.readFileSync('styles.css','utf8').includes('.results-screen.new-record'))throw new Error('Missing personal-record presentation state');
+if(!game.includes("toast('NEW PERSONAL BEST'"))throw new Error('Missing personal-record celebration');
+if(!game.includes("setAttribute('aria-pressed','true')"))throw new Error('Missing pressed-state feedback for held controls');
 const assets=['styles.css?v=51','modern.css?v=4','pro-systems.js?v=4','replay.js?v=5','game.js?v=117','mobile.js?v=3'];
 for(const asset of assets)if(!html.includes(asset)||!fs.existsSync(asset.split('?')[0]))throw new Error(`Missing production asset: ${asset}`);
 const sw=fs.readFileSync('sw.js','utf8');
