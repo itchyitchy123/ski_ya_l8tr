@@ -83,6 +83,7 @@ The project deliberately stays small and transparent:
 ├── assets/              # Cover art and browser icon
 ├── .github/             # Issue and pull-request templates
 ├── tests/               # Dependency-free production smoke checks
+├── systems/             # Event bus, audio, input, and UI state services
 ├── index.html           # Semantic game shell and UI
 ├── styles.css           # Responsive visual system
 ├── modern.css           # Modern HUD and result-action enhancements

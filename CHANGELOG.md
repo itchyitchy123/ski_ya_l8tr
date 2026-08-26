@@ -4,6 +4,7 @@ All notable player-facing changes are documented here.
 
 ## Unreleased — 2026-08-25
 
+- Began the gameplay architecture migration with independent event, audio, input, and UI-state modules; run lifecycle, pause, crash, and surface transitions now publish explicit system events without changing gameplay behavior.
 - Added an opt-in F3 performance diagnostics panel for FPS, frame time, canvas scale, and network state, with offline caching and production wiring checks.
 - Added gameplay-feedback polish with crash impact animation, live surface-state HUD color, personal-record medal celebration, and a new personal-best audio/toast moment.
 - Improved touch controls with pressed-state feedback and accessible `aria-pressed` labels for held actions.
