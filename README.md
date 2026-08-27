@@ -14,9 +14,9 @@
 
 Alpine Rush is a compact score-chasing ski game with an intentionally simple goal: stay on your feet, jump the pack, and push the pace as high as you can. It runs entirely in the browser with no framework, build step, or runtime dependencies.
 
-## Music
+## Audio
 
-The title-screen intro uses “The Ecstasy of Gold” by Ennio Morricone. The game soundtrack includes “The Copperhead Stomp (Official Release),” “Highway Fever,” “The Roadhouse Rhythm,” and “Copperhead Roadkill,” with random Colorado track selection by default. Players can choose a specific track or mute music from Settings. German mountain routes play “Tiroler Polka (Kloß mit Soß Remix)” automatically when Random track is selected.
+All game audio is procedurally generated with the Web Audio API. The project does not bundle or distribute music recordings.
 
 ### Highlights
 
