@@ -18,6 +18,15 @@ Alpine Rush is a compact score-chasing ski game with an intentionally simple goa
 
 All game audio is procedurally generated with the Web Audio API. The project does not bundle or distribute music recordings.
 
+## Legal and privacy notes
+
+Alpine Rush is an unofficial game recreation and is not affiliated with or
+endorsed by any resort, mountain, municipality, or organization named in the
+game. Trail status and weather displays are gameplay features, not real-world
+safety information. See [privacy.html](privacy.html) and
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the privacy, attribution,
+and asset-rights disclosures.
+
 ### Highlights
 
 - Momentum-based carving with keyboard and touch controls
@@ -100,7 +109,7 @@ The project deliberately stays small and transparent:
 └── sw.js                # Offline asset cache
 ```
 
-The renderer uses `requestAnimationFrame`; game movement is delta-time based, and the canvas scales for high-density displays. Player preferences and the best score stay in the browser through `localStorage`.
+The renderer uses `requestAnimationFrame`; game movement is delta-time based, and the canvas scales for high-density displays. Player preferences, the best score, medals, and replay data stay in the browser through `localStorage`. There are no advertising or analytics SDKs, but the game may make third-party requests for fonts and weather data.
 
 ## Contributing
 
