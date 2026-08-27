@@ -3,7 +3,7 @@
 
   # Alpine Rush
 
-  **A fast, responsive downhill arcade game built for the browser.**
+  **A fast browser ski game where every carve, near miss, and trick builds your perfect line.**
 
   [Play now](https://skiyalatr.cyberducttape.com) · [Report a bug](https://github.com/itchyitchy123/ski_ya_l8tr/issues/new?template=bug_report.yml) · [Request a feature](https://github.com/itchyitchy123/ski_ya_l8tr/issues/new?template=feature_request.yml)
 
@@ -12,7 +12,7 @@
 
 ## About
 
-Alpine Rush is a compact score-chasing ski game with an intentionally simple goal: stay on your feet, jump the pack, and push the pace as high as you can. It runs entirely in the browser with no framework, build step, or runtime dependencies.
+Alpine Rush is a compact score-chasing ski game with an intentionally simple goal: stay on your feet, jump the pack, and push the pace as high as you can. Short downhill runs make it easy to start, while tricks, risk lines, rivals, ghost replays, and daily challenges give dedicated players reasons to return. It runs entirely in the browser with no framework, build step, or runtime dependencies.
 
 ## Audio
 
@@ -109,7 +109,19 @@ The project deliberately stays small and transparent:
 └── sw.js                # Offline asset cache
 ```
 
-The renderer uses `requestAnimationFrame`; game movement is delta-time based, and the canvas scales for high-density displays. Player preferences, the best score, medals, and replay data stay in the browser through `localStorage`. There are no advertising or analytics SDKs, but the game may make third-party requests for fonts and weather data.
+The renderer uses `requestAnimationFrame`; game movement is delta-time based, and the canvas scales for high-density displays. Player preferences, the best score, medals, and replay data stay in the browser through `localStorage`. There are no advertising or analytics SDKs, but the game may make a third-party request for weather data.
+
+### Optional leaderboard service
+
+The leaderboard starter service is intentionally separate from the static game. Run it with:
+
+```bash
+LEADERBOARD_SECRET="replace-with-a-long-random-secret" \
+LEADERBOARD_ORIGIN="https://your-game.example" \
+npm run leaderboard:serve
+```
+
+It binds to `127.0.0.1` by default for reverse-proxy deployments. Set `HOST=0.0.0.0` only when the service must be reachable directly. The `/healthz` endpoint is suitable for a process supervisor or load balancer. Scores are held in memory and are intentionally not a durable leaderboard database.
 
 ## Contributing
 

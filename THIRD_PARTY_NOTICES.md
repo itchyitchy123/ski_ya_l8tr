@@ -1,12 +1,5 @@
 # Third-party notices
 
-## Google Fonts
-
-The web interface requests Barlow Condensed and DM Sans from Google Fonts.
-Google states that its fonts are released under open-source licenses and may be
-used in commercial and non-commercial projects. If the fonts are self-hosted,
-retain the applicable font license files.
-
 ## Open-Meteo
 
 The optional live snow report uses the Open-Meteo Weather API. The displayed
@@ -16,12 +9,14 @@ must obtain the appropriate Open-Meteo license or disable the live report.
 
 ## Project artwork
 
-The raster artwork and SVG icon in `assets/` must be distributed only after the
-project owner has confirmed authorship or obtained written licenses covering
-web distribution, modification, and commercial use. No third-party stock-photo
-or resort-logo asset is intentionally included. Keep source files, creator
-agreements, and AI-generation terms with the project records; the MIT license
-does not replace those asset-specific rights.
+The project owner reports that the raster artwork was AI-generated for this
+project and that the SVG icon is project-created. Retain the image-generation
+provider, account terms in force at generation time, prompts, dates, and any
+source/reference materials. Confirm that those terms permit web distribution,
+modification, and commercial use in every intended jurisdiction. AI-generated
+status alone is not a universal ownership guarantee, and the MIT license does
+not replace asset-specific rights or third-party terms. No third-party
+stock-photo or resort-logo asset is intentionally included.
 
 ## Resort names and links
 

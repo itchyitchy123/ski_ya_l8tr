@@ -4,18 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07121c">
+  <meta name="color-scheme" content="dark">
   <meta name="description" content="Alpine Rush — a cinematic downhill skiing game for your browser.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://api.open-meteo.com; frame-ancestors 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self' https://api.open-meteo.com; frame-ancestors 'none';">
   <meta property="og:title" content="Alpine Rush">
   <meta property="og:description" content="Carve hard, chain close calls, and master the mountain.">
-  <meta property="og:image" content="assets/alpine-rush-cover.png">
+  <meta property="og:image" content="https://skiyalatr.cyberducttape.com/assets/alpine-rush-cover.png">
+  <meta property="og:url" content="https://skiyalatr.cyberducttape.com/">
+  <meta property="og:site_name" content="Alpine Rush">
   <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Alpine Rush — Find Your Line">
+  <meta name="twitter:description" content="A fast browser ski game where every carve, near miss, and trick builds your perfect line.">
+  <meta name="twitter:image" content="https://skiyalatr.cyberducttape.com/assets/alpine-rush-cover.png">
+  <link rel="canonical" href="https://skiyalatr.cyberducttape.com/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Alpine Rush","description":"A fast browser ski game where every carve, near miss, and trick builds your perfect line.","url":"https://skiyalatr.cyberducttape.com/","genre":["Sports","Arcade"],"gamePlatform":"Web browser","applicationCategory":"Game"}</script>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Alpine Rush — Master the Mountain</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/resorts/echo-mountain.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="styles.css?v=51">
@@ -34,7 +40,7 @@
         <button class="glass-button" id="fullscreenButton" type="button" aria-label="Enter fullscreen"><span>⛶</span></button>
         <button class="glass-button" id="settingsButton" type="button" aria-label="Open settings"><span>⚙</span></button>
         <button class="glass-button" id="soundButton" type="button" aria-label="Mute sound" aria-pressed="true"><span>◖))</span></button>
-        <button class="glass-button" id="pauseButton" type="button" aria-label="Pause game" aria-pressed="false"><span>Ⅱ</span></button>
+        <button class="glass-button" id="pauseButton" type="button" aria-label="Pause game" aria-pressed="false" disabled><span>Ⅱ</span></button>
       </div>
     </header>
 
@@ -57,12 +63,13 @@
       <div class="title-content">
         <p class="kicker"><span></span> DOWNHILL ARCADE</p>
         <h1>ALPINE<br><em>RUSH</em></h1>
-        <p class="tagline">Find your line. Hold your nerve.<br>Leave nothing on the mountain.</p>
-        <button class="action-button" id="enterButton" type="button"><b>ENTER THE MOUNTAIN</b><span>↘</span></button>
-        <button class="quick-drop-button" id="quickDropButton" type="button"><b>QUICK DROP</b><span>▶</span></button>
+        <p class="tagline">A fast downhill score chase where every carve, near miss, and trick builds your perfect line.</p>
+        <div class="hero-proof" aria-label="Alpine Rush features"><span><b>90 SEC</b> RUNS</span><span><b>13</b> MOUNTAINS</span><span><b>0</b> DOWNLOADS</span></div>
+        <button class="action-button" id="enterButton" type="button"><b>PLAY YOUR FIRST RUN</b><span>↘</span></button>
+        <button class="quick-drop-button" id="quickDropButton" type="button"><b>QUICK DROP · START INSTANTLY</b><span>▶</span></button>
         <p class="press-key"><kbd>SPACE</kbd> TO CONTINUE</p>
       </div>
-      <div class="title-footer"><span>AR / COLORADO SERIES</span><span>PROCEDURAL AUDIO · NO MUSIC TRACKS</span><span>BEST <b id="titleBest">000000</b></span></div>
+      <div class="title-footer"><span>AR / COLORADO SERIES</span><span>ORIGINAL AUDIO SYSTEM</span><span>BEST <b id="titleBest">000000</b></span></div>
     </section>
 
     <section class="route-screen screen hidden" id="routeScreen">
@@ -71,7 +78,7 @@
         <div class="challenge-card" aria-live="polite"><div><small>PHOTO OPS · DAILY CHALLENGE</small><strong id="challengeName">LOADING CHALLENGE</strong></div><div class="challenge-progress"><span id="challengeProgress">0 / 0</span><i id="challengeFill"></i></div><b id="challengeReward">+1,000 PTS</b></div>
         <div class="snow-report" id="snowReport" aria-live="polite" hidden><div><small>LIVE SNOW REPORT · <span id="snowReportDate">TODAY</span></small><strong id="snowReportTitle">LOADING RESORT</strong><p id="snowReportStatus">Checking current conditions…</p><p id="snowReportAdvice">Checking recommended setup…</p></div><div class="snow-report-stats"><span><b id="snowDepth">—</b><small>BASE DEPTH</small></span><span><b id="snowNew">—</b><small>NEW SNOW</small></span><span><b id="snowTemp">—</b><small>TEMP</small></span></div><p class="data-attribution">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo.com</a>. General information only; not an official resort report.</p></div>
         <div class="partner-card" id="partnerCard"><div><small>RESORT INFORMATION</small><strong id="partnerName">LOADING RESORT</strong><p id="partnerMessage">Learn about the mountain behind the line.</p><p class="partner-safety" id="partnerSafety">Game recreation only · check official resort and patrol information before visiting.</p></div><div class="partner-actions"><span id="partnerChallenge">FEATURED LINE · LOADING</span><a class="text-button" id="partnerLink" href="#" target="_blank" rel="noreferrer">OFFICIAL SITE</a></div></div>
-        <div class="trail-status" id="trailStatus" aria-live="polite"><div><small>GAME MOUNTAIN STATUS</small><strong id="trailStatusTitle">LOADING LIFTS</strong><p id="trailStatusAdvice">Select a resort for current trail conditions.</p></div><div class="trail-status-stats"><span><b id="liftStatus">—</b><small>LIFT ACCESS</small></span><span><b id="openRuns">—</b><small>OPEN RUNS</small></span></div></div>
+        <div class="trail-status" id="trailStatus" aria-live="polite"><div><small>GAME MOUNTAIN STATUS</small><strong id="trailStatusTitle">LOADING LIFTS</strong><p id="trailStatusAdvice">Select a resort for current trail conditions.</p><p class="status-disclaimer">Fictional gameplay status only · not an official resort report.</p></div><div class="trail-status-stats"><span><b id="liftStatus">—</b><small>LIFT ACCESS</small></span><span><b id="openRuns">—</b><small>OPEN RUNS</small></span></div></div>
         <div class="mountain-event" id="mountainEvent" aria-live="polite"><small>LIVE MOUNTAIN EVENT</small><strong id="mountainEventTitle">WAITING FOR CONDITIONS</strong><p id="mountainEventDetails">Select a resort to see today’s alternate lines and closures.</p></div>
         <div class="colorado-card" id="coloradoCard"><div><small>COLORADO LOCAL NOTES</small><strong id="coloradoTitle">BLUEBIRD OR BUST</strong><p id="coloradoDetails">Sunny at the trailhead does not mean sunny above treeline.</p></div><span id="coloradoBadge">14ER READY</span></div>
         <div class="colorado-passport" id="coloradoPassport"><div><small>COLORADO SEASON MAP</small><strong>FROM FRONT RANGE TO SAN JUANS</strong><p id="coloradoPassportDetails">Collect county plates and ride every region to complete your Colorado passport.</p></div><div class="colorado-regions"><span><b id="regionFrontRange">0 / 2</b><small>FRONT RANGE</small></span><span><b id="regionSummit">0 / 2</b><small>SUMMIT</small></span><span><b id="regionNorth">0 / 2</b><small>NORTHERN</small></span><span><b id="regionWest">0 / 2</b><small>WESTERN</small></span><span><b id="regionSanJuan">0 / 2</b><small>SAN JUANS</small></span></div></div>

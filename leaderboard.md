@@ -20,5 +20,7 @@ cache header, and the current player's rank when available. Rate-limit writes,
 reject impossible times, and retain only the minimum identifier needed for
 anti-cheat and deletion requests. Publish a privacy notice, retention period,
 deletion/takedown contact, and acceptable-use rules before operating this
-endpoint publicly. Never put a signing secret in browser code; signatures must
-be created by a trusted server or the endpoint must remain disabled.
+endpoint publicly. The starter implementation intentionally exposes only
+anonymous leaderboard entries. Never put a signing secret in browser code;
+signatures must be created by a trusted server or the endpoint must remain
+disabled.

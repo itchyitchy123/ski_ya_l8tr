@@ -4,9 +4,9 @@
 requires `LEADERBOARD_SECRET` and accepts only HMAC-signed score envelopes.
 Scores are held in memory, so deploy a durable database, authentication,
 retention/deletion policy, replay verification, abuse reporting, and a service
-privacy notice before using it publicly. Do not collect real names or contact
-details; use an intentionally anonymous display name and moderate it before
-public display.
+privacy notice before using it publicly. The starter service deliberately
+publishes every accepted entry as `anonymous`; do not add real names or contact
+details without a separate consent, deletion, and moderation design.
 
 ```sh
 LEADERBOARD_SECRET='replace-me' node leaderboard/server.mjs

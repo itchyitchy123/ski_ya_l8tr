@@ -1,11 +1,16 @@
 {
   "name": "Alpine Rush — Colorado Downhill",
   "short_name": "Alpine Rush",
-  "description": "A cinematic Colorado downhill skiing game.",
+  "description": "A fast browser ski game where every carve, near miss, and trick builds your perfect line.",
+  "id": "./",
+  "scope": "./",
+  "lang": "en",
   "start_url": "./",
   "display": "fullscreen",
   "orientation": "landscape",
   "background_color": "#07121c",
   "theme_color": "#07121c",
+  "categories": ["games", "sports"],
+  "prefer_related_applications": false,
   "icons": [{"src":"assets/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
