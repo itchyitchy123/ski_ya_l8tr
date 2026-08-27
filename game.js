@@ -722,3 +722,37 @@ const originalEnterRoutes=enterRoutes;enterRoutes=function(){routePage='colorado
 $('enterButton').onclick=enterRoutes;$('selectButton').onclick=enterRoutes;$('quitButton').onclick=()=>{hide(ui.pause);enterRoutes()};$('learnBackButton')?.addEventListener('click',enterRoutes);applyRoutePage();
 /* The daily cup can land on a German line; switch pages with it instead of leaving the selected card hidden. */
 cupButton?.addEventListener('click',()=>{routePage=isGermanRoute(cupRouteIndex)?'germany':'colorado';applyRoutePage()});
+
+/* Chase-camera orientation is authoritative: negative screen Y is downhill.
+   Keep ski tips and rider details pointed toward the horizon so every skier is
+   visibly travelling down the same fall line. */
+function drawDownhillSkiTips(edge){
+  ctx.strokeStyle='#e9f7fa';ctx.lineWidth=1.5;ctx.beginPath();
+  ctx.moveTo(-6,-1);ctx.quadraticCurveTo(-9+edge*2,-7,-4+edge*2,-9);
+  ctx.moveTo(6,-1);ctx.quadraticCurveTo(9+edge*2,-7,4+edge*2,-9);ctx.stroke();
+}
+function drawDownhillSkier(x,y,tilt,color,isPlayer){
+  ctx.save();ctx.translate(x,y);
+  const edge=isPlayer?player.edge:Math.sin(player.anim*.45)*.2,crouch=isPlayer?player.compression:.2,turn=edge*.34,skin=isPlayer?SKINS[skinIndex]:{a:color,b:color},polePlant=Math.sin(player.anim*.72)*3;
+  ctx.rotate(turn);ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.strokeStyle='#173244';ctx.lineWidth=3.4;ctx.beginPath();ctx.moveTo(-6,-2);ctx.lineTo(-7+edge*4,42);ctx.moveTo(6,-2);ctx.lineTo(7+edge*4,42);ctx.stroke();
+  ctx.strokeStyle='#e9f7fa';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-6,7);ctx.lineTo(-7+edge*4,39);ctx.moveTo(6,7);ctx.lineTo(7+edge*4,39);ctx.stroke();drawDownhillSkiTips(edge);
+  ctx.strokeStyle='#253e4d';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(-5,9+crouch*3);ctx.lineTo(-9-edge*3,21+crouch*4);ctx.lineTo(-7+edge*4,31);ctx.moveTo(5,9+crouch*3);ctx.lineTo(9-edge*3,21+crouch*4);ctx.lineTo(7+edge*4,31);ctx.stroke();
+  const lean=edge*5,grad=ctx.createLinearGradient(-14,-16,14,13);grad.addColorStop(0,skin.a);grad.addColorStop(1,skin.b);ctx.fillStyle=grad;ctx.beginPath();ctx.moveTo(-12+lean,-12+crouch*2);ctx.quadraticCurveTo(lean,-17,12+lean,-12+crouch*2);ctx.lineTo(9,12+crouch*3);ctx.quadraticCurveTo(0,16+crouch*3,-9,12+crouch*3);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(255,255,255,.32)';ctx.lineWidth=1;ctx.stroke();
+  ctx.strokeStyle='#263f4e';ctx.lineWidth=3.2;ctx.beginPath();ctx.moveTo(-10+lean,-8);ctx.lineTo(-19-edge*5,7);ctx.lineTo(-23-edge*7,27+polePlant);ctx.moveTo(10+lean,-8);ctx.lineTo(19-edge*5,7);ctx.lineTo(23-edge*7,27-polePlant);ctx.stroke();
+  ctx.strokeStyle='#49636e';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-23-edge*7,10);ctx.lineTo(-25-edge*7,36);ctx.moveTo(23-edge*7,10);ctx.lineTo(25-edge*7,36);ctx.stroke();
+  ctx.fillStyle='#0b2332';ctx.beginPath();ctx.arc(lean,-21+crouch*2,9.5,0,Math.PI*2);ctx.fill();ctx.restore();
+}
+function drawRearRiderDetails(){
+  const helmet=HELMETS[helmetIndex]||HELMETS[0],jacket=SKINS[skinIndex];ctx.save();ctx.lineCap='round';
+  ctx.strokeStyle='rgba(255,255,255,.38)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-8,-9);ctx.lineTo(0,-4);ctx.lineTo(8,-9);ctx.stroke();
+  ctx.strokeStyle='rgba(7,27,39,.45)';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(0,11);ctx.stroke();ctx.fillStyle='rgba(7,27,39,.28)';ctx.beginPath();ctx.ellipse(0,7,8,5,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=helmet;ctx.beginPath();ctx.arc(0,-21,9.2,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1;ctx.stroke();
+  ctx.strokeStyle='rgba(7,27,39,.72)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-8,-21);ctx.quadraticCurveTo(0,-19,8,-21);ctx.stroke();
+  ctx.strokeStyle=GOGGLES[goggleIndex]||GOGGLES[0];ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-8,-21);ctx.quadraticCurveTo(0,-19,8,-21);ctx.stroke();
+  ctx.strokeStyle='rgba(7,27,39,.55)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,-29);ctx.lineTo(0,-23);ctx.stroke();
+  ctx.strokeStyle=SKINS[skinIndex].b;ctx.lineWidth=2;if(styleIndex===1){ctx.beginPath();ctx.moveTo(-9,-7);ctx.lineTo(9,9);ctx.stroke()}else if(styleIndex===2){ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(0,12);ctx.stroke();ctx.strokeStyle='rgba(255,255,255,.65)';ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.stroke()}
+  ctx.fillStyle=jacket.b;ctx.beginPath();ctx.arc(-10,7,3,0,Math.PI*2);ctx.fill();ctx.restore();
+}
+drawSkier=drawDownhillSkier;
+drawRiderDetails=drawRearRiderDetails;
