@@ -33,5 +33,8 @@
     if(action)dispatch(action,false,event);
   });
 
+  // Prevent a held carve/flip from continuing after the player tabs away.
+  global.addEventListener('blur',()=>dispatch('pause',true));
+
   global.AlpineRushInput={onAction};
 })(window);

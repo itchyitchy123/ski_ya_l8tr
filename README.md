@@ -16,7 +16,7 @@ Alpine Rush is a compact score-chasing ski game with an intentionally simple goa
 
 ## Audio
 
-All game audio is procedurally generated with the Web Audio API. The project does not bundle or distribute music recordings.
+Gameplay feedback is procedurally generated with the Web Audio API. The mountain-select intro uses a short MP3 sample supplied by the project owner; no third-party commercial recordings are bundled.
 
 ## Legal and privacy notes
 

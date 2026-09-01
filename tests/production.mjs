@@ -16,7 +16,8 @@ for(const asset of assets)if(!html.includes(asset)||!fs.existsSync(asset.split('
 const sw=fs.readFileSync('sw.js','utf8');
 const leaderboard=fs.readFileSync('leaderboard/server.mjs','utf8');
 for(const token of ["const host=process.env.HOST||'127.0.0.1'","/healthz","server.requestTimeout=15000","SIGTERM"])if(!leaderboard.includes(token))throw new Error(`Missing leaderboard operational safeguard: ${token}`);
-for(const asset of ['./styles.css?v=51','./modern.css?v=4','./game.js?v=118','./mobile.js?v=3','./pro-systems.js?v=4','./replay.js?v=5','./systems/events.js?v=1','./systems/audio.js?v=1','./systems/input.js?v=1','./systems/ui-state.js?v=1','./performance.js?v=1','./assets/resorts/keystone.webp','./assets/resorts/cooper.webp','./assets/resorts/copper-mountain.webp'])if(!sw.includes(`'${asset}'`))throw new Error(`Asset is not cached offline: ${asset}`);
+for(const asset of ['./styles.css?v=51','./modern.css?v=4','./game.js?v=118','./mobile.js?v=3','./pro-systems.js?v=4','./replay.js?v=5','./systems/events.js?v=1','./systems/audio.js?v=1','./systems/input.js?v=1','./systems/ui-state.js?v=1','./performance.js?v=1','./assets/ski-season-intro.mp3','./assets/resorts/keystone.webp','./assets/resorts/cooper.webp','./assets/resorts/copper-mountain.webp'])if(!sw.includes(`'${asset}'`))throw new Error(`Asset is not cached offline: ${asset}`);
+if(!fs.existsSync('assets/ski-season-intro.mp3'))throw new Error('Missing ski-season intro sample');
 for(const token of ['AlpineRushEvents','AlpineRushAudio','AlpineRushInput'])if(!game.includes(token))throw new Error(`Missing architecture seam: ${token}`);
 if(!fs.existsSync('leaderboard.md'))throw new Error('Missing leaderboard contract');
 if(!fs.existsSync('leaderboard/server.mjs'))throw new Error('Missing leaderboard service');
